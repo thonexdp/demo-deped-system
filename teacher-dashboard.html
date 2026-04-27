@@ -13,6 +13,7 @@
   <link href="css/custom.css" rel="stylesheet" />
   <style>
     body { background-color: #FFFFFF; font-family: 'Inter', sans-serif; }
+    *, *::before, *::after { box-sizing: border-box; }
     .sidebar-dark { background: linear-gradient(180deg, #1E3A8A 0%, #172a6b 100%) !important; display: flex; flex-direction: column; }
     .sidebar .nav > li > a { padding: 12px 20px !important; margin: 4px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; }
     .sidebar .nav > li.active > a { background-color: #2563EB !important; }
@@ -42,6 +43,28 @@
     .priority-item { background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 14px 14px; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
     .priority-title { font-size: 13px; font-weight: 800; color: #111827; margin-bottom: 6px; }
     .priority-desc { font-size: 12px; color: #6B7280; line-height: 1.45; }
+
+    @media (max-width: 991.98px) {
+      .content-wrapper { padding: 16px; }
+      .main-header { height: auto; min-height: 72px; padding: 10px 12px !important; }
+      #header { flex-wrap: wrap; align-items: flex-start !important; gap: 10px; padding-right: 0 !important; }
+      #header > .d-flex.align-items-center { flex-wrap: wrap; width: 100%; }
+      #header .app-brand { width: 100% !important; height: auto !important; padding: 10px 12px !important; margin-bottom: 6px; }
+      #header #sidebar-toggler { margin-right: 10px !important; }
+      #header > .navbar-right { width: 100%; justify-content: flex-start; flex-wrap: wrap; gap: 8px !important; }
+      #header > .navbar-right .btn { padding: 6px 12px !important; }
+      .table-modern { min-width: 640px; }
+    }
+
+    @media (max-width: 767.98px) {
+      .content-wrapper { padding: 12px; }
+      h1 { font-size: 28px !important; line-height: 1.2; }
+      .info-card { padding: 14px !important; border-radius: 12px; }
+      .stat-card { padding: 14px; }
+      .stat-kpi { font-size: 20px; }
+      .pill { font-size: 11px; padding: 5px 10px; }
+      .content > div[style*="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;"] { flex-direction: column; align-items: flex-start !important; gap: 8px; padding: 12px 14px !important; }
+    }
   </style>
 </head>
 <body class="navbar-fixed sidebar-fixed" id="body">
@@ -62,7 +85,7 @@
         <div class="sidebar-left" data-simplebar style="height: 100%;">
           <ul class="nav sidebar-inner" id="sidebar-menu">
             <li class="section-title">Dashboards</li>
-            <li><a class="sidenav-item-link" href="teacher-dashboard.html"><i class="mdi mdi-teach"></i><span class="nav-text">Teacher Dashboard</span></a></li>
+            <li class="active"><a class="sidenav-item-link" href="teacher-dashboard.html"><i class="mdi mdi-teach"></i><span class="nav-text">Teacher Dashboard</span></a></li>
             <li><a class="sidenav-item-link" href="parent-dashboard.html"><i class="mdi mdi-account-group"></i><span class="nav-text">Parent Dashboard</span></a></li>
             <li><a class="sidenav-item-link" href="early-warning.html"><i class="mdi mdi-alert-outline"></i><span class="nav-text">Early Warning Risk</span></a></li>
             
@@ -71,13 +94,18 @@
             <li><a class="sidenav-item-link" href="gradebook.html"><i class="mdi mdi-book-open-page-variant"></i><span class="nav-text">Gradebook</span></a></li>
             <li><a class="sidenav-item-link" href="online-class.html"><i class="mdi mdi-video"></i><span class="nav-text">Online Class</span></a></li>
             
-            <li class="section-title">Learning Materials</li>
-            <li><a class="sidenav-item-link" href="lms-catalog.html"><i class="mdi mdi-library"></i><span class="nav-text">LMS Catalog</span></a></li>
-            <li><a class="sidenav-item-link" href="course-player.html"><i class="mdi mdi-play-circle"></i><span class="nav-text">Course Player</span></a></li>
+            <li class="section-title">AI LMS</li>
+            <li><a class="sidenav-item-link" href="lms-catalog.html"><i class="mdi mdi-library"></i><span class="nav-text">Resource Library</span></a></li>
+            <li><a class="sidenav-item-link" href="content-factory.html"><i class="mdi mdi-creation"></i><span class="nav-text">AI Lesson Builder</span></a></li>
+            <li><a class="sidenav-item-link" href="course-player.html"><i class="mdi mdi-play-circle"></i><span class="nav-text">Interactive Lessons</span></a></li>
+            <li><a class="sidenav-item-link" href="learning-progress.html"><i class="mdi mdi-chart-line-variant"></i><span class="nav-text">Learning Progress</span></a></li>
+            <li><a class="sidenav-item-link" href="offline-packages.html"><i class="mdi mdi-download-box"></i><span class="nav-text">Offline Packages</span></a></li>
+  
+            <li class="section-title">AI SUPPORT</li>
             <li><a class="sidenav-item-link" href="ai-tutor.html"><i class="mdi mdi-robot"></i><span class="nav-text">AI Tutor</span></a></li>
-            
+
+
             <li class="section-title">Administration</li>
-            <li><a class="sidenav-item-link" href="content-factory.html"><i class="mdi mdi-factory"></i><span class="nav-text">Content Factory</span></a></li>
             <li><a class="sidenav-item-link" href="structure-detection.html"><i class="mdi mdi-file-tree"></i><span class="nav-text">Structure Detection</span></a></li>
             <li><a class="sidenav-item-link" href="human-review.html"><i class="mdi mdi-shield-check"></i><span class="nav-text">Human Review</span></a></li>
           </ul>

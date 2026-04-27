@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>DepEd - Class Online Meeting</title>
+  <title>DepEd - Course Player</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="plugins/material/css/materialdesignicons.min.css" rel="stylesheet" />
   <link href="plugins/simplebar/simplebar.css" rel="stylesheet" />
@@ -31,20 +31,21 @@
     .pill-green { background: #DCFCE7; color: #166534; border-color: #BBF7D0; }
     .pill-gray { background: #F9FAFB; color: #4B5563; border-color: #E5E7EB; }
 
-    .video-surface { background: linear-gradient(180deg, #1E3A8A 0%, #0B2A63 100%); border-radius: 14px; height: 360px; position: relative; overflow: hidden; }
-    .video-overlay { position: absolute; inset: 0; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; }
-    .live-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.22); color: #FFFFFF; padding: 6px 10px; border-radius: 999px; font-size: 11px; font-weight: 800; }
+    .course-hero { height: 210px; border-radius: 16px; background: linear-gradient(180deg, #111827 0%, #0B2A63 100%); position: relative; overflow: hidden; }
+    .course-hero::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 20% 20%, rgba(37,99,235,0.35), transparent 45%), radial-gradient(circle at 80% 30%, rgba(255,255,255,0.12), transparent 50%); }
+    .course-hero-inner { position: absolute; inset: 0; padding: 16px; display: flex; flex-direction: column; justify-content: flex-end; z-index: 1; }
 
-    .participant-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
-    .participant-tile { border: 1px solid #E5E7EB; border-radius: 12px; background: #FFFFFF; padding: 10px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-    .avatar { width: 28px; height: 28px; border-radius: 10px; background: #EFF6FF; color: #2563EB; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; }
-    .presence-dot { width: 8px; height: 8px; border-radius: 999px; background: #22C55E; }
+    .mini-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .mini-item { border: 1px solid #E5E7EB; border-radius: 14px; padding: 12px; }
+    .mini-label { font-size: 11px; font-weight: 800; color: #6B7280; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .mini-value { font-size: 12px; font-weight: 800; color: #111827; }
+    .mini-sub { font-size: 12px; color: #6B7280; }
 
+    .outline-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid #F3F4F6; }
+    .outline-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .outline-title { font-size: 12px; font-weight: 800; color: #111827; }
+    .outline-sub { font-size: 12px; color: #6B7280; }
     .btn-pill { border-radius: 10px; font-weight: 800; font-size: 12px; padding: 8px 12px; }
-    .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed #E5E7EB; }
-    .stat-row:last-child { border-bottom: none; padding-bottom: 0; }
-    .stat-label { font-size: 12px; font-weight: 700; color: #4B5563; }
-    .stat-value { font-size: 12px; font-weight: 800; color: #111827; }
 
     @media (max-width: 991.98px) {
       .content-wrapper { padding: 16px; }
@@ -55,15 +56,13 @@
       #header #sidebar-toggler { margin-right: 10px !important; }
       #header > .navbar-right { width: 100%; justify-content: flex-start; flex-wrap: wrap; gap: 8px !important; }
       #header > .navbar-right .btn { padding: 6px 12px !important; }
-      .participant-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @media (max-width: 767.98px) {
       .content-wrapper { padding: 12px; }
       h1 { font-size: 28px !important; line-height: 1.2; }
       .info-card { padding: 14px !important; border-radius: 12px; }
-      .video-surface { height: 260px; }
-      .participant-grid { grid-template-columns: 1fr; }
+      .mini-grid { grid-template-columns: 1fr; }
       .content > div[style*="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;"] { flex-direction: column; align-items: flex-start !important; gap: 8px; padding: 12px 14px !important; }
     }
   </style>
@@ -93,20 +92,15 @@
             <li class="section-title">Class Management</li>
             <li><a class="sidenav-item-link" href="attendance.html"><i class="mdi mdi-calendar-check"></i><span class="nav-text">Attendance</span></a></li>
             <li><a class="sidenav-item-link" href="gradebook.html"><i class="mdi mdi-book-open-page-variant"></i><span class="nav-text">Gradebook</span></a></li>
-            <li class="active"><a class="sidenav-item-link" href="online-class.html"><i class="mdi mdi-video"></i><span class="nav-text">Online Class</span></a></li>
+            <li><a class="sidenav-item-link" href="online-class.html"><i class="mdi mdi-video"></i><span class="nav-text">Online Class</span></a></li>
             
-            <li class="section-title">AI LMS</li>
-            <li><a class="sidenav-item-link" href="lms-catalog.html"><i class="mdi mdi-library"></i><span class="nav-text">Resource Library</span></a></li>
-            <li><a class="sidenav-item-link" href="content-factory.html"><i class="mdi mdi-creation"></i><span class="nav-text">AI Lesson Builder</span></a></li>
-            <li><a class="sidenav-item-link" href="course-player.html"><i class="mdi mdi-play-circle"></i><span class="nav-text">Interactive Lessons</span></a></li>
-            <li><a class="sidenav-item-link" href="learning-progress.html"><i class="mdi mdi-chart-line-variant"></i><span class="nav-text">Learning Progress</span></a></li>
-            <li><a class="sidenav-item-link" href="offline-packages.html"><i class="mdi mdi-download-box"></i><span class="nav-text">Offline Packages</span></a></li>
-  
-            <li class="section-title">AI SUPPORT</li>
+            <li class="section-title">Learning Materials</li>
+            <li><a class="sidenav-item-link" href="lms-catalog.html"><i class="mdi mdi-library"></i><span class="nav-text">LMS Catalog</span></a></li>
+            <li><a class="sidenav-item-link" href="course-player.html"><i class="mdi mdi-play-circle"></i><span class="nav-text">Course Player</span></a></li>
             <li><a class="sidenav-item-link" href="ai-tutor.html"><i class="mdi mdi-robot"></i><span class="nav-text">AI Tutor</span></a></li>
-
-
+            
             <li class="section-title">Administration</li>
+            <li><a class="sidenav-item-link" href="content-factory.html"><i class="mdi mdi-factory"></i><span class="nav-text">Content Factory</span></a></li>
             <li><a class="sidenav-item-link" href="structure-detection.html"><i class="mdi mdi-file-tree"></i><span class="nav-text">Structure Detection</span></a></li>
             <li><a class="sidenav-item-link" href="human-review.html"><i class="mdi mdi-shield-check"></i><span class="nav-text">Human Review</span></a></li>
           </ul>
@@ -141,8 +135,8 @@
           </button>
 
           <div style="line-height: 1.2; margin-right: 30px;">
-            <div style="font-weight: 800; color: #111827; font-size: 16px;">Class Online Meeting</div>
-            <div style="color: #6B7280; font-size: 12px;">Classroom Operations • Screen 48 / 48</div>
+            <div style="font-weight: 800; color: #111827; font-size: 16px;">Linear Equations and Word Problems</div>
+            <div style="color: #6B7280; font-size: 12px;">LMS • Screen 19 / 47</div>
           </div>
 
           <div class="d-none d-lg-flex align-items-center" style="gap: 12px;">
@@ -165,113 +159,121 @@
         <div class="content p-0">
           <div style="background-color: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 12px; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
             <div style="color: #4B5563; font-size: 14px; font-weight: 500;">
-              <strong style="color: #111827;">Context:</strong> Teacher / Adviser • Classroom Operations • Scope: Assigned Sections
+              <strong style="color: #111827;">Context:</strong> Teacher / Adviser • LMS • Scope: Assigned Sections
             </div>
             <div style="color: #1E3A8A; font-size: 14px; font-weight: 800;">Teacher approvals are required for high-stakes grade actions.</div>
           </div>
 
           <div class="row">
             <div class="col-lg-8">
-              <h1 style="color: #111827; font-size: 36px; font-weight: 800; margin-bottom: 8px;">Class Online Meeting</h1>
-              <p style="color: #4B5563; font-size: 15px; margin-bottom: 18px;">Live classroom for teacher and students with camera tiles, participation tracking, and quick class controls.</p>
+              <div class="d-flex flex-wrap" style="gap: 10px; margin-bottom: 14px;">
+                <span class="pill pill-green">Factory-approved</span>
+                <span class="pill pill-gray">Version v1.3</span>
+                <span class="pill pill-yellow">Review cycle: 90 days</span>
+              </div>
 
-              <div class="d-flex flex-wrap" style="gap: 10px; margin-bottom: 16px;">
-                <span class="pill pill-gray">Grade 7 • Section Rizal</span>
-                <span class="pill pill-blue">38 enrolled</span>
-                <span class="pill pill-blue">33 present</span>
+              <h1 style="color: #111827; font-size: 36px; font-weight: 800; margin-bottom: 8px;">Linear Equations and Word Problems</h1>
+              <p style="color: #4B5563; font-size: 15px; margin-bottom: 16px;">Core Grade 8 Mathematics unit aligned to DepEd competencies. Includes practice sets, quick checks, and worksheet assets.</p>
+
+              <div class="course-hero" style="margin-bottom: 14px;">
+                <div class="course-hero-inner">
+                  <div style="font-size: 12px; font-weight: 900; color: rgba(255,255,255,0.92); margin-bottom: 6px;">Course Overview</div>
+                  <div style="font-size: 12px; color: rgba(255,255,255,0.82);">Preview the real course experience before assigning sections, including score sequencing and assessment modalities.</div>
+                </div>
+              </div>
+
+              <div class="mini-grid" style="margin-bottom: 16px;">
+                <div class="mini-item">
+                  <div class="mini-label">Grade / Subject</div>
+                  <div class="mini-value">Grade 8 • Mathematics</div>
+                </div>
+                <div class="mini-item">
+                  <div class="mini-label">Publishing Path</div>
+                  <div class="mini-value">Book Upload → Content Factory → Human Review</div>
+                </div>
+                <div class="mini-item">
+                  <div class="mini-label">Lessons</div>
+                  <div class="mini-value">8 lessons + 4 activities + 2 assessments</div>
+                </div>
+                <div class="mini-item">
+                  <div class="mini-label">Offline Package</div>
+                  <div class="mini-value">Available (62 MB, transcript-first option)</div>
+                </div>
               </div>
 
               <div class="info-card">
-                <div class="row">
-                  <div class="col-md-8 mb-3 mb-md-0">
-                    <div class="video-surface">
-                      <div class="video-overlay">
-                        <div class="d-flex justify-content-between align-items-center">
-                          <span class="live-badge"><span style="width: 8px; height: 8px; border-radius: 999px; background: #EF4444;"></span>LIVE</span>
-                          <span class="pill pill-gray" style="background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.22); color: #FFFFFF;">Teacher Camera</span>
-                        </div>
-                        <div>
-                          <div style="color: rgba(255,255,255,0.92); font-weight: 800; font-size: 13px;">Ms. Alyanna Cruz</div>
-                          <div style="color: rgba(255,255,255,0.75); font-size: 11px;">Science 7 • Ecosystems and Food Web</div>
-                        </div>
-                      </div>
-                    </div>
+                <h3>Course Outline</h3>
+                <div class="outline-row">
+                  <div>
+                    <div class="outline-title">Lesson 1</div>
+                    <div class="outline-sub">Translating word statements into equations</div>
                   </div>
-
-                  <div class="col-md-4">
-                    <div class="participant-grid">
-                      <div class="participant-tile"><div class="d-flex align-items-center" style="gap: 8px;"><span class="avatar">JR</span><div style="font-size: 12px; font-weight: 800; color: #111827;">Juan R.</div></div><span class="presence-dot"></span></div>
-                      <div class="participant-tile"><div class="d-flex align-items-center" style="gap: 8px;"><span class="avatar">MS</span><div style="font-size: 12px; font-weight: 800; color: #111827;">Maria S.</div></div><span class="presence-dot"></span></div>
-                      <div class="participant-tile"><div class="d-flex align-items-center" style="gap: 8px;"><span class="avatar">AL</span><div style="font-size: 12px; font-weight: 800; color: #111827;">Andre L.</div></div><span class="presence-dot"></span></div>
-                      <div class="participant-tile"><div class="d-flex align-items-center" style="gap: 8px;"><span class="avatar">KG</span><div style="font-size: 12px; font-weight: 800; color: #111827;">Kim G.</div></div><span class="presence-dot"></span></div>
-                      <div class="participant-tile"><div class="d-flex align-items-center" style="gap: 8px;"><span class="avatar">PT</span><div style="font-size: 12px; font-weight: 800; color: #111827;">Paolo T.</div></div><span class="presence-dot"></span></div>
-                      <div class="participant-tile"><div class="d-flex align-items-center" style="gap: 8px;"><span class="avatar">NR</span><div style="font-size: 12px; font-weight: 800; color: #111827;">Nina R.</div></div><span class="presence-dot"></span></div>
-                    </div>
-                  </div>
+                  <span class="pill pill-blue">Preview</span>
                 </div>
-
-                <div class="d-flex flex-wrap justify-content-between align-items-center" style="gap: 10px; margin-top: 16px;">
-                  <div class="d-flex flex-wrap" style="gap: 10px;">
-                    <button class="btn btn-sm btn-pill" style="background: #FFFFFF; border: 1px solid #E5E7EB; color: #111827;">Mute All</button>
-                    <button class="btn btn-sm btn-pill" style="background: #FFFFFF; border: 1px solid #E5E7EB; color: #111827;">Share Screen</button>
-                    <button class="btn btn-sm btn-pill" style="background: #FFFFFF; border: 1px solid #E5E7EB; color: #111827;">Open Chat</button>
-                    <button class="btn btn-sm btn-pill" style="background: #FFFFFF; border: 1px solid #E5E7EB; color: #111827;">Record Session</button>
-                    <button class="btn btn-sm btn-pill" style="background: #1E3A8A; border: none; color: #FFFFFF;">Start Quiz Checkpoint</button>
+                <div class="outline-row">
+                  <div>
+                    <div class="outline-title">Lesson 2</div>
+                    <div class="outline-sub">Solving one-variable equations step-by-step</div>
                   </div>
-                  <button class="btn btn-sm btn-pill" style="background: #FEF3C7; border: 1px solid #FDE68A; color: #92400E;">End Meeting</button>
+                  <span class="pill pill-gray">Locked</span>
+                </div>
+                <div class="outline-row">
+                  <div>
+                    <div class="outline-title">Lesson 3</div>
+                    <div class="outline-sub">Application to daily budgeting and quantity problems</div>
+                  </div>
+                  <span class="pill pill-gray">Locked</span>
+                </div>
+                <div class="outline-row">
+                  <div>
+                    <div class="outline-title">Lesson 4</div>
+                    <div class="outline-sub">Quiz + remediation paths by competency</div>
+                  </div>
+                  <span class="pill pill-gray">Locked</span>
                 </div>
               </div>
             </div>
 
             <div class="col-lg-4">
               <div class="info-card">
-                <div class="d-flex justify-content-between align-items-center" style="margin-bottom: 6px;">
-                  <h3 style="margin-bottom: 0;">Calendar Schedule</h3>
-                  <span class="pill pill-gray">SY 2025-2026 Q3</span>
-                </div>
-                <div style="font-size: 12px; color: #6B7280; margin-bottom: 14px;">Friday, February 20</div>
-
-                <div style="display: flex; flex-direction: column; gap: 10px;">
-                  <div style="border: 1px solid #E5E7EB; border-radius: 12px; padding: 12px;">
-                    <div style="font-size: 12px; font-weight: 800; color: #111827;">08:00-09:00</div>
-                    <div style="font-size: 12px; color: #6B7280;">Science 7 • Section Rizal</div>
-                    <div style="margin-top: 8px;"><span class="pill pill-green">Live now</span></div>
-                  </div>
-                  <div style="border: 1px solid #E5E7EB; border-radius: 12px; padding: 12px;">
-                    <div style="font-size: 12px; font-weight: 800; color: #111827;">09:30-10:30</div>
-                    <div style="font-size: 12px; color: #6B7280;">Science 7 • Section Mabini</div>
-                    <div style="margin-top: 8px;"><span class="pill pill-blue">Next</span></div>
-                  </div>
-                  <div style="border: 1px solid #E5E7EB; border-radius: 12px; padding: 12px;">
-                    <div style="font-size: 12px; font-weight: 800; color: #111827;">01:00-02:00</div>
-                    <div style="font-size: 12px; color: #6B7280;">Remedial Session • Group B</div>
-                    <div style="margin-top: 8px;"><span class="pill pill-yellow">Upcoming</span></div>
-                  </div>
-                  <div style="border: 1px solid #E5E7EB; border-radius: 12px; padding: 12px;">
-                    <div style="font-size: 12px; font-weight: 800; color: #111827;">03:00-04:00</div>
-                    <div style="font-size: 12px; color: #6B7280;">Parent Consultation Window</div>
-                    <div style="margin-top: 8px;"><span class="pill pill-yellow">Upcoming</span></div>
-                  </div>
+                <h3>Teacher Actions</h3>
+                <div class="d-flex flex-wrap" style="gap: 10px;">
+                  <button class="btn btn-sm btn-pill" style="background: #1E3A8A; border: none; color: #FFFFFF;">Assign to Sections</button>
+                  <button class="btn btn-sm btn-pill" style="background: #FFFFFF; border: 1px solid #E5E7EB; color: #111827;">Preview as Learner</button>
+                  <button class="btn btn-sm btn-pill" style="background: #FFFFFF; border: 1px solid #E5E7EB; color: #111827;">Download Offline Pack</button>
+                  <button class="btn btn-sm btn-pill" style="background: #FFFFFF; border: 1px solid #E5E7EB; color: #111827;">View Version Diff</button>
                 </div>
               </div>
 
               <div class="info-card">
-                <h3>Meeting Attendance</h3>
-                <div class="stat-row">
-                  <span class="stat-label">Students joined</span>
-                  <span class="stat-value">33 / 38</span>
+                <h3>Assignment Scope</h3>
+                <div class="mini-item" style="margin-bottom: 12px;">
+                  <div class="mini-label">Selected Sections</div>
+                  <div class="mini-sub">Grade 8-Mabini, Grade 8-Bonifacio</div>
                 </div>
-                <div class="stat-row">
-                  <span class="stat-label">Camera on</span>
-                  <span class="stat-value">27</span>
+                <div class="mini-item" style="margin-bottom: 12px;">
+                  <div class="mini-label">Release Date</div>
+                  <div class="mini-sub">Feb 22, 2026</div>
                 </div>
-                <div class="stat-row">
-                  <span class="stat-label">Hands raised</span>
-                  <span class="stat-value">4</span>
+                <div class="mini-item">
+                  <div class="mini-label">Completion Target</div>
+                  <div class="mini-sub">2 weeks</div>
                 </div>
-                <div class="stat-row">
-                  <span class="stat-label">Network unstable</span>
-                  <span class="stat-value">2</span>
+              </div>
+
+              <div class="info-card">
+                <h3>Usage Snapshot</h3>
+                <div class="mini-item" style="margin-bottom: 12px;">
+                  <div class="mini-label">Teachers using</div>
+                  <div class="mini-sub">132</div>
+                </div>
+                <div class="mini-item" style="margin-bottom: 12px;">
+                  <div class="mini-label">Learners started</div>
+                  <div class="mini-sub">4,286</div>
+                </div>
+                <div class="mini-item">
+                  <div class="mini-label">Completion rate</div>
+                  <div class="mini-sub">72%</div>
                 </div>
               </div>
             </div>

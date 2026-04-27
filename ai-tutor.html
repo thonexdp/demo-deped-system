@@ -13,6 +13,7 @@
   <style>
     /* Specific overrides for this page to match the design */
     body { background-color: #FFFFFF; font-family: 'Inter', sans-serif; }
+    *, *::before, *::after { box-sizing: border-box; }
     .sidebar-dark { background: linear-gradient(180deg, #1E3A8A 0%, #172a6b 100%) !important; display: flex; flex-direction: column; }
     .sidebar .nav > li > a { padding: 12px 20px !important; margin: 4px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; }
     .sidebar .nav > li.active > a { background-color: #2563EB !important; }
@@ -31,62 +32,87 @@
     
     .chat-container::-webkit-scrollbar { width: 6px; }
     .chat-container::-webkit-scrollbar-thumb { background-color: #CBD5E1; border-radius: 6px; }
+
+    @media (max-width: 991.98px) {
+      .content-wrapper { padding: 16px; }
+      .main-header { height: auto; min-height: 72px; padding: 10px 12px !important; }
+      #header { flex-wrap: wrap; align-items: flex-start !important; gap: 10px; padding-right: 0 !important; }
+      #header > .d-flex.align-items-center { flex-wrap: wrap; width: 100%; }
+      #header .app-brand { width: 100% !important; height: auto !important; padding: 10px 12px !important; margin-bottom: 6px; }
+      #header #sidebar-toggler { margin-right: 10px !important; }
+      #header > .navbar-right { width: 100%; justify-content: flex-start; flex-wrap: wrap; gap: 8px !important; }
+      #header > .navbar-right .btn { padding: 6px 12px !important; }
+    }
+
+    @media (max-width: 767.98px) {
+      .content-wrapper { padding: 12px; }
+      h1 { font-size: 28px !important; line-height: 1.2; }
+      .info-card { padding: 14px !important; border-radius: 12px; }
+      .content > div[style*="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;"] { flex-direction: column; align-items: flex-start !important; gap: 8px; padding: 12px 14px !important; }
+      .chat-container { padding: 14px !important; min-height: 300px !important; }
+      .chat-container [style*="max-width: 80%"] { max-width: 100% !important; }
+      .participant-grid, .mini-grid, .kpi-grid { grid-template-columns: 1fr !important; }
+      .d-flex.mb-4, .d-flex.justify-content-end.align-items-center { flex-wrap: wrap; }
+      .d-flex.justify-content-end.align-items-center button { width: 100%; }
+    }
   </style>
 </head>
 <body class="navbar-fixed sidebar-fixed" id="body">
   <div class="wrapper">
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
-      <div id="sidebar" class="sidebar sidebar-with-footer" style="display: flex; flex-direction: column; height: 100%;">
-        
-        <div style="padding: 24px 20px 10px;">
-           <div class="d-flex align-items-center mb-3">
-               <div style="background: rgba(255,255,255,0.2); border-radius: 8px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 12px;">ST</div>
-               <div style="line-height: 1.2;">
-                   <div style="color: white; font-weight: bold; font-size: 14px;">Learner Session</div>
-                   <div style="color: rgba(255,255,255,0.7); font-size: 12px;">Assigned Classes and Lessons</div>
-               </div>
-           </div>
-           <div style="background: rgba(255,255,255,0.2); color: white; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; border: 1px solid rgba(255,255,255,0.3); display: inline-block; width: 100%;">
-               Student
-           </div>
-        </div>
-
-        <div class="sidebar-left" data-simplebar style="flex-grow: 1;">
-          <ul class="nav sidebar-inner" id="sidebar-menu">
-            <li class="section-title">Dashboards</li>
-            <li><a class="sidenav-item-link" href="teacher-dashboard.html"><i class="mdi mdi-teach"></i><span class="nav-text">Teacher Dashboard</span></a></li>
-            <li><a class="sidenav-item-link" href="parent-dashboard.html"><i class="mdi mdi-account-group"></i><span class="nav-text">Parent Dashboard</span></a></li>
-            <li><a class="sidenav-item-link" href="early-warning.html"><i class="mdi mdi-alert-outline"></i><span class="nav-text">Early Warning Risk</span></a></li>
-            
-            <li class="section-title">Class Management</li>
-            <li><a class="sidenav-item-link" href="attendance.html"><i class="mdi mdi-calendar-check"></i><span class="nav-text">Attendance</span></a></li>
-            <li><a class="sidenav-item-link" href="gradebook.html"><i class="mdi mdi-book-open-page-variant"></i><span class="nav-text">Gradebook</span></a></li>
-            <li><a class="sidenav-item-link" href="online-class.html"><i class="mdi mdi-video"></i><span class="nav-text">Online Class</span></a></li>
-            
-            <li class="section-title">Learning Materials</li>
-            <li><a class="sidenav-item-link" href="lms-catalog.html"><i class="mdi mdi-library"></i><span class="nav-text">LMS Catalog</span></a></li>
-            <li><a class="sidenav-item-link" href="course-player.html"><i class="mdi mdi-play-circle"></i><span class="nav-text">Course Player</span></a></li>
-            <li><a class="sidenav-item-link" href="ai-tutor.html"><i class="mdi mdi-robot"></i><span class="nav-text">AI Tutor</span></a></li>
-            
-            <li class="section-title">Administration</li>
-            <li><a class="sidenav-item-link" href="content-factory.html"><i class="mdi mdi-factory"></i><span class="nav-text">Content Factory</span></a></li>
-            <li><a class="sidenav-item-link" href="structure-detection.html"><i class="mdi mdi-file-tree"></i><span class="nav-text">Structure Detection</span></a></li>
-            <li><a class="sidenav-item-link" href="human-review.html"><i class="mdi mdi-shield-check"></i><span class="nav-text">Human Review</span></a></li>
-          </ul>
-        </div>
-        
-        <div style="padding: 20px;">
+        <div id="sidebar" class="sidebar sidebar-with-footer">
+          <div style="padding: 24px 20px 10px;">
+            <div class="d-flex align-items-center mb-3">
+              <div style="background: rgba(255,255,255,0.2); border-radius: 8px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; margin-right: 12px;">T7</div>
+              <div style="line-height: 1.2;">
+                <div style="color: white; font-weight: 800; font-size: 14px;">Class Adviser</div>
+                <div style="color: rgba(255,255,255,0.7); font-size: 12px;">Assigned Sections</div>
+              </div>
+            </div>
+            <div style="background: rgba(255,255,255,0.2); color: white; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; border: 1px solid rgba(255,255,255,0.3); display: inline-block; width: 100%;">Teacher / Adviser</div>
+          </div>
+  
+          <div class="sidebar-left" data-simplebar style="height: 100%;">
+            <ul class="nav sidebar-inner" id="sidebar-menu">
+              <li class="section-title">Dashboards</li>
+              <li><a class="sidenav-item-link" href="teacher-dashboard.html"><i class="mdi mdi-teach"></i><span class="nav-text">Teacher Dashboard</span></a></li>
+              <li><a class="sidenav-item-link" href="parent-dashboard.html"><i class="mdi mdi-account-group"></i><span class="nav-text">Parent Dashboard</span></a></li>
+              <li><a class="sidenav-item-link" href="early-warning.html"><i class="mdi mdi-alert-outline"></i><span class="nav-text">Early Warning Risk</span></a></li>
+              
+              <li class="section-title">Class Management</li>
+              <li><a class="sidenav-item-link" href="attendance.html"><i class="mdi mdi-calendar-check"></i><span class="nav-text">Attendance</span></a></li>
+              <li><a class="sidenav-item-link" href="gradebook.html"><i class="mdi mdi-book-open-page-variant"></i><span class="nav-text">Gradebook</span></a></li>
+              <li><a class="sidenav-item-link" href="online-class.html"><i class="mdi mdi-video"></i><span class="nav-text">Online Class</span></a></li>
+              
+              <li class="section-title">AI LMS</li>
+              <li><a class="sidenav-item-link" href="lms-catalog.html"><i class="mdi mdi-library"></i><span class="nav-text">Resource Library</span></a></li>
+              <li><a class="sidenav-item-link" href="content-factory.html"><i class="mdi mdi-creation"></i><span class="nav-text">AI Lesson Builder</span></a></li>
+              <li><a class="sidenav-item-link" href="course-player.html"><i class="mdi mdi-play-circle"></i><span class="nav-text">Interactive Lessons</span></a></li>
+              <li><a class="sidenav-item-link" href="learning-progress.html"><i class="mdi mdi-chart-line-variant"></i><span class="nav-text">Learning Progress</span></a></li>
+              <li><a class="sidenav-item-link" href="offline-packages.html"><i class="mdi mdi-download-box"></i><span class="nav-text">Offline Packages</span></a></li>
+    
+              <li class="section-title">AI SUPPORT</li>
+              <li class="active"><a class="sidenav-item-link" href="ai-tutor.html"><i class="mdi mdi-robot"></i><span class="nav-text">AI Tutor</span></a></li>
+  
+  
+              <li class="section-title">Administration</li>
+              <li><a class="sidenav-item-link" href="structure-detection.html"><i class="mdi mdi-file-tree"></i><span class="nav-text">Structure Detection</span></a></li>
+              <li><a class="sidenav-item-link" href="human-review.html"><i class="mdi mdi-shield-check"></i><span class="nav-text">Human Review</span></a></li>
+            </ul>
+          </div>
+  
+          <div style="padding: 20px;">
             <div style="background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; margin-bottom: 12px;">
-               <div style="color: white; font-weight: bold; font-size: 13px; margin-bottom: 6px;">Security Context</div>
-               <div style="color: rgba(255,255,255,0.7); font-size: 11px; line-height: 1.5;">AI responses are curriculum-grounded and safety-filtered.</div>
+              <div style="color: white; font-weight: 800; font-size: 13px; margin-bottom: 6px;">Security Context</div>
+              <div style="color: rgba(255,255,255,0.7); font-size: 11px; line-height: 1.5;">Teacher approvals are required for high-stakes grade actions.</div>
             </div>
             <div style="background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px;">
-               <div style="color: white; font-weight: bold; font-size: 13px; margin-bottom: 6px;">Operational Status</div>
-               <div style="color: rgba(255,255,255,0.7); font-size: 11px; line-height: 1.5;">Notifications, sync, and policy status remain visible in every workspace.</div>
+              <div style="color: white; font-weight: 800; font-size: 13px; margin-bottom: 6px;">Operational Status</div>
+              <div style="color: rgba(255,255,255,0.7); font-size: 11px; line-height: 1.5;">Notifications, sync, and policy status remain visible in every workspace.</div>
             </div>
+          </div>
         </div>
-      </div>
-    </aside>
+      </aside>
 
     <div class="page-wrapper">
       <header class="main-header" id="header" style="display: flex; align-items: center; justify-content: space-between; padding-right: 20px;">
