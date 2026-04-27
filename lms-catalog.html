@@ -11,20 +11,69 @@
   <link href="plugins/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css" rel="stylesheet" />
   <link href="css/style.css" rel="stylesheet" />
   <link href="css/custom.css" rel="stylesheet" />
+  <style>
+    body { background-color: #FFFFFF; font-family: 'Inter', sans-serif; }
+    .sidebar-dark { background: linear-gradient(180deg, #1E3A8A 0%, #172a6b 100%) !important; display: flex; flex-direction: column; }
+    .sidebar .nav > li > a { padding: 12px 20px !important; margin: 4px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; }
+    .sidebar .nav > li.active > a { background-color: #2563EB !important; }
+    .sidebar-inner { flex-grow: 1; }
+
+    .main-header { box-shadow: none !important; border-bottom: 1px solid #E5E7EB; height: 72px; padding: 0; }
+    .content-wrapper { padding: 24px; background-color: #FFFFFF; }
+
+    .info-card { background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+    .info-card h3 { color: #111827; font-size: 16px; font-weight: 800; margin-bottom: 16px; }
+
+    .pill { display: inline-block; padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; border: 1px solid #E5E7EB; background: #F9FAFB; color: #4B5563; }
+    .pill-blue { background: #EFF6FF; color: #2563EB; border-color: #BFDBFE; }
+    .pill-yellow { background: #FEF3C7; color: #92400E; border-color: #FDE68A; }
+    .pill-green { background: #DCFCE7; color: #166534; border-color: #BBF7D0; }
+    .pill-gray { background: #F9FAFB; color: #4B5563; border-color: #E5E7EB; }
+
+    .filter-title { font-size: 12px; font-weight: 800; color: #111827; margin-bottom: 10px; }
+    .filter-chip { display: inline-flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; padding: 10px 12px; border-radius: 12px; border: 1px solid #E5E7EB; background: #FFFFFF; font-size: 12px; font-weight: 800; color: #111827; }
+    .filter-chip.active { background: #EFF6FF; border-color: #BFDBFE; color: #2563EB; }
+
+    .search-input { width: 100%; border: 1px solid #E5E7EB; border-radius: 12px; padding: 10px 12px; font-size: 13px; font-weight: 600; outline: none; }
+    .search-input:focus { border-color: #BFDBFE; box-shadow: 0 0 0 3px rgba(37,99,235,0.12); }
+
+    .hero-rail { border: 1px solid #E5E7EB; border-radius: 16px; overflow: hidden; background: #FFFFFF; }
+    .hero-top { background: linear-gradient(90deg, #111827 0%, #1F2937 60%, #0B2A63 100%); padding: 18px; color: #FFFFFF; }
+    .hero-title { font-size: 18px; font-weight: 900; margin: 0 0 6px; }
+    .hero-sub { font-size: 12px; color: rgba(255,255,255,0.82); margin: 0; }
+    .hero-body { padding: 16px 18px; }
+
+    .content-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    @media (max-width: 1200px) { .content-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 768px) { .content-grid { grid-template-columns: 1fr; } }
+
+    .content-card { border: 1px solid #E5E7EB; border-radius: 16px; background: #FFFFFF; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+    .content-thumb { height: 110px; background: #F3F4F6; display: flex; align-items: center; justify-content: center; }
+    .content-body { padding: 14px; }
+    .content-name { font-size: 13px; font-weight: 900; color: #111827; margin-bottom: 6px; }
+    .content-meta { font-size: 11px; color: #6B7280; margin-bottom: 10px; }
+    .content-actions { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    .btn-pill { border-radius: 10px; font-weight: 800; font-size: 12px; padding: 8px 12px; }
+  </style>
 </head>
 <body class="navbar-fixed sidebar-fixed" id="body">
   <div class="wrapper">
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
       <div id="sidebar" class="sidebar sidebar-with-footer">
-        <div class="app-brand">
-          <a href="national-insights.html">
-            <span class="brand-name">DepEd System</span>
-          </a>
+        <div style="padding: 24px 20px 10px;">
+          <div class="d-flex align-items-center mb-3">
+            <div style="background: rgba(255,255,255,0.2); border-radius: 8px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; margin-right: 12px;">T7</div>
+            <div style="line-height: 1.2;">
+              <div style="color: white; font-weight: 800; font-size: 14px;">Class Adviser</div>
+              <div style="color: rgba(255,255,255,0.7); font-size: 12px;">Assigned Sections</div>
+            </div>
+          </div>
+          <div style="background: rgba(255,255,255,0.2); color: white; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; border: 1px solid rgba(255,255,255,0.3); display: inline-block; width: 100%;">Teacher / Adviser</div>
         </div>
+
         <div class="sidebar-left" data-simplebar style="height: 100%;">
           <ul class="nav sidebar-inner" id="sidebar-menu">
             <li class="section-title">Dashboards</li>
-            <li><a class="sidenav-item-link" href="national-insights.html"><i class="mdi mdi-chart-line"></i><span class="nav-text">National Insights</span></a></li>
             <li><a class="sidenav-item-link" href="teacher-dashboard.html"><i class="mdi mdi-teach"></i><span class="nav-text">Teacher Dashboard</span></a></li>
             <li><a class="sidenav-item-link" href="parent-dashboard.html"><i class="mdi mdi-account-group"></i><span class="nav-text">Parent Dashboard</span></a></li>
             <li><a class="sidenav-item-link" href="early-warning.html"><i class="mdi mdi-alert-outline"></i><span class="nav-text">Early Warning Risk</span></a></li>
@@ -40,93 +89,234 @@
             <li><a class="sidenav-item-link" href="ai-tutor.html"><i class="mdi mdi-robot"></i><span class="nav-text">AI Tutor</span></a></li>
             
             <li class="section-title">Administration</li>
-            <li><a class="sidenav-item-link" href="lrn-validation.html"><i class="mdi mdi-account-search"></i><span class="nav-text">LRN Validation</span></a></li>
             <li><a class="sidenav-item-link" href="content-factory.html"><i class="mdi mdi-factory"></i><span class="nav-text">Content Factory</span></a></li>
+            <li><a class="sidenav-item-link" href="structure-detection.html"><i class="mdi mdi-file-tree"></i><span class="nav-text">Structure Detection</span></a></li>
             <li><a class="sidenav-item-link" href="human-review.html"><i class="mdi mdi-shield-check"></i><span class="nav-text">Human Review</span></a></li>
           </ul>
+        </div>
+
+        <div style="padding: 20px;">
+          <div style="background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; margin-bottom: 12px;">
+            <div style="color: white; font-weight: 800; font-size: 13px; margin-bottom: 6px;">Security Context</div>
+            <div style="color: rgba(255,255,255,0.7); font-size: 11px; line-height: 1.5;">Teacher approvals are required for high-stakes grade actions.</div>
+          </div>
+          <div style="background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px;">
+            <div style="color: white; font-weight: 800; font-size: 13px; margin-bottom: 6px;">Operational Status</div>
+            <div style="color: rgba(255,255,255,0.7); font-size: 11px; line-height: 1.5;">Notifications, sync, and policy status remain visible in every workspace.</div>
+          </div>
         </div>
       </div>
     </aside>
 
     <div class="page-wrapper">
-      <header class="main-header" id="header">
-        <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
-          <button id="sidebar-toggler" class="sidebar-toggle">
+      <header class="main-header" id="header" style="display: flex; align-items: center; justify-content: space-between; padding-right: 20px;">
+        <div class="d-flex align-items-center">
+          <div class="app-brand" style="background-color: white !important; border-right: 1px solid transparent; width: 260px; display: flex; align-items: center; padding: 0 20px; height: 72px;">
+            <div style="background: #1E3A8A; color: white; border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; margin-right: 10px;">D1</div>
+            <div style="line-height: 1.2;">
+              <div style="color: #111827; font-weight: 800; font-size: 15px;">DepEd ONE</div>
+              <div style="color: #6B7280; font-size: 11px;">Unified Learning Platform</div>
+            </div>
+          </div>
+
+          <button id="sidebar-toggler" class="sidebar-toggle" style="margin-right: 20px;">
             <span class="sr-only">Toggle navigation</span>
           </button>
-          <div class="d-flex align-items-center">
-            <span class="page-title">LMS Content Catalog</span>
-            <span class="badge badge-warning ml-3">Sync Pending</span>
-            <span class="badge badge-danger ml-2">2 Alerts</span>
+
+          <div style="line-height: 1.2; margin-right: 30px;">
+            <div style="font-weight: 800; color: #111827; font-size: 16px;">LMS Content Catalog</div>
+            <div style="color: #6B7280; font-size: 12px;">Learning Materials • Screen 18 / 47</div>
           </div>
-          <div class="navbar-right ">
-            <ul class="nav navbar-nav">
-              <li class="dropdown user-menu">
-                <button class="dropdown-toggle nav-link" data-toggle="dropdown">
-                  <img src="images/user/user-xs-01.jpg" class="user-image rounded-circle" alt="User Image" />
-                  <span class="d-none d-lg-inline-block">Admin User</span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-right">
-                  <li class="dropdown-footer">
-                    <a class="dropdown-link-item" href="login.html"> <i class="mdi mdi-logout"></i> Log Out </a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
+
+          <div class="d-none d-lg-flex align-items-center" style="gap: 12px;">
+            <span class="badge" style="background-color: #EFF6FF; color: #2563EB; border: 1px solid #BFDBFE; padding: 6px 12px; font-size: 12px;">Teacher / Adviser</span>
+            <span class="badge" style="background-color: #F9FAFB; color: #4B5563; border: 1px solid #E5E7EB; padding: 6px 12px; font-size: 12px;">Assigned Sections</span>
+            <span class="badge" style="background-color: #F9FAFB; color: #4B5563; border: 1px solid #E5E7EB; padding: 6px 12px; font-size: 12px;">SY 2025-2026 • Q3</span>
+            <span class="badge" style="background-color: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; padding: 6px 12px; font-size: 12px;">Sync: Pending</span>
+            <span class="badge" style="background-color: #F9FAFB; color: #4B5563; border: 1px solid #E5E7EB; padding: 6px 12px; font-size: 12px;">Alerts (9)</span>
           </div>
-        </nav>
+        </div>
+
+        <div class="navbar-right d-flex align-items-center" style="gap: 12px;">
+          <button class="btn btn-sm" style="background: white; border: 1px solid #E5E7EB; color: #4B5563; border-radius: 20px; font-weight: 700; padding: 6px 16px;">English <i class="mdi mdi-chevron-down"></i></button>
+          <button class="btn btn-sm" style="background: white; border: 1px solid #E5E7EB; color: #4B5563; border-radius: 20px; font-weight: 700; padding: 6px 16px;">Help</button>
+          <button class="btn btn-sm" style="background: white; border: 1px solid #E5E7EB; color: #4B5563; border-radius: 20px; font-weight: 700; padding: 6px 16px;">Profile</button>
+        </div>
       </header>
       
       <div class="content-wrapper">
-        <div class="content">
+        <div class="content p-0">
+          <div style="background-color: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 12px; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+            <div style="color: #4B5563; font-size: 14px; font-weight: 500;">
+              <strong style="color: #111827;">Context:</strong> Teacher / Adviser • LMS • Scope: Assigned Sections
+            </div>
+            <div style="color: #1E3A8A; font-size: 14px; font-weight: 800;">Teacher approvals are required for high-stakes grade actions.</div>
+          </div>
 
           <div class="row">
-            <div class="col-md-4">
-              <div class="card mb-4">
-                <div class="card-img-top bg-secondary text-center py-5">
-                  <i class="mdi mdi-calculator text-white" style="font-size: 50px;"></i>
+            <div class="col-lg-3">
+              <div class="info-card" style="padding: 16px;">
+                <div class="filter-title">Grade Level</div>
+                <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px;">
+                  <div class="filter-chip active">Grade 8 <i class="mdi mdi-check"></i></div>
+                  <div class="filter-chip">Grade 7</div>
+                  <div class="filter-chip">Grade 9</div>
                 </div>
-                <div class="card-body">
-                  <h5 class="card-title">Mathematics 10</h5>
-                  <p class="card-text">Comprehensive guide to algebra, geometry, and basic statistics for Grade 10 students.</p>
-                  <span class="badge badge-success mb-3"><i class="mdi mdi-wifi-off"></i> Offline-Ready</span>
-                  <br>
-                  <a href="course-player.html" class="btn btn-primary">Start Course</a>
+
+                <div class="filter-title">Subject</div>
+                <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px;">
+                  <div class="filter-chip active">Mathematics</div>
+                  <div class="filter-chip">Science</div>
+                  <div class="filter-chip">Filipino</div>
+                  <div class="filter-chip">Araling Panlipunan</div>
+                </div>
+
+                <div class="filter-title">Publishing Path</div>
+                <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px;">
+                  <div class="filter-chip active">Factory-Approved</div>
+                  <div class="filter-chip">Direct Curated</div>
+                </div>
+
+                <div class="filter-title">Delivery Mode</div>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                  <div class="filter-chip active">Offline Available</div>
+                  <div class="filter-chip">Video Lessons</div>
+                  <div class="filter-chip">Text-first</div>
                 </div>
               </div>
             </div>
-            
-            <div class="col-md-4">
-              <div class="card mb-4">
-                <div class="card-img-top bg-info text-center py-5">
-                  <i class="mdi mdi-earth text-white" style="font-size: 50px;"></i>
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">Araling Panlipunan 10</h5>
-                  <p class="card-text">Understanding contemporary issues in the Philippines and the world.</p>
-                  <span class="badge badge-success mb-3"><i class="mdi mdi-wifi-off"></i> Offline-Ready</span>
-                  <br>
-                  <a href="course-player.html" class="btn btn-primary">Start Course</a>
+
+            <div class="col-lg-9">
+              <h1 style="color: #111827; font-size: 36px; font-weight: 800; margin-bottom: 8px;">LMS Content Catalog</h1>
+              <p style="color: #4B5563; font-size: 15px; margin-bottom: 18px;">Discover approved content by grade, subject, and governance status. Only approved artifacts are learner-facing.</p>
+
+              <div class="info-card" style="padding: 16px;">
+                <input class="search-input" type="text" placeholder="Search by competency, lesson title, or tag..." aria-label="Search LMS content" />
+                <div class="d-flex flex-wrap" style="gap: 10px; margin-top: 12px;">
+                  <span class="pill pill-gray">Filter: Official Content</span>
+                  <span class="pill pill-gray">Sort: Most Used</span>
+                  <span class="pill pill-gray">Language: English + Filipino</span>
+                  <span class="pill pill-gray">Results: 126 lessons</span>
                 </div>
               </div>
-            </div>
-            
-            <div class="col-md-4">
-              <div class="card mb-4">
-                <div class="card-img-top bg-warning text-center py-5">
-                  <i class="mdi mdi-flask text-white" style="font-size: 50px;"></i>
+
+              <div class="hero-rail" style="margin-bottom: 16px;">
+                <div class="hero-top">
+                  <div class="d-flex justify-content-between align-items-start" style="gap: 10px;">
+                    <div>
+                      <div style="display: inline-flex; gap: 8px; margin-bottom: 10px;">
+                        <span class="pill pill-blue" style="background: rgba(239,246,255,0.16); border-color: rgba(191,219,254,0.35); color: #FFFFFF;">Featured Collection</span>
+                      </div>
+                      <div class="hero-title">Most-used Grade 8 learning assets this week</div>
+                      <p class="hero-sub">Factory-approved modules with strong completion patterns and offline-ready delivery for low-bandwidth classrooms.</p>
+                    </div>
+                    <button class="btn btn-sm btn-pill" style="background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.2); color: #FFFFFF;">Enroll</button>
+                  </div>
                 </div>
-                <div class="card-body">
-                  <h5 class="card-title">Science 10</h5>
-                  <p class="card-text">Earth and space, forces and motion, and living things and their environment.</p>
-                  <span class="badge badge-success mb-3"><i class="mdi mdi-wifi-off"></i> Offline-Ready</span>
-                  <br>
-                  <a href="course-player.html" class="btn btn-primary">Start Course</a>
+                <div class="hero-body">
+                  <div class="content-grid">
+                    <div class="content-card">
+                      <div class="content-thumb"><div style="width: 86%; height: 64px; border-radius: 10px; background: linear-gradient(90deg, #E5E7EB 0%, #F3F4F6 60%, #E5E7EB 100%);"></div></div>
+                      <div class="content-body">
+                        <div class="d-flex flex-wrap" style="gap: 8px; margin-bottom: 10px;">
+                          <span class="pill pill-blue">Factory-Approved</span>
+                          <span class="pill pill-gray">Online Ready</span>
+                        </div>
+                        <div class="content-name">Linear Equations and Word Problems</div>
+                        <div class="content-meta">Grade 8 Mathematics • 8 lessons • Updated Feb 2026</div>
+                        <div class="content-actions">
+                          <span class="pill pill-gray">72% class completion</span>
+                          <a href="course-player.html" class="btn btn-sm btn-pill" style="background: #1E3A8A; border: none; color: #FFFFFF;">Open Course</a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="content-card">
+                      <div class="content-thumb"><div style="width: 86%; height: 64px; border-radius: 10px; background: linear-gradient(90deg, #E5E7EB 0%, #F3F4F6 60%, #E5E7EB 100%);"></div></div>
+                      <div class="content-body">
+                        <div class="d-flex flex-wrap" style="gap: 8px; margin-bottom: 10px;">
+                          <span class="pill pill-green">Direct Curated</span>
+                          <span class="pill pill-yellow">Review refresh due</span>
+                        </div>
+                        <div class="content-name">Intro to Motion and Forces</div>
+                        <div class="content-meta">Grade 8 Science • 6 lessons • Includes lab worksheet</div>
+                        <div class="content-actions">
+                          <span class="pill pill-gray">54% class completion</span>
+                          <a href="course-player.html" class="btn btn-sm btn-pill" style="background: #1E3A8A; border: none; color: #FFFFFF;">Open Course</a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="content-card">
+                      <div class="content-thumb"><div style="width: 86%; height: 64px; border-radius: 10px; background: linear-gradient(90deg, #E5E7EB 0%, #F3F4F6 60%, #E5E7EB 100%);"></div></div>
+                      <div class="content-body">
+                        <div class="d-flex flex-wrap" style="gap: 8px; margin-bottom: 10px;">
+                          <span class="pill pill-blue">Factory-Approved</span>
+                          <span class="pill pill-gray">Transcript-first</span>
+                        </div>
+                        <div class="content-name">Kagisnan ng Pangunahing Isip</div>
+                        <div class="content-meta">Grade 8 Filipino • 5 lessons • Low-bandwidth package</div>
+                        <div class="content-actions">
+                          <span class="pill pill-gray">83% class completion</span>
+                          <a href="course-player.html" class="btn btn-sm btn-pill" style="background: #1E3A8A; border: none; color: #FFFFFF;">Open Course</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="content-grid">
+                <div class="content-card">
+                  <div class="content-thumb"><i class="mdi mdi-calculator" style="font-size: 42px; color: #6B7280;"></i></div>
+                  <div class="content-body">
+                    <div class="d-flex flex-wrap" style="gap: 8px; margin-bottom: 10px;">
+                      <span class="pill pill-blue">Factory-Approved</span>
+                      <span class="pill pill-green">Offline Available</span>
+                    </div>
+                    <div class="content-name">Math: Patterns and Functions</div>
+                    <div class="content-meta">Grade 8 Mathematics • 12 lessons • v1.9</div>
+                    <div class="content-actions">
+                      <span class="pill pill-gray">10 downloads</span>
+                      <a href="course-player.html" class="btn btn-sm btn-pill" style="background: #1E3A8A; border: none; color: #FFFFFF;">Open</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="content-card">
+                  <div class="content-thumb"><i class="mdi mdi-earth" style="font-size: 42px; color: #6B7280;"></i></div>
+                  <div class="content-body">
+                    <div class="d-flex flex-wrap" style="gap: 8px; margin-bottom: 10px;">
+                      <span class="pill pill-green">Direct Curated</span>
+                      <span class="pill pill-gray">Text-first</span>
+                    </div>
+                    <div class="content-name">AP: Civic Responsibility</div>
+                    <div class="content-meta">Grade 8 Araling Panlipunan • 7 lessons</div>
+                    <div class="content-actions">
+                      <span class="pill pill-gray">Most used</span>
+                      <a href="course-player.html" class="btn btn-sm btn-pill" style="background: #1E3A8A; border: none; color: #FFFFFF;">Open</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="content-card">
+                  <div class="content-thumb"><i class="mdi mdi-flask" style="font-size: 42px; color: #6B7280;"></i></div>
+                  <div class="content-body">
+                    <div class="d-flex flex-wrap" style="gap: 8px; margin-bottom: 10px;">
+                      <span class="pill pill-blue">Factory-Approved</span>
+                      <span class="pill pill-yellow">Offline package pending</span>
+                    </div>
+                    <div class="content-name">Science: Ecosystems and Food Web</div>
+                    <div class="content-meta">Grade 8 Science • 9 lessons • with quizzes</div>
+                    <div class="content-actions">
+                      <span class="pill pill-gray">QA verified</span>
+                      <a href="course-player.html" class="btn btn-sm btn-pill" style="background: #1E3A8A; border: none; color: #FFFFFF;">Open</a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-
         </div>
       </div>
       

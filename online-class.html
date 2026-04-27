@@ -5,26 +5,65 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>DepEd - Class Online Meeting</title>
-  <link href="https://fonts.googleapis.com/css?family=Karla:400,700|Roboto" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="plugins/material/css/materialdesignicons.min.css" rel="stylesheet" />
   <link href="plugins/simplebar/simplebar.css" rel="stylesheet" />
   <link href="plugins/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css" rel="stylesheet" />
   <link href="css/style.css" rel="stylesheet" />
   <link href="css/custom.css" rel="stylesheet" />
+  <style>
+    body { background-color: #FFFFFF; font-family: 'Inter', sans-serif; }
+    .sidebar-dark { background: linear-gradient(180deg, #1E3A8A 0%, #172a6b 100%) !important; display: flex; flex-direction: column; }
+    .sidebar .nav > li > a { padding: 12px 20px !important; margin: 4px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; }
+    .sidebar .nav > li.active > a { background-color: #2563EB !important; }
+    .sidebar-inner { flex-grow: 1; }
+
+    .main-header { box-shadow: none !important; border-bottom: 1px solid #E5E7EB; height: 72px; padding: 0; }
+    .content-wrapper { padding: 24px; background-color: #FFFFFF; }
+
+    .info-card { background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+    .info-card h3 { color: #111827; font-size: 16px; font-weight: 800; margin-bottom: 16px; }
+
+    .pill { display: inline-block; padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; border: 1px solid #E5E7EB; background: #F9FAFB; color: #4B5563; }
+    .pill-blue { background: #EFF6FF; color: #2563EB; border-color: #BFDBFE; }
+    .pill-yellow { background: #FEF3C7; color: #92400E; border-color: #FDE68A; }
+    .pill-green { background: #DCFCE7; color: #166534; border-color: #BBF7D0; }
+    .pill-gray { background: #F9FAFB; color: #4B5563; border-color: #E5E7EB; }
+
+    .video-surface { background: linear-gradient(180deg, #1E3A8A 0%, #0B2A63 100%); border-radius: 14px; height: 360px; position: relative; overflow: hidden; }
+    .video-overlay { position: absolute; inset: 0; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; }
+    .live-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.22); color: #FFFFFF; padding: 6px 10px; border-radius: 999px; font-size: 11px; font-weight: 800; }
+
+    .participant-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .participant-tile { border: 1px solid #E5E7EB; border-radius: 12px; background: #FFFFFF; padding: 10px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .avatar { width: 28px; height: 28px; border-radius: 10px; background: #EFF6FF; color: #2563EB; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; }
+    .presence-dot { width: 8px; height: 8px; border-radius: 999px; background: #22C55E; }
+
+    .btn-pill { border-radius: 10px; font-weight: 800; font-size: 12px; padding: 8px 12px; }
+    .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed #E5E7EB; }
+    .stat-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .stat-label { font-size: 12px; font-weight: 700; color: #4B5563; }
+    .stat-value { font-size: 12px; font-weight: 800; color: #111827; }
+  </style>
 </head>
 <body class="navbar-fixed sidebar-fixed" id="body">
   <div class="wrapper">
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
       <div id="sidebar" class="sidebar sidebar-with-footer">
-        <div class="app-brand">
-          <a href="national-insights.html">
-            <span class="brand-name">DepEd System</span>
-          </a>
+        <div style="padding: 24px 20px 10px;">
+          <div class="d-flex align-items-center mb-3">
+            <div style="background: rgba(255,255,255,0.2); border-radius: 8px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; margin-right: 12px;">T7</div>
+            <div style="line-height: 1.2;">
+              <div style="color: white; font-weight: 800; font-size: 14px;">Class Adviser</div>
+              <div style="color: rgba(255,255,255,0.7); font-size: 12px;">Assigned Sections</div>
+            </div>
+          </div>
+          <div style="background: rgba(255,255,255,0.2); color: white; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; border: 1px solid rgba(255,255,255,0.3); display: inline-block; width: 100%;">Teacher / Adviser</div>
         </div>
+
         <div class="sidebar-left" data-simplebar style="height: 100%;">
           <ul class="nav sidebar-inner" id="sidebar-menu">
             <li class="section-title">Dashboards</li>
-            <li><a class="sidenav-item-link" href="national-insights.html"><i class="mdi mdi-chart-line"></i><span class="nav-text">National Insights</span></a></li>
             <li><a class="sidenav-item-link" href="teacher-dashboard.html"><i class="mdi mdi-teach"></i><span class="nav-text">Teacher Dashboard</span></a></li>
             <li><a class="sidenav-item-link" href="parent-dashboard.html"><i class="mdi mdi-account-group"></i><span class="nav-text">Parent Dashboard</span></a></li>
             <li><a class="sidenav-item-link" href="early-warning.html"><i class="mdi mdi-alert-outline"></i><span class="nav-text">Early Warning Risk</span></a></li>
@@ -40,105 +79,176 @@
             <li><a class="sidenav-item-link" href="ai-tutor.html"><i class="mdi mdi-robot"></i><span class="nav-text">AI Tutor</span></a></li>
             
             <li class="section-title">Administration</li>
-            <li><a class="sidenav-item-link" href="lrn-validation.html"><i class="mdi mdi-account-search"></i><span class="nav-text">LRN Validation</span></a></li>
             <li><a class="sidenav-item-link" href="content-factory.html"><i class="mdi mdi-factory"></i><span class="nav-text">Content Factory</span></a></li>
+            <li><a class="sidenav-item-link" href="structure-detection.html"><i class="mdi mdi-file-tree"></i><span class="nav-text">Structure Detection</span></a></li>
             <li><a class="sidenav-item-link" href="human-review.html"><i class="mdi mdi-shield-check"></i><span class="nav-text">Human Review</span></a></li>
           </ul>
+        </div>
+
+        <div style="padding: 20px;">
+          <div style="background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; margin-bottom: 12px;">
+            <div style="color: white; font-weight: 800; font-size: 13px; margin-bottom: 6px;">Security Context</div>
+            <div style="color: rgba(255,255,255,0.7); font-size: 11px; line-height: 1.5;">Teacher approvals are required for high-stakes grade actions.</div>
+          </div>
+          <div style="background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px;">
+            <div style="color: white; font-weight: 800; font-size: 13px; margin-bottom: 6px;">Operational Status</div>
+            <div style="color: rgba(255,255,255,0.7); font-size: 11px; line-height: 1.5;">Notifications, sync, and policy status remain visible in every workspace.</div>
+          </div>
         </div>
       </div>
     </aside>
 
     <div class="page-wrapper">
-      <header class="main-header" id="header">
-        <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
-          <button id="sidebar-toggler" class="sidebar-toggle">
+      <header class="main-header" id="header" style="display: flex; align-items: center; justify-content: space-between; padding-right: 20px;">
+        <div class="d-flex align-items-center">
+          <div class="app-brand" style="background-color: white !important; border-right: 1px solid transparent; width: 260px; display: flex; align-items: center; padding: 0 20px; height: 72px;">
+            <div style="background: #1E3A8A; color: white; border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; margin-right: 10px;">D1</div>
+            <div style="line-height: 1.2;">
+              <div style="color: #111827; font-weight: 800; font-size: 15px;">DepEd ONE</div>
+              <div style="color: #6B7280; font-size: 11px;">Unified Learning Platform</div>
+            </div>
+          </div>
+
+          <button id="sidebar-toggler" class="sidebar-toggle" style="margin-right: 20px;">
             <span class="sr-only">Toggle navigation</span>
           </button>
-          <span class="page-title">Class Online Meeting</span>
-          <div class="navbar-right ">
-            <ul class="nav navbar-nav">
-              <li class="dropdown user-menu">
-                <button class="dropdown-toggle nav-link" data-toggle="dropdown">
-                  <img src="images/user/user-xs-01.jpg" class="user-image rounded-circle" alt="User Image" />
-                  <span class="d-none d-lg-inline-block">Admin User</span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-right">
-                  <li class="dropdown-footer">
-                    <a class="dropdown-link-item" href="login.html"> <i class="mdi mdi-logout"></i> Log Out </a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
+
+          <div style="line-height: 1.2; margin-right: 30px;">
+            <div style="font-weight: 800; color: #111827; font-size: 16px;">Class Online Meeting</div>
+            <div style="color: #6B7280; font-size: 12px;">Classroom Operations • Screen 48 / 48</div>
           </div>
-        </nav>
+
+          <div class="d-none d-lg-flex align-items-center" style="gap: 12px;">
+            <span class="badge" style="background-color: #EFF6FF; color: #2563EB; border: 1px solid #BFDBFE; padding: 6px 12px; font-size: 12px;">Teacher / Adviser</span>
+            <span class="badge" style="background-color: #F9FAFB; color: #4B5563; border: 1px solid #E5E7EB; padding: 6px 12px; font-size: 12px;">Assigned Sections</span>
+            <span class="badge" style="background-color: #F9FAFB; color: #4B5563; border: 1px solid #E5E7EB; padding: 6px 12px; font-size: 12px;">SY 2025-2026 • Q3</span>
+            <span class="badge" style="background-color: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; padding: 6px 12px; font-size: 12px;">Sync: Pending</span>
+            <span class="badge" style="background-color: #F9FAFB; color: #4B5563; border: 1px solid #E5E7EB; padding: 6px 12px; font-size: 12px;">Alerts (9)</span>
+          </div>
+        </div>
+
+        <div class="navbar-right d-flex align-items-center" style="gap: 12px;">
+          <button class="btn btn-sm" style="background: white; border: 1px solid #E5E7EB; color: #4B5563; border-radius: 20px; font-weight: 700; padding: 6px 16px;">English <i class="mdi mdi-chevron-down"></i></button>
+          <button class="btn btn-sm" style="background: white; border: 1px solid #E5E7EB; color: #4B5563; border-radius: 20px; font-weight: 700; padding: 6px 16px;">Help</button>
+          <button class="btn btn-sm" style="background: white; border: 1px solid #E5E7EB; color: #4B5563; border-radius: 20px; font-weight: 700; padding: 6px 16px;">Profile</button>
+        </div>
       </header>
       
       <div class="content-wrapper">
-        <div class="content">
+        <div class="content p-0">
+          <div style="background-color: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 12px; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+            <div style="color: #4B5563; font-size: 14px; font-weight: 500;">
+              <strong style="color: #111827;">Context:</strong> Teacher / Adviser • Classroom Operations • Scope: Assigned Sections
+            </div>
+            <div style="color: #1E3A8A; font-size: 14px; font-weight: 800;">Teacher approvals are required for high-stakes grade actions.</div>
+          </div>
 
           <div class="row">
-            <div class="col-xl-8">
-              <div class="card card-default">
-                <div class="card-header">
-                  <h2>Main Presentation Area (Low Bandwidth Mode)</h2>
-                  <span class="badge badge-primary">Audio Only</span>
-                </div>
-                <div class="card-body text-center bg-light" style="min-height: 400px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
-                  <i class="mdi mdi-presentation text-primary" style="font-size: 100px;"></i>
-                  <h4>Teacher is currently sharing: "Chapter 4: History of the Philippines"</h4>
-                  <div class="mt-4">
-                    <button class="btn btn-outline-danger"><i class="mdi mdi-microphone-off"></i> Mute</button>
-                    <button class="btn btn-outline-secondary"><i class="mdi mdi-hand-back-left"></i> Raise Hand</button>
+            <div class="col-lg-8">
+              <h1 style="color: #111827; font-size: 36px; font-weight: 800; margin-bottom: 8px;">Class Online Meeting</h1>
+              <p style="color: #4B5563; font-size: 15px; margin-bottom: 18px;">Live classroom for teacher and students with camera tiles, participation tracking, and quick class controls.</p>
+
+              <div class="d-flex flex-wrap" style="gap: 10px; margin-bottom: 16px;">
+                <span class="pill pill-gray">Grade 7 • Section Rizal</span>
+                <span class="pill pill-blue">38 enrolled</span>
+                <span class="pill pill-blue">33 present</span>
+              </div>
+
+              <div class="info-card">
+                <div class="row">
+                  <div class="col-md-8 mb-3 mb-md-0">
+                    <div class="video-surface">
+                      <div class="video-overlay">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <span class="live-badge"><span style="width: 8px; height: 8px; border-radius: 999px; background: #EF4444;"></span>LIVE</span>
+                          <span class="pill pill-gray" style="background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.22); color: #FFFFFF;">Teacher Camera</span>
+                        </div>
+                        <div>
+                          <div style="color: rgba(255,255,255,0.92); font-weight: 800; font-size: 13px;">Ms. Alyanna Cruz</div>
+                          <div style="color: rgba(255,255,255,0.75); font-size: 11px;">Science 7 • Ecosystems and Food Web</div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
+
+                  <div class="col-md-4">
+                    <div class="participant-grid">
+                      <div class="participant-tile"><div class="d-flex align-items-center" style="gap: 8px;"><span class="avatar">JR</span><div style="font-size: 12px; font-weight: 800; color: #111827;">Juan R.</div></div><span class="presence-dot"></span></div>
+                      <div class="participant-tile"><div class="d-flex align-items-center" style="gap: 8px;"><span class="avatar">MS</span><div style="font-size: 12px; font-weight: 800; color: #111827;">Maria S.</div></div><span class="presence-dot"></span></div>
+                      <div class="participant-tile"><div class="d-flex align-items-center" style="gap: 8px;"><span class="avatar">AL</span><div style="font-size: 12px; font-weight: 800; color: #111827;">Andre L.</div></div><span class="presence-dot"></span></div>
+                      <div class="participant-tile"><div class="d-flex align-items-center" style="gap: 8px;"><span class="avatar">KG</span><div style="font-size: 12px; font-weight: 800; color: #111827;">Kim G.</div></div><span class="presence-dot"></span></div>
+                      <div class="participant-tile"><div class="d-flex align-items-center" style="gap: 8px;"><span class="avatar">PT</span><div style="font-size: 12px; font-weight: 800; color: #111827;">Paolo T.</div></div><span class="presence-dot"></span></div>
+                      <div class="participant-tile"><div class="d-flex align-items-center" style="gap: 8px;"><span class="avatar">NR</span><div style="font-size: 12px; font-weight: 800; color: #111827;">Nina R.</div></div><span class="presence-dot"></span></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="d-flex flex-wrap justify-content-between align-items-center" style="gap: 10px; margin-top: 16px;">
+                  <div class="d-flex flex-wrap" style="gap: 10px;">
+                    <button class="btn btn-sm btn-pill" style="background: #FFFFFF; border: 1px solid #E5E7EB; color: #111827;">Mute All</button>
+                    <button class="btn btn-sm btn-pill" style="background: #FFFFFF; border: 1px solid #E5E7EB; color: #111827;">Share Screen</button>
+                    <button class="btn btn-sm btn-pill" style="background: #FFFFFF; border: 1px solid #E5E7EB; color: #111827;">Open Chat</button>
+                    <button class="btn btn-sm btn-pill" style="background: #FFFFFF; border: 1px solid #E5E7EB; color: #111827;">Record Session</button>
+                    <button class="btn btn-sm btn-pill" style="background: #1E3A8A; border: none; color: #FFFFFF;">Start Quiz Checkpoint</button>
+                  </div>
+                  <button class="btn btn-sm btn-pill" style="background: #FEF3C7; border: 1px solid #FDE68A; color: #92400E;">End Meeting</button>
                 </div>
               </div>
             </div>
-            <div class="col-xl-4">
-              <div class="card card-default">
-                <div class="card-header">
-                  <h2>Participants (42)</h2>
+
+            <div class="col-lg-4">
+              <div class="info-card">
+                <div class="d-flex justify-content-between align-items-center" style="margin-bottom: 6px;">
+                  <h3 style="margin-bottom: 0;">Calendar Schedule</h3>
+                  <span class="pill pill-gray">SY 2025-2026 Q3</span>
                 </div>
-                <div class="card-body" style="max-height: 200px; overflow-y: auto;">
-                  <ul class="list-group">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      Teacher Jane (Host)
-                      <i class="mdi mdi-microphone text-success"></i>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      Juan Dela Cruz
-                      <i class="mdi mdi-microphone-off text-danger"></i>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      Maria Clara
-                      <i class="mdi mdi-microphone-off text-danger"></i>
-                    </li>
-                  </ul>
+                <div style="font-size: 12px; color: #6B7280; margin-bottom: 14px;">Friday, February 20</div>
+
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                  <div style="border: 1px solid #E5E7EB; border-radius: 12px; padding: 12px;">
+                    <div style="font-size: 12px; font-weight: 800; color: #111827;">08:00-09:00</div>
+                    <div style="font-size: 12px; color: #6B7280;">Science 7 • Section Rizal</div>
+                    <div style="margin-top: 8px;"><span class="pill pill-green">Live now</span></div>
+                  </div>
+                  <div style="border: 1px solid #E5E7EB; border-radius: 12px; padding: 12px;">
+                    <div style="font-size: 12px; font-weight: 800; color: #111827;">09:30-10:30</div>
+                    <div style="font-size: 12px; color: #6B7280;">Science 7 • Section Mabini</div>
+                    <div style="margin-top: 8px;"><span class="pill pill-blue">Next</span></div>
+                  </div>
+                  <div style="border: 1px solid #E5E7EB; border-radius: 12px; padding: 12px;">
+                    <div style="font-size: 12px; font-weight: 800; color: #111827;">01:00-02:00</div>
+                    <div style="font-size: 12px; color: #6B7280;">Remedial Session • Group B</div>
+                    <div style="margin-top: 8px;"><span class="pill pill-yellow">Upcoming</span></div>
+                  </div>
+                  <div style="border: 1px solid #E5E7EB; border-radius: 12px; padding: 12px;">
+                    <div style="font-size: 12px; font-weight: 800; color: #111827;">03:00-04:00</div>
+                    <div style="font-size: 12px; color: #6B7280;">Parent Consultation Window</div>
+                    <div style="margin-top: 8px;"><span class="pill pill-yellow">Upcoming</span></div>
+                  </div>
                 </div>
               </div>
-              <div class="card card-default mt-4">
-                <div class="card-header bg-primary text-white">
-                  <h2 class="text-white">Quick Quiz</h2>
+
+              <div class="info-card">
+                <h3>Meeting Attendance</h3>
+                <div class="stat-row">
+                  <span class="stat-label">Students joined</span>
+                  <span class="stat-value">33 / 38</span>
                 </div>
-                <div class="card-body">
-                  <p><strong>Question 1:</strong> Who is the national hero of the Philippines?</p>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="quiz" id="q1a">
-                    <label class="form-check-label" for="q1a">Andres Bonifacio</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="quiz" id="q1b">
-                    <label class="form-check-label" for="q1b">Jose Rizal</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="quiz" id="q1c">
-                    <label class="form-check-label" for="q1c">Emilio Aguinaldo</label>
-                  </div>
-                  <button class="btn btn-primary mt-3 btn-block">Submit Answer</button>
+                <div class="stat-row">
+                  <span class="stat-label">Camera on</span>
+                  <span class="stat-value">27</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">Hands raised</span>
+                  <span class="stat-value">4</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">Network unstable</span>
+                  <span class="stat-value">2</span>
                 </div>
               </div>
             </div>
           </div>
-
         </div>
       </div>
       

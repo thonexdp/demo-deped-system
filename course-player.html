@@ -5,26 +5,66 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>DepEd - Course Player</title>
-  <link href="https://fonts.googleapis.com/css?family=Karla:400,700|Roboto" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="plugins/material/css/materialdesignicons.min.css" rel="stylesheet" />
   <link href="plugins/simplebar/simplebar.css" rel="stylesheet" />
   <link href="plugins/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css" rel="stylesheet" />
   <link href="css/style.css" rel="stylesheet" />
   <link href="css/custom.css" rel="stylesheet" />
+  <style>
+    body { background-color: #FFFFFF; font-family: 'Inter', sans-serif; }
+    .sidebar-dark { background: linear-gradient(180deg, #1E3A8A 0%, #172a6b 100%) !important; display: flex; flex-direction: column; }
+    .sidebar .nav > li > a { padding: 12px 20px !important; margin: 4px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; }
+    .sidebar .nav > li.active > a { background-color: #2563EB !important; }
+    .sidebar-inner { flex-grow: 1; }
+
+    .main-header { box-shadow: none !important; border-bottom: 1px solid #E5E7EB; height: 72px; padding: 0; }
+    .content-wrapper { padding: 24px; background-color: #FFFFFF; }
+
+    .info-card { background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+    .info-card h3 { color: #111827; font-size: 16px; font-weight: 800; margin-bottom: 16px; }
+
+    .pill { display: inline-block; padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; border: 1px solid #E5E7EB; background: #F9FAFB; color: #4B5563; }
+    .pill-blue { background: #EFF6FF; color: #2563EB; border-color: #BFDBFE; }
+    .pill-yellow { background: #FEF3C7; color: #92400E; border-color: #FDE68A; }
+    .pill-green { background: #DCFCE7; color: #166534; border-color: #BBF7D0; }
+    .pill-gray { background: #F9FAFB; color: #4B5563; border-color: #E5E7EB; }
+
+    .course-hero { height: 210px; border-radius: 16px; background: linear-gradient(180deg, #111827 0%, #0B2A63 100%); position: relative; overflow: hidden; }
+    .course-hero::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 20% 20%, rgba(37,99,235,0.35), transparent 45%), radial-gradient(circle at 80% 30%, rgba(255,255,255,0.12), transparent 50%); }
+    .course-hero-inner { position: absolute; inset: 0; padding: 16px; display: flex; flex-direction: column; justify-content: flex-end; z-index: 1; }
+
+    .mini-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .mini-item { border: 1px solid #E5E7EB; border-radius: 14px; padding: 12px; }
+    .mini-label { font-size: 11px; font-weight: 800; color: #6B7280; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .mini-value { font-size: 12px; font-weight: 800; color: #111827; }
+    .mini-sub { font-size: 12px; color: #6B7280; }
+
+    .outline-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid #F3F4F6; }
+    .outline-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .outline-title { font-size: 12px; font-weight: 800; color: #111827; }
+    .outline-sub { font-size: 12px; color: #6B7280; }
+    .btn-pill { border-radius: 10px; font-weight: 800; font-size: 12px; padding: 8px 12px; }
+  </style>
 </head>
 <body class="navbar-fixed sidebar-fixed" id="body">
   <div class="wrapper">
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
       <div id="sidebar" class="sidebar sidebar-with-footer">
-        <div class="app-brand">
-          <a href="national-insights.html">
-            <span class="brand-name">DepEd System</span>
-          </a>
+        <div style="padding: 24px 20px 10px;">
+          <div class="d-flex align-items-center mb-3">
+            <div style="background: rgba(255,255,255,0.2); border-radius: 8px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; margin-right: 12px;">T7</div>
+            <div style="line-height: 1.2;">
+              <div style="color: white; font-weight: 800; font-size: 14px;">Class Adviser</div>
+              <div style="color: rgba(255,255,255,0.7); font-size: 12px;">Assigned Sections</div>
+            </div>
+          </div>
+          <div style="background: rgba(255,255,255,0.2); color: white; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; border: 1px solid rgba(255,255,255,0.3); display: inline-block; width: 100%;">Teacher / Adviser</div>
         </div>
+
         <div class="sidebar-left" data-simplebar style="height: 100%;">
           <ul class="nav sidebar-inner" id="sidebar-menu">
             <li class="section-title">Dashboards</li>
-            <li><a class="sidenav-item-link" href="national-insights.html"><i class="mdi mdi-chart-line"></i><span class="nav-text">National Insights</span></a></li>
             <li><a class="sidenav-item-link" href="teacher-dashboard.html"><i class="mdi mdi-teach"></i><span class="nav-text">Teacher Dashboard</span></a></li>
             <li><a class="sidenav-item-link" href="parent-dashboard.html"><i class="mdi mdi-account-group"></i><span class="nav-text">Parent Dashboard</span></a></li>
             <li><a class="sidenav-item-link" href="early-warning.html"><i class="mdi mdi-alert-outline"></i><span class="nav-text">Early Warning Risk</span></a></li>
@@ -40,88 +80,184 @@
             <li><a class="sidenav-item-link" href="ai-tutor.html"><i class="mdi mdi-robot"></i><span class="nav-text">AI Tutor</span></a></li>
             
             <li class="section-title">Administration</li>
-            <li><a class="sidenav-item-link" href="lrn-validation.html"><i class="mdi mdi-account-search"></i><span class="nav-text">LRN Validation</span></a></li>
             <li><a class="sidenav-item-link" href="content-factory.html"><i class="mdi mdi-factory"></i><span class="nav-text">Content Factory</span></a></li>
+            <li><a class="sidenav-item-link" href="structure-detection.html"><i class="mdi mdi-file-tree"></i><span class="nav-text">Structure Detection</span></a></li>
             <li><a class="sidenav-item-link" href="human-review.html"><i class="mdi mdi-shield-check"></i><span class="nav-text">Human Review</span></a></li>
           </ul>
+        </div>
+
+        <div style="padding: 20px;">
+          <div style="background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; margin-bottom: 12px;">
+            <div style="color: white; font-weight: 800; font-size: 13px; margin-bottom: 6px;">Security Context</div>
+            <div style="color: rgba(255,255,255,0.7); font-size: 11px; line-height: 1.5;">Teacher approvals are required for high-stakes grade actions.</div>
+          </div>
+          <div style="background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px;">
+            <div style="color: white; font-weight: 800; font-size: 13px; margin-bottom: 6px;">Operational Status</div>
+            <div style="color: rgba(255,255,255,0.7); font-size: 11px; line-height: 1.5;">Notifications, sync, and policy status remain visible in every workspace.</div>
+          </div>
         </div>
       </div>
     </aside>
 
     <div class="page-wrapper">
-      <header class="main-header" id="header">
-        <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
-          <button id="sidebar-toggler" class="sidebar-toggle">
+      <header class="main-header" id="header" style="display: flex; align-items: center; justify-content: space-between; padding-right: 20px;">
+        <div class="d-flex align-items-center">
+          <div class="app-brand" style="background-color: white !important; border-right: 1px solid transparent; width: 260px; display: flex; align-items: center; padding: 0 20px; height: 72px;">
+            <div style="background: #1E3A8A; color: white; border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; margin-right: 10px;">D1</div>
+            <div style="line-height: 1.2;">
+              <div style="color: #111827; font-weight: 800; font-size: 15px;">DepEd ONE</div>
+              <div style="color: #6B7280; font-size: 11px;">Unified Learning Platform</div>
+            </div>
+          </div>
+
+          <button id="sidebar-toggler" class="sidebar-toggle" style="margin-right: 20px;">
             <span class="sr-only">Toggle navigation</span>
           </button>
-          <span class="page-title">Course Player</span>
-          <div class="navbar-right ">
-            <ul class="nav navbar-nav">
-              <li class="dropdown user-menu">
-                <button class="dropdown-toggle nav-link" data-toggle="dropdown">
-                  <img src="images/user/user-xs-01.jpg" class="user-image rounded-circle" alt="User Image" />
-                  <span class="d-none d-lg-inline-block">Admin User</span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-right">
-                  <li class="dropdown-footer">
-                    <a class="dropdown-link-item" href="login.html"> <i class="mdi mdi-logout"></i> Log Out </a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
+
+          <div style="line-height: 1.2; margin-right: 30px;">
+            <div style="font-weight: 800; color: #111827; font-size: 16px;">Linear Equations and Word Problems</div>
+            <div style="color: #6B7280; font-size: 12px;">LMS • Screen 19 / 47</div>
           </div>
-        </nav>
+
+          <div class="d-none d-lg-flex align-items-center" style="gap: 12px;">
+            <span class="badge" style="background-color: #EFF6FF; color: #2563EB; border: 1px solid #BFDBFE; padding: 6px 12px; font-size: 12px;">Teacher / Adviser</span>
+            <span class="badge" style="background-color: #F9FAFB; color: #4B5563; border: 1px solid #E5E7EB; padding: 6px 12px; font-size: 12px;">Assigned Sections</span>
+            <span class="badge" style="background-color: #F9FAFB; color: #4B5563; border: 1px solid #E5E7EB; padding: 6px 12px; font-size: 12px;">SY 2025-2026 • Q3</span>
+            <span class="badge" style="background-color: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; padding: 6px 12px; font-size: 12px;">Sync: Pending</span>
+            <span class="badge" style="background-color: #F9FAFB; color: #4B5563; border: 1px solid #E5E7EB; padding: 6px 12px; font-size: 12px;">Alerts (9)</span>
+          </div>
+        </div>
+
+        <div class="navbar-right d-flex align-items-center" style="gap: 12px;">
+          <button class="btn btn-sm" style="background: white; border: 1px solid #E5E7EB; color: #4B5563; border-radius: 20px; font-weight: 700; padding: 6px 16px;">English <i class="mdi mdi-chevron-down"></i></button>
+          <button class="btn btn-sm" style="background: white; border: 1px solid #E5E7EB; color: #4B5563; border-radius: 20px; font-weight: 700; padding: 6px 16px;">Help</button>
+          <button class="btn btn-sm" style="background: white; border: 1px solid #E5E7EB; color: #4B5563; border-radius: 20px; font-weight: 700; padding: 6px 16px;">Profile</button>
+        </div>
       </header>
       
       <div class="content-wrapper">
-        <div class="content">
+        <div class="content p-0">
+          <div style="background-color: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 12px; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+            <div style="color: #4B5563; font-size: 14px; font-weight: 500;">
+              <strong style="color: #111827;">Context:</strong> Teacher / Adviser • LMS • Scope: Assigned Sections
+            </div>
+            <div style="color: #1E3A8A; font-size: 14px; font-weight: 800;">Teacher approvals are required for high-stakes grade actions.</div>
+          </div>
 
           <div class="row">
-            <div class="col-xl-8">
-              <div class="card card-default">
-                <div class="card-header">
-                  <h2>Lesson 1: Introduction to Algebra</h2>
+            <div class="col-lg-8">
+              <div class="d-flex flex-wrap" style="gap: 10px; margin-bottom: 14px;">
+                <span class="pill pill-green">Factory-approved</span>
+                <span class="pill pill-gray">Version v1.3</span>
+                <span class="pill pill-yellow">Review cycle: 90 days</span>
+              </div>
+
+              <h1 style="color: #111827; font-size: 36px; font-weight: 800; margin-bottom: 8px;">Linear Equations and Word Problems</h1>
+              <p style="color: #4B5563; font-size: 15px; margin-bottom: 16px;">Core Grade 8 Mathematics unit aligned to DepEd competencies. Includes practice sets, quick checks, and worksheet assets.</p>
+
+              <div class="course-hero" style="margin-bottom: 14px;">
+                <div class="course-hero-inner">
+                  <div style="font-size: 12px; font-weight: 900; color: rgba(255,255,255,0.92); margin-bottom: 6px;">Course Overview</div>
+                  <div style="font-size: 12px; color: rgba(255,255,255,0.82);">Preview the real course experience before assigning sections, including score sequencing and assessment modalities.</div>
                 </div>
-                <div class="card-body">
-                  <h4>Transcript & Lesson Text</h4>
-                  <p class="text-justify" style="font-size: 1.1em; line-height: 1.6;">
-                    Algebra is a branch of mathematics dealing with symbols and the rules for manipulating those symbols. In elementary algebra, those symbols (today written as Latin and Greek letters) represent quantities without fixed values, known as variables.
-                    <br><br>
-                    Just as sentences describe relationships between specific words, in algebra, equations describe relationships between variables.
-                  </p>
-                  <hr>
-                  <div class="alert alert-info mt-4">
-                    <strong>Interactive Checkpoint:</strong> What do letters in algebra represent?
+              </div>
+
+              <div class="mini-grid" style="margin-bottom: 16px;">
+                <div class="mini-item">
+                  <div class="mini-label">Grade / Subject</div>
+                  <div class="mini-value">Grade 8 • Mathematics</div>
+                </div>
+                <div class="mini-item">
+                  <div class="mini-label">Publishing Path</div>
+                  <div class="mini-value">Book Upload → Content Factory → Human Review</div>
+                </div>
+                <div class="mini-item">
+                  <div class="mini-label">Lessons</div>
+                  <div class="mini-value">8 lessons + 4 activities + 2 assessments</div>
+                </div>
+                <div class="mini-item">
+                  <div class="mini-label">Offline Package</div>
+                  <div class="mini-value">Available (62 MB, transcript-first option)</div>
+                </div>
+              </div>
+
+              <div class="info-card">
+                <h3>Course Outline</h3>
+                <div class="outline-row">
+                  <div>
+                    <div class="outline-title">Lesson 1</div>
+                    <div class="outline-sub">Translating word statements into equations</div>
                   </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="check1" id="c1a">
-                    <label class="form-check-label" for="c1a">Fixed numbers</label>
+                  <span class="pill pill-blue">Preview</span>
+                </div>
+                <div class="outline-row">
+                  <div>
+                    <div class="outline-title">Lesson 2</div>
+                    <div class="outline-sub">Solving one-variable equations step-by-step</div>
                   </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="check1" id="c1b">
-                    <label class="form-check-label" for="c1b">Variables without fixed values</label>
+                  <span class="pill pill-gray">Locked</span>
+                </div>
+                <div class="outline-row">
+                  <div>
+                    <div class="outline-title">Lesson 3</div>
+                    <div class="outline-sub">Application to daily budgeting and quantity problems</div>
                   </div>
-                  <button class="btn btn-sm btn-primary mt-2">Check Answer</button>
+                  <span class="pill pill-gray">Locked</span>
+                </div>
+                <div class="outline-row">
+                  <div>
+                    <div class="outline-title">Lesson 4</div>
+                    <div class="outline-sub">Quiz + remediation paths by competency</div>
+                  </div>
+                  <span class="pill pill-gray">Locked</span>
                 </div>
               </div>
             </div>
-            <div class="col-xl-4">
-              <div class="card card-default">
-                <div class="card-header">
-                  <h2>Course Modules</h2>
+
+            <div class="col-lg-4">
+              <div class="info-card">
+                <h3>Teacher Actions</h3>
+                <div class="d-flex flex-wrap" style="gap: 10px;">
+                  <button class="btn btn-sm btn-pill" style="background: #1E3A8A; border: none; color: #FFFFFF;">Assign to Sections</button>
+                  <button class="btn btn-sm btn-pill" style="background: #FFFFFF; border: 1px solid #E5E7EB; color: #111827;">Preview as Learner</button>
+                  <button class="btn btn-sm btn-pill" style="background: #FFFFFF; border: 1px solid #E5E7EB; color: #111827;">Download Offline Pack</button>
+                  <button class="btn btn-sm btn-pill" style="background: #FFFFFF; border: 1px solid #E5E7EB; color: #111827;">View Version Diff</button>
                 </div>
-                <div class="card-body p-0">
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item bg-light text-primary"><i class="mdi mdi-play-circle-outline"></i> Lesson 1: Introduction to Algebra</li>
-                    <li class="list-group-item"><i class="mdi mdi-lock-outline text-muted"></i> Lesson 2: Linear Equations</li>
-                    <li class="list-group-item"><i class="mdi mdi-lock-outline text-muted"></i> Lesson 3: Quadratic Equations</li>
-                    <li class="list-group-item"><i class="mdi mdi-lock-outline text-muted"></i> Quiz 1</li>
-                  </ul>
+              </div>
+
+              <div class="info-card">
+                <h3>Assignment Scope</h3>
+                <div class="mini-item" style="margin-bottom: 12px;">
+                  <div class="mini-label">Selected Sections</div>
+                  <div class="mini-sub">Grade 8-Mabini, Grade 8-Bonifacio</div>
+                </div>
+                <div class="mini-item" style="margin-bottom: 12px;">
+                  <div class="mini-label">Release Date</div>
+                  <div class="mini-sub">Feb 22, 2026</div>
+                </div>
+                <div class="mini-item">
+                  <div class="mini-label">Completion Target</div>
+                  <div class="mini-sub">2 weeks</div>
+                </div>
+              </div>
+
+              <div class="info-card">
+                <h3>Usage Snapshot</h3>
+                <div class="mini-item" style="margin-bottom: 12px;">
+                  <div class="mini-label">Teachers using</div>
+                  <div class="mini-sub">132</div>
+                </div>
+                <div class="mini-item" style="margin-bottom: 12px;">
+                  <div class="mini-label">Learners started</div>
+                  <div class="mini-sub">4,286</div>
+                </div>
+                <div class="mini-item">
+                  <div class="mini-label">Completion rate</div>
+                  <div class="mini-sub">72%</div>
                 </div>
               </div>
             </div>
           </div>
-
         </div>
       </div>
       
