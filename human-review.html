@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DepEd - Human Review & Escalation</title>
+  <link href="https://fonts.googleapis.com/css?family=Karla:400,700|Roboto" rel="stylesheet">
+  <link href="plugins/material/css/materialdesignicons.min.css" rel="stylesheet" />
+  <link href="plugins/simplebar/simplebar.css" rel="stylesheet" />
+  <link href="plugins/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css" rel="stylesheet" />
+  <link href="css/style.css" rel="stylesheet" />
+  <link href="css/custom.css" rel="stylesheet" />
+</head>
+<body class="navbar-fixed sidebar-fixed" id="body">
+  <div class="wrapper">
+    <aside class="left-sidebar sidebar-dark" id="left-sidebar">
+      <div id="sidebar" class="sidebar sidebar-with-footer">
+        <div class="app-brand">
+          <a href="national-insights.html">
+            <span class="brand-name">DepEd System</span>
+          </a>
+        </div>
+        <div class="sidebar-left" data-simplebar style="height: 100%;">
+          <ul class="nav sidebar-inner" id="sidebar-menu">
+            <li class="section-title">Dashboards</li>
+            <li><a class="sidenav-item-link" href="national-insights.html"><i class="mdi mdi-chart-line"></i><span class="nav-text">National Insights</span></a></li>
+            <li><a class="sidenav-item-link" href="teacher-dashboard.html"><i class="mdi mdi-teach"></i><span class="nav-text">Teacher Dashboard</span></a></li>
+            <li><a class="sidenav-item-link" href="parent-dashboard.html"><i class="mdi mdi-account-group"></i><span class="nav-text">Parent Dashboard</span></a></li>
+            <li><a class="sidenav-item-link" href="early-warning.html"><i class="mdi mdi-alert-outline"></i><span class="nav-text">Early Warning Risk</span></a></li>
+            
+            <li class="section-title">Class Management</li>
+            <li><a class="sidenav-item-link" href="attendance.html"><i class="mdi mdi-calendar-check"></i><span class="nav-text">Attendance</span></a></li>
+            <li><a class="sidenav-item-link" href="gradebook.html"><i class="mdi mdi-book-open-page-variant"></i><span class="nav-text">Gradebook</span></a></li>
+            <li><a class="sidenav-item-link" href="online-class.html"><i class="mdi mdi-video"></i><span class="nav-text">Online Class</span></a></li>
+            
+            <li class="section-title">Learning Materials</li>
+            <li><a class="sidenav-item-link" href="lms-catalog.html"><i class="mdi mdi-library"></i><span class="nav-text">LMS Catalog</span></a></li>
+            <li><a class="sidenav-item-link" href="course-player.html"><i class="mdi mdi-play-circle"></i><span class="nav-text">Course Player</span></a></li>
+            <li><a class="sidenav-item-link" href="ai-tutor.html"><i class="mdi mdi-robot"></i><span class="nav-text">AI Tutor</span></a></li>
+            
+            <li class="section-title">Administration</li>
+            <li><a class="sidenav-item-link" href="lrn-validation.html"><i class="mdi mdi-account-search"></i><span class="nav-text">LRN Validation</span></a></li>
+            <li><a class="sidenav-item-link" href="content-factory.html"><i class="mdi mdi-factory"></i><span class="nav-text">Content Factory</span></a></li>
+            <li><a class="sidenav-item-link" href="human-review.html"><i class="mdi mdi-shield-check"></i><span class="nav-text">Human Review</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+
+    <div class="page-wrapper">
+      <header class="main-header" id="header">
+        <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
+          <button id="sidebar-toggler" class="sidebar-toggle">
+            <span class="sr-only">Toggle navigation</span>
+          </button>
+          <span class="page-title">Human Review & Escalation</span>
+          <div class="navbar-right ">
+            <ul class="nav navbar-nav">
+              <li class="dropdown user-menu">
+                <button class="dropdown-toggle nav-link" data-toggle="dropdown">
+                  <img src="images/user/user-xs-01.jpg" class="user-image rounded-circle" alt="User Image" />
+                  <span class="d-none d-lg-inline-block">Admin User</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li class="dropdown-footer">
+                    <a class="dropdown-link-item" href="login.html"> <i class="mdi mdi-logout"></i> Log Out </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+      
+      <div class="content-wrapper">
+        <div class="content">
+
+          <div class="row">
+            <div class="col-12">
+              <div class="card card-default">
+                <div class="card-header">
+                  <h2>Moderation Queue</h2>
+                </div>
+                <div class="card-body">
+                  <table class="table table-hover table-product" style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>Material Title</th>
+                        <th>AI Proposed Subject/Grade</th>
+                        <th>AI Confidence</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Module 1: Basic Calculus</td>
+                        <td>Math 11 - STEM</td>
+                        <td><span class="badge badge-success">92%</span></td>
+                        <td><span class="badge badge-warning">Pending</span></td>
+                        <td>
+                          <button class="btn btn-sm btn-success">Approve</button>
+                          <button class="btn btn-sm btn-danger">Reject</button>
+                          <button class="btn btn-sm btn-secondary">Escalate</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Interactive Reading - Noli Me Tangere</td>
+                        <td>Filipino 10</td>
+                        <td><span class="badge badge-warning">78%</span></td>
+                        <td><span class="badge badge-warning">Pending</span></td>
+                        <td>
+                          <button class="btn btn-sm btn-success">Approve</button>
+                          <button class="btn btn-sm btn-danger">Reject</button>
+                          <button class="btn btn-sm btn-secondary">Escalate</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      
+      <footer class="footer mt-auto">
+        <div class="copyright bg-white">
+          <p>&copy; <span id="copy-year"></span> DepEd Integrated Proposal System Prototype</p>
+        </div>
+        <script>document.getElementById("copy-year").innerHTML = new Date().getFullYear();</script>
+      </footer>
+    </div>
+  </div>
+  
+  <script src="plugins/jquery/jquery.min.js"></script>
+  <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="plugins/simplebar/simplebar.min.js"></script>
+  <script src="js/mono.js"></script>
+</body>
+</html>
