@@ -5,26 +5,65 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>DepEd - Early Warning Risk Dashboard</title>
-  <link href="https://fonts.googleapis.com/css?family=Karla:400,700|Roboto" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="plugins/material/css/materialdesignicons.min.css" rel="stylesheet" />
   <link href="plugins/simplebar/simplebar.css" rel="stylesheet" />
   <link href="plugins/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css" rel="stylesheet" />
   <link href="css/style.css" rel="stylesheet" />
   <link href="css/custom.css" rel="stylesheet" />
+  <style>
+    body { background-color: #FFFFFF; font-family: 'Inter', sans-serif; }
+    .sidebar-dark { background: linear-gradient(180deg, #1E3A8A 0%, #172a6b 100%) !important; display: flex; flex-direction: column; }
+    .sidebar .nav > li > a { padding: 12px 20px !important; margin: 4px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; }
+    .sidebar .nav > li.active > a { background-color: #2563EB !important; }
+    .sidebar-inner { flex-grow: 1; }
+
+    .main-header { box-shadow: none !important; border-bottom: 1px solid #E5E7EB; height: 72px; padding: 0; }
+    .content-wrapper { padding: 24px; background-color: #FFFFFF; }
+
+    .info-card { background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+    .info-card h3 { color: #111827; font-size: 16px; font-weight: 800; margin-bottom: 16px; }
+
+    .kpi-card { background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 16px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); height: 100%; }
+    .kpi-value { font-size: 20px; font-weight: 800; color: #111827; margin-bottom: 4px; }
+    .kpi-label { font-size: 12px; font-weight: 600; color: #6B7280; }
+
+    .pill { display: inline-block; padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; border: 1px solid #E5E7EB; background: #F9FAFB; color: #4B5563; }
+    .pill-blue { background: #EFF6FF; color: #2563EB; border-color: #BFDBFE; }
+    .pill-yellow { background: #FEF3C7; color: #92400E; border-color: #FDE68A; }
+    .pill-green { background: #DCFCE7; color: #166534; border-color: #BBF7D0; }
+    .pill-gray { background: #F9FAFB; color: #4B5563; border-color: #E5E7EB; }
+    .pill-red { background: #FEE2E2; color: #991B1B; border-color: #FECACA; }
+
+    .table-modern { width: 100%; border-collapse: separate; border-spacing: 0; }
+    .table-modern thead th { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: #6B7280; font-weight: 800; padding: 12px 12px; border-bottom: 1px solid #E5E7EB; }
+    .table-modern tbody td { font-size: 13px; color: #111827; padding: 12px 12px; border-bottom: 1px solid #F3F4F6; vertical-align: middle; }
+    .table-modern tbody tr:last-child td { border-bottom: none; }
+
+    .metric-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed #E5E7EB; }
+    .metric-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .metric-label { color: #4B5563; font-size: 12px; font-weight: 700; }
+    .metric-value { color: #111827; font-size: 12px; font-weight: 800; }
+  </style>
 </head>
 <body class="navbar-fixed sidebar-fixed" id="body">
   <div class="wrapper">
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
       <div id="sidebar" class="sidebar sidebar-with-footer">
-        <div class="app-brand">
-          <a href="national-insights.html">
-            <span class="brand-name">DepEd System</span>
-          </a>
+        <div style="padding: 24px 20px 10px;">
+          <div class="d-flex align-items-center mb-3">
+            <div style="background: rgba(255,255,255,0.2); border-radius: 8px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; margin-right: 12px;">GC</div>
+            <div style="line-height: 1.2;">
+              <div style="color: white; font-weight: 800; font-size: 14px;">Student Support Desk</div>
+              <div style="color: rgba(255,255,255,0.7); font-size: 12px;">Intervention Cases</div>
+            </div>
+          </div>
+          <div style="background: rgba(255,255,255,0.2); color: white; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; border: 1px solid rgba(255,255,255,0.3); display: inline-block; width: 100%;">Guidance Counselor</div>
         </div>
+
         <div class="sidebar-left" data-simplebar style="height: 100%;">
           <ul class="nav sidebar-inner" id="sidebar-menu">
             <li class="section-title">Dashboards</li>
-            <li><a class="sidenav-item-link" href="national-insights.html"><i class="mdi mdi-chart-line"></i><span class="nav-text">National Insights</span></a></li>
             <li><a class="sidenav-item-link" href="teacher-dashboard.html"><i class="mdi mdi-teach"></i><span class="nav-text">Teacher Dashboard</span></a></li>
             <li><a class="sidenav-item-link" href="parent-dashboard.html"><i class="mdi mdi-account-group"></i><span class="nav-text">Parent Dashboard</span></a></li>
             <li><a class="sidenav-item-link" href="early-warning.html"><i class="mdi mdi-alert-outline"></i><span class="nav-text">Early Warning Risk</span></a></li>
@@ -40,104 +79,205 @@
             <li><a class="sidenav-item-link" href="ai-tutor.html"><i class="mdi mdi-robot"></i><span class="nav-text">AI Tutor</span></a></li>
             
             <li class="section-title">Administration</li>
-            <li><a class="sidenav-item-link" href="lrn-validation.html"><i class="mdi mdi-account-search"></i><span class="nav-text">LRN Validation</span></a></li>
             <li><a class="sidenav-item-link" href="content-factory.html"><i class="mdi mdi-factory"></i><span class="nav-text">Content Factory</span></a></li>
+            <li><a class="sidenav-item-link" href="structure-detection.html"><i class="mdi mdi-file-tree"></i><span class="nav-text">Structure Detection</span></a></li>
             <li><a class="sidenav-item-link" href="human-review.html"><i class="mdi mdi-shield-check"></i><span class="nav-text">Human Review</span></a></li>
           </ul>
+        </div>
+
+        <div style="padding: 20px;">
+          <div style="background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; margin-bottom: 12px;">
+            <div style="color: white; font-weight: 800; font-size: 13px; margin-bottom: 6px;">Security Context</div>
+            <div style="color: rgba(255,255,255,0.7); font-size: 11px; line-height: 1.5;">Interventions require human review and policy-compliant notifications.</div>
+          </div>
+          <div style="background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px;">
+            <div style="color: white; font-weight: 800; font-size: 13px; margin-bottom: 6px;">Operational Status</div>
+            <div style="color: rgba(255,255,255,0.7); font-size: 11px; line-height: 1.5;">Notifications, sync, and policy status remain visible in every workspace.</div>
+          </div>
         </div>
       </div>
     </aside>
 
     <div class="page-wrapper">
-      <header class="main-header" id="header">
-        <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
-          <button id="sidebar-toggler" class="sidebar-toggle">
+      <header class="main-header" id="header" style="display: flex; align-items: center; justify-content: space-between; padding-right: 20px;">
+        <div class="d-flex align-items-center">
+          <div class="app-brand" style="background-color: white !important; border-right: 1px solid transparent; width: 260px; display: flex; align-items: center; padding: 0 20px; height: 72px;">
+            <div style="background: #1E3A8A; color: white; border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; margin-right: 10px;">D1</div>
+            <div style="line-height: 1.2;">
+              <div style="color: #111827; font-weight: 800; font-size: 15px;">DepEd ONE</div>
+              <div style="color: #6B7280; font-size: 11px;">Unified Learning Platform</div>
+            </div>
+          </div>
+
+          <button id="sidebar-toggler" class="sidebar-toggle" style="margin-right: 20px;">
             <span class="sr-only">Toggle navigation</span>
           </button>
-          <span class="page-title">Early Warning Risk Dashboard</span>
-          <div class="navbar-right ">
-            <ul class="nav navbar-nav">
-              <li class="dropdown user-menu">
-                <button class="dropdown-toggle nav-link" data-toggle="dropdown">
-                  <img src="images/user/user-xs-01.jpg" class="user-image rounded-circle" alt="User Image" />
-                  <span class="d-none d-lg-inline-block">Admin User</span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-right">
-                  <li class="dropdown-footer">
-                    <a class="dropdown-link-item" href="login.html"> <i class="mdi mdi-logout"></i> Log Out </a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
+
+          <div style="line-height: 1.2; margin-right: 30px;">
+            <div style="font-weight: 800; color: #111827; font-size: 16px;">Early Warning Risk Dashboard</div>
+            <div style="color: #6B7280; font-size: 12px;">Early Warning System • Screen 35 / 47</div>
           </div>
-        </nav>
+
+          <div class="d-none d-lg-flex align-items-center" style="gap: 12px;">
+            <span class="badge" style="background-color: #EFF6FF; color: #2563EB; border: 1px solid #BFDBFE; padding: 6px 12px; font-size: 12px;">Guidance Counselor</span>
+            <span class="badge" style="background-color: #F9FAFB; color: #4B5563; border: 1px solid #E5E7EB; padding: 6px 12px; font-size: 12px;">Intervention Cases</span>
+            <span class="badge" style="background-color: #F9FAFB; color: #4B5563; border: 1px solid #E5E7EB; padding: 6px 12px; font-size: 12px;">SY 2025-2026 • Q3</span>
+            <span class="badge" style="background-color: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; padding: 6px 12px; font-size: 12px;">Sync: Pending</span>
+            <span class="badge" style="background-color: #F9FAFB; color: #4B5563; border: 1px solid #E5E7EB; padding: 6px 12px; font-size: 12px;">Alerts (8)</span>
+          </div>
+        </div>
+
+        <div class="navbar-right d-flex align-items-center" style="gap: 12px;">
+          <button class="btn btn-sm" style="background: white; border: 1px solid #E5E7EB; color: #4B5563; border-radius: 20px; font-weight: 700; padding: 6px 16px;">English <i class="mdi mdi-chevron-down"></i></button>
+          <button class="btn btn-sm" style="background: white; border: 1px solid #E5E7EB; color: #4B5563; border-radius: 20px; font-weight: 700; padding: 6px 16px;">Help</button>
+          <button class="btn btn-sm" style="background: white; border: 1px solid #E5E7EB; color: #4B5563; border-radius: 20px; font-weight: 700; padding: 6px 16px;">Profile</button>
+        </div>
       </header>
       
       <div class="content-wrapper">
-        <div class="content">
+        <div class="content p-0">
+          <div style="background-color: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 12px; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+            <div style="color: #4B5563; font-size: 14px; font-weight: 500;">
+              <strong style="color: #111827;">Context:</strong> Guidance Counselor • Early Warning System • Scope: Intervention Cases
+            </div>
+            <div style="color: #1E3A8A; font-size: 14px; font-weight: 800;">Interventions require human review and policy-compliant notifications.</div>
+          </div>
 
           <div class="row">
-            <div class="col-12">
-              <div class="card card-default">
-                <div class="card-header">
-                  <h2>Counselor Early Warning System</h2>
+            <div class="col-lg-8">
+              <div class="d-flex justify-content-between align-items-start" style="gap: 16px;">
+                <div>
+                  <h1 style="color: #111827; font-size: 36px; font-weight: 800; margin-bottom: 8px;">Early Warning Risk Dashboard</h1>
+                  <p style="color: #4B5563; font-size: 15px; margin-bottom: 18px;">ABC model risk view with explainable signals, severity routing, and intervention SLA tracking.</p>
                 </div>
-                <div class="card-body">
-                  <div class="alert alert-danger" role="alert">
-                    <strong>Critical:</strong> 5 students require immediate counselor intervention.
+                <div class="d-flex flex-wrap" style="gap: 10px; justify-content: flex-end;">
+                  <span class="pill pill-blue">School 0472</span>
+                  <span class="pill pill-gray">Grade 8</span>
+                  <span class="pill pill-gray">Data freshness: 2h</span>
+                </div>
+              </div>
+
+              <div class="row" style="margin-bottom: 16px;">
+                <div class="col-md-3 col-6 mb-3">
+                  <div class="kpi-card">
+                    <div class="kpi-value">42</div>
+                    <div class="kpi-label">Active risk cases</div>
                   </div>
-                  
-                  <table class="table table-striped mt-4">
+                </div>
+                <div class="col-md-3 col-6 mb-3">
+                  <div class="kpi-card">
+                    <div class="kpi-value">11</div>
+                    <div class="kpi-label">High severity cases</div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-6 mb-3">
+                  <div class="kpi-card">
+                    <div class="kpi-value">79%</div>
+                    <div class="kpi-label">Interventions within SLA</div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-6 mb-3">
+                  <div class="kpi-card">
+                    <div class="kpi-value">6</div>
+                    <div class="kpi-label">Escalation pending</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="info-card">
+                <h3>At-Risk Learner Queue</h3>
+                <div style="overflow-x: auto;">
+                  <table class="table-modern">
                     <thead>
                       <tr>
-                        <th>Student Name</th>
-                        <th>Grade Level</th>
-                        <th>Risk Factors</th>
-                        <th>Calculated Risk Score</th>
-                        <th>Action</th>
+                        <th style="min-width: 160px;">Learner</th>
+                        <th>Attendance</th>
+                        <th>Behavior</th>
+                        <th>Coursework</th>
+                        <th>Severity</th>
+                        <th>Status</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td>Miguel Santos</td>
-                        <td>Grade 8</td>
-                        <td>Chronic Absenteeism (12 days), Failing 3 subjects</td>
                         <td>
-                          <div class="progress mb-2" style="height: 20px;">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: 95%;" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">95% (Critical)</div>
-                          </div>
+                          <div style="font-weight: 800; color: #111827;">Juan Dela Cruz</div>
+                          <div style="font-size: 12px; color: #6B7280;">Grade 8 - Mabini</div>
                         </td>
-                        <td><button class="btn btn-sm btn-primary">Schedule Meeting</button></td>
+                        <td>4 absences / 10 days</td>
+                        <td>No incidents</td>
+                        <td>Declining quiz trend</td>
+                        <td><span class="pill pill-red">High</span></td>
+                        <td><span class="pill pill-yellow">Intervention overdue</span></td>
                       </tr>
                       <tr>
-                        <td>Anna Reyes</td>
-                        <td>Grade 10</td>
-                        <td>Sudden drop in grades, Missed last 2 assignments</td>
                         <td>
-                          <div class="progress mb-2" style="height: 20px;">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">65% (Moderate)</div>
-                          </div>
+                          <div style="font-weight: 800; color: #111827;">Paolo Mendoza</div>
+                          <div style="font-size: 12px; color: #6B7280;">Grade 8 - Bonifacio</div>
                         </td>
-                        <td><button class="btn btn-sm btn-primary">Schedule Meeting</button></td>
+                        <td>2 absences / 10 days</td>
+                        <td>2 recent incidents</td>
+                        <td>Failing in Math</td>
+                        <td><span class="pill pill-yellow">Medium</span></td>
+                        <td><span class="pill pill-blue">Plan in progress</span></td>
                       </tr>
                       <tr>
-                        <td>Pedro Cruz</td>
-                        <td>Grade 7</td>
-                        <td>Multiple disciplinary reports</td>
                         <td>
-                          <div class="progress mb-2" style="height: 20px;">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50% (Elevated)</div>
-                          </div>
+                          <div style="font-weight: 800; color: #111827;">Leah Navarro</div>
+                          <div style="font-size: 12px; color: #6B7280;">Grade 8 - Luna</div>
                         </td>
-                        <td><button class="btn btn-sm btn-primary">Schedule Meeting</button></td>
+                        <td>1 absence / 10 days</td>
+                        <td>No incidents</td>
+                        <td>Low assignment completion</td>
+                        <td><span class="pill pill-gray">Low</span></td>
+                        <td><span class="pill pill-gray">Monitoring</span></td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
               </div>
             </div>
-          </div>
 
+            <div class="col-lg-4">
+              <div class="info-card">
+                <h3>Rule and Alert Health</h3>
+                <div class="metric-row">
+                  <span class="metric-label">ABC model version</span>
+                  <span class="metric-value">v2.4 (policy approved)</span>
+                </div>
+                <div class="metric-row">
+                  <span class="metric-label">Alerts generated today</span>
+                  <span class="metric-value">18</span>
+                </div>
+                <div class="metric-row">
+                  <span class="metric-label">False-positive review queue</span>
+                  <span class="metric-value">5 cases</span>
+                </div>
+                <div class="metric-row">
+                  <span class="metric-label">Parent notification delivery</span>
+                  <span class="metric-value">96% delivered</span>
+                </div>
+                <div class="metric-row">
+                  <span class="metric-label">Human review requirement</span>
+                  <span class="metric-value"><span class="pill pill-green">Enabled</span></span>
+                </div>
+              </div>
+
+              <div class="info-card">
+                <h3>Next Best Actions</h3>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  <div style="padding: 12px; border: 1px solid #E5E7EB; border-radius: 12px; background: #FFFFFF;">
+                    <div style="font-size: 13px; font-weight: 800; color: #111827; margin-bottom: 4px;">Route high severity cases</div>
+                    <div style="font-size: 12px; color: #6B7280;">Assign counselor owner and create an intervention plan draft for all “High” cases.</div>
+                  </div>
+                  <div style="padding: 12px; border: 1px solid #E5E7EB; border-radius: 12px; background: #FFFFFF;">
+                    <div style="font-size: 13px; font-weight: 800; color: #111827; margin-bottom: 4px;">Verify attendance data integrity</div>
+                    <div style="font-size: 12px; color: #6B7280;">Confirm offline sync conflicts before escalating absences to parent notifications.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       

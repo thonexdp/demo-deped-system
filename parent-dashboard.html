@@ -5,26 +5,60 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>DepEd - Parent Dashboard</title>
-  <link href="https://fonts.googleapis.com/css?family=Karla:400,700|Roboto" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="plugins/material/css/materialdesignicons.min.css" rel="stylesheet" />
   <link href="plugins/simplebar/simplebar.css" rel="stylesheet" />
   <link href="plugins/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css" rel="stylesheet" />
   <link href="css/style.css" rel="stylesheet" />
   <link href="css/custom.css" rel="stylesheet" />
+  <style>
+    body { background-color: #FFFFFF; font-family: 'Inter', sans-serif; }
+    .sidebar-dark { background: linear-gradient(180deg, #1E3A8A 0%, #172a6b 100%) !important; display: flex; flex-direction: column; }
+    .sidebar .nav > li > a { padding: 12px 20px !important; margin: 4px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; }
+    .sidebar .nav > li.active > a { background-color: #2563EB !important; }
+    .sidebar-inner { flex-grow: 1; }
+
+    .main-header { box-shadow: none !important; border-bottom: 1px solid #E5E7EB; height: 72px; padding: 0; }
+    .content-wrapper { padding: 24px; background-color: #FFFFFF; }
+
+    .info-card { background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+    .info-card h3 { color: #111827; font-size: 16px; font-weight: 800; margin-bottom: 16px; }
+
+    .pill { display: inline-block; padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; border: 1px solid #E5E7EB; background: #F9FAFB; color: #4B5563; }
+    .pill-blue { background: #EFF6FF; color: #2563EB; border-color: #BFDBFE; }
+    .pill-yellow { background: #FEF3C7; color: #92400E; border-color: #FDE68A; }
+    .pill-green { background: #DCFCE7; color: #166534; border-color: #BBF7D0; }
+    .pill-gray { background: #F9FAFB; color: #4B5563; border-color: #E5E7EB; }
+
+    .kpi-card { background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 16px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+    .kpi-value { font-size: 20px; font-weight: 800; color: #111827; margin-bottom: 4px; }
+    .kpi-label { font-size: 12px; font-weight: 600; color: #6B7280; }
+
+    .list-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; padding: 12px 0; border-bottom: 1px dashed #E5E7EB; }
+    .list-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .list-title { font-size: 13px; font-weight: 800; color: #111827; margin-bottom: 4px; }
+    .list-sub { font-size: 12px; color: #6B7280; line-height: 1.4; }
+    .btn-pill { border-radius: 10px; font-weight: 800; font-size: 12px; padding: 8px 12px; }
+  </style>
 </head>
 <body class="navbar-fixed sidebar-fixed" id="body">
   <div class="wrapper">
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
       <div id="sidebar" class="sidebar sidebar-with-footer">
-        <div class="app-brand">
-          <a href="national-insights.html">
-            <span class="brand-name">DepEd System</span>
-          </a>
+        <div style="padding: 24px 20px 10px;">
+          <div class="d-flex align-items-center mb-3">
+            <div style="background: rgba(255,255,255,0.2); border-radius: 8px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; margin-right: 12px;">P7</div>
+            <div style="line-height: 1.2;">
+              <div style="color: white; font-weight: 800; font-size: 14px;">Guardian Account</div>
+              <div style="color: rgba(255,255,255,0.7); font-size: 12px;">Linked Learners Only</div>
+            </div>
+          </div>
+          <div style="background: rgba(255,255,255,0.2); color: white; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; border: 1px solid rgba(255,255,255,0.3); display: inline-block; width: 100%;">Parent / Guardian</div>
         </div>
+
         <div class="sidebar-left" data-simplebar style="height: 100%;">
           <ul class="nav sidebar-inner" id="sidebar-menu">
             <li class="section-title">Dashboards</li>
-            <li><a class="sidenav-item-link" href="national-insights.html"><i class="mdi mdi-chart-line"></i><span class="nav-text">National Insights</span></a></li>
             <li><a class="sidenav-item-link" href="teacher-dashboard.html"><i class="mdi mdi-teach"></i><span class="nav-text">Teacher Dashboard</span></a></li>
             <li><a class="sidenav-item-link" href="parent-dashboard.html"><i class="mdi mdi-account-group"></i><span class="nav-text">Parent Dashboard</span></a></li>
             <li><a class="sidenav-item-link" href="early-warning.html"><i class="mdi mdi-alert-outline"></i><span class="nav-text">Early Warning Risk</span></a></li>
@@ -40,83 +74,195 @@
             <li><a class="sidenav-item-link" href="ai-tutor.html"><i class="mdi mdi-robot"></i><span class="nav-text">AI Tutor</span></a></li>
             
             <li class="section-title">Administration</li>
-            <li><a class="sidenav-item-link" href="lrn-validation.html"><i class="mdi mdi-account-search"></i><span class="nav-text">LRN Validation</span></a></li>
             <li><a class="sidenav-item-link" href="content-factory.html"><i class="mdi mdi-factory"></i><span class="nav-text">Content Factory</span></a></li>
+            <li><a class="sidenav-item-link" href="structure-detection.html"><i class="mdi mdi-file-tree"></i><span class="nav-text">Structure Detection</span></a></li>
             <li><a class="sidenav-item-link" href="human-review.html"><i class="mdi mdi-shield-check"></i><span class="nav-text">Human Review</span></a></li>
           </ul>
+        </div>
+
+        <div style="padding: 20px;">
+          <div style="background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; margin-bottom: 12px;">
+            <div style="color: white; font-weight: 800; font-size: 13px; margin-bottom: 6px;">Security Context</div>
+            <div style="color: rgba(255,255,255,0.7); font-size: 11px; line-height: 1.5;">Guardian-student linkage and consent policies are active.</div>
+          </div>
+          <div style="background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px;">
+            <div style="color: white; font-weight: 800; font-size: 13px; margin-bottom: 6px;">Operational Status</div>
+            <div style="color: rgba(255,255,255,0.7); font-size: 11px; line-height: 1.5;">Notifications, sync, and policy status remain visible in every workspace.</div>
+          </div>
         </div>
       </div>
     </aside>
 
     <div class="page-wrapper">
-      <header class="main-header" id="header">
-        <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
-          <button id="sidebar-toggler" class="sidebar-toggle">
+      <header class="main-header" id="header" style="display: flex; align-items: center; justify-content: space-between; padding-right: 20px;">
+        <div class="d-flex align-items-center">
+          <div class="app-brand" style="background-color: white !important; border-right: 1px solid transparent; width: 260px; display: flex; align-items: center; padding: 0 20px; height: 72px;">
+            <div style="background: #1E3A8A; color: white; border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; margin-right: 10px;">D1</div>
+            <div style="line-height: 1.2;">
+              <div style="color: #111827; font-weight: 800; font-size: 15px;">DepEd ONE</div>
+              <div style="color: #6B7280; font-size: 11px;">Unified Learning Platform</div>
+            </div>
+          </div>
+
+          <button id="sidebar-toggler" class="sidebar-toggle" style="margin-right: 20px;">
             <span class="sr-only">Toggle navigation</span>
           </button>
-          <span class="page-title">Parent Dashboard</span>
-          <div class="navbar-right ">
-            <ul class="nav navbar-nav">
-              <li class="dropdown user-menu">
-                <button class="dropdown-toggle nav-link" data-toggle="dropdown">
-                  <img src="images/user/user-xs-01.jpg" class="user-image rounded-circle" alt="User Image" />
-                  <span class="d-none d-lg-inline-block">Admin User</span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-right">
-                  <li class="dropdown-footer">
-                    <a class="dropdown-link-item" href="login.html"> <i class="mdi mdi-logout"></i> Log Out </a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
+
+          <div style="line-height: 1.2; margin-right: 30px;">
+            <div style="font-weight: 800; color: #111827; font-size: 16px;">Parent Dashboard</div>
+            <div style="color: #6B7280; font-size: 12px;">Parent Experience • Screen 39 / 47</div>
           </div>
-        </nav>
+
+          <div class="d-none d-lg-flex align-items-center" style="gap: 12px;">
+            <span class="badge" style="background-color: #EFF6FF; color: #2563EB; border: 1px solid #BFDBFE; padding: 6px 12px; font-size: 12px;">Parent / Guardian</span>
+            <span class="badge" style="background-color: #F9FAFB; color: #4B5563; border: 1px solid #E5E7EB; padding: 6px 12px; font-size: 12px;">Linked Learners Only</span>
+            <span class="badge" style="background-color: #F9FAFB; color: #4B5563; border: 1px solid #E5E7EB; padding: 6px 12px; font-size: 12px;">SY 2025-2026 • Q3</span>
+            <span class="badge" style="background-color: #DCFCE7; color: #166534; border: 1px solid #BBF7D0; padding: 6px 12px; font-size: 12px;">Sync: Synced</span>
+            <span class="badge" style="background-color: #F9FAFB; color: #4B5563; border: 1px solid #E5E7EB; padding: 6px 12px; font-size: 12px;">Alerts (5)</span>
+          </div>
+        </div>
+
+        <div class="navbar-right d-flex align-items-center" style="gap: 12px;">
+          <button class="btn btn-sm" style="background: white; border: 1px solid #E5E7EB; color: #4B5563; border-radius: 20px; font-weight: 700; padding: 6px 16px;">English <i class="mdi mdi-chevron-down"></i></button>
+          <button class="btn btn-sm" style="background: white; border: 1px solid #E5E7EB; color: #4B5563; border-radius: 20px; font-weight: 700; padding: 6px 16px;">Help</button>
+          <button class="btn btn-sm" style="background: white; border: 1px solid #E5E7EB; color: #4B5563; border-radius: 20px; font-weight: 700; padding: 6px 16px;">Profile</button>
+        </div>
       </header>
       
       <div class="content-wrapper">
-        <div class="content">
+        <div class="content p-0">
+          <div style="background-color: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 12px; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+            <div style="color: #4B5563; font-size: 14px; font-weight: 500;">
+              <strong style="color: #111827;">Context:</strong> Parent / Guardian • Parent Experience • Scope: Linked Learners Only
+            </div>
+            <div style="color: #1E3A8A; font-size: 14px; font-weight: 800;">Guardian-student linkage and consent policies are active.</div>
+          </div>
 
-          <div class="row justify-content-center">
-            <div class="col-xl-6 col-lg-8">
-              <!-- Profile Card -->
-              <div class="card card-default">
-                <div class="card-body text-center">
-                  <h3 class="mb-1">Student: Maria Clara</h3>
-                  <p class="text-muted">Grade 10 - Rizal | LRN: 101234567891</p>
+          <div class="row">
+            <div class="col-lg-3">
+              <div class="info-card" style="padding: 16px;">
+                <div style="font-size: 12px; font-weight: 800; color: #6B7280; margin-bottom: 6px;">Guardian Account</div>
+                <div style="font-size: 14px; font-weight: 800; color: #111827; margin-bottom: 2px;">Maria Dela Cruz</div>
+                <div style="font-size: 12px; color: #6B7280; margin-bottom: 12px;">Division NCR-Q • School 0472</div>
+                <div class="d-flex flex-wrap" style="gap: 8px;">
+                  <span class="pill pill-blue">Guardian-Link Verified</span>
                 </div>
               </div>
 
-              <!-- Alerts -->
-              <h4 class="mt-4 mb-3">Real-time Alerts</h4>
-              <div class="alert alert-danger" role="alert">
-                <i class="mdi mdi-alert-circle mr-1"></i> <strong>Attendance Alert:</strong> Maria was marked absent today (Oct 15).
+              <div class="info-card" style="padding: 12px;">
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                  <button class="btn btn-sm btn-pill" style="text-align: left; background: #EFF6FF; border: 1px solid #BFDBFE; color: #2563EB;">Dashboard</button>
+                  <button class="btn btn-sm btn-pill" style="text-align: left; background: #FFFFFF; border: 1px solid #E5E7EB; color: #4B5563;">Messages</button>
+                  <button class="btn btn-sm btn-pill" style="text-align: left; background: #FFFFFF; border: 1px solid #E5E7EB; color: #4B5563;">Critical Alerts</button>
+                  <button class="btn btn-sm btn-pill" style="text-align: left; background: #FFFFFF; border: 1px solid #E5E7EB; color: #4B5563;">Consent Controls</button>
+                  <button class="btn btn-sm btn-pill" style="text-align: left; background: #FFFFFF; border: 1px solid #E5E7EB; color: #4B5563;">Language & Accessibility</button>
+                </div>
               </div>
-              <div class="alert alert-warning" role="alert">
-                <i class="mdi mdi-file-document mr-1"></i> <strong>Action Required:</strong> Please sign the Q2 Field Trip Consent Form.
-                <br><button class="btn btn-sm btn-warning mt-2">Sign Form Now</button>
-              </div>
-              <div class="alert alert-success" role="alert">
-                <i class="mdi mdi-check-circle mr-1"></i> <strong>Academic Update:</strong> Maria scored 95/100 on her recent Math Project!
-              </div>
+            </div>
 
-              <!-- Summary Stats -->
-              <div class="row mt-4">
-                <div class="col-6">
-                  <div class="card bg-primary text-white text-center p-3">
-                    <h3>92%</h3>
-                    <p class="mb-0">Attendance Rate</p>
+            <div class="col-lg-6">
+              <h1 style="color: #111827; font-size: 36px; font-weight: 800; margin-bottom: 8px;">Parent Dashboard</h1>
+              <p style="color: #4B5563; font-size: 15px; margin-bottom: 18px;">Track attendance, learning progress, and intervention updates for linked learners with actionable notifications.</p>
+
+              <div class="row" style="margin-bottom: 16px;">
+                <div class="col-md-3 col-6 mb-3">
+                  <div class="kpi-card">
+                    <div class="kpi-value">2</div>
+                    <div class="kpi-label">Linked learners</div>
                   </div>
                 </div>
-                <div class="col-6">
-                  <div class="card bg-success text-white text-center p-3">
-                    <h3>88.5</h3>
-                    <p class="mb-0">Current GPA</p>
+                <div class="col-md-3 col-6 mb-3">
+                  <div class="kpi-card">
+                    <div class="kpi-value">95%</div>
+                    <div class="kpi-label">Attendance this week</div>
                   </div>
+                </div>
+                <div class="col-md-3 col-6 mb-3">
+                  <div class="kpi-card">
+                    <div class="kpi-value">3</div>
+                    <div class="kpi-label">Unread school messages</div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-6 mb-3">
+                  <div class="kpi-card">
+                    <div class="kpi-value">1</div>
+                    <div class="kpi-label">Critical alert to acknowledge</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="info-card">
+                <h3>Linked Learner Snapshot</h3>
+                <div class="list-row">
+                  <div>
+                    <div class="list-title">Juan Dela Cruz • Grade 8-Mabini</div>
+                    <div class="list-sub">Attendance trend: 1 absence this week.</div>
+                  </div>
+                  <span class="pill pill-yellow">Needs follow-up</span>
+                </div>
+                <div class="list-row">
+                  <div>
+                    <div class="list-title">Ana Dela Cruz • Grade 5-Rizal</div>
+                    <div class="list-sub">All assignments on time; no active intervention case.</div>
+                  </div>
+                  <span class="pill pill-green">On track</span>
+                </div>
+              </div>
+
+              <div class="info-card">
+                <h3>Latest School Communications</h3>
+                <div class="list-row">
+                  <div>
+                    <div class="list-title">Class Adviser Message</div>
+                    <div class="list-sub">Quarter 3 grading schedule reminder.</div>
+                  </div>
+                  <span class="pill pill-gray">Today</span>
+                </div>
+                <div class="list-row">
+                  <div>
+                    <div class="list-title">Registrar Advisory</div>
+                    <div class="list-sub">Enrollment record now finalized for SY 2026.</div>
+                  </div>
+                  <span class="pill pill-gray">2 days</span>
+                </div>
+                <div class="list-row">
+                  <div>
+                    <div class="list-title">Guidance Office Notice</div>
+                    <div class="list-sub">Parent orientation invite for intervention policy updates.</div>
+                  </div>
+                  <span class="pill pill-gray">This week</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-3">
+              <div class="info-card">
+                <h3>Actionable Alerts</h3>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  <div style="padding: 12px; border: 1px solid #E5E7EB; border-radius: 12px; background: #FFFFFF;">
+                    <div class="list-title">Unexplained absence (Juan)</div>
+                    <div class="list-sub">Acknowledge and provide reason to class adviser.</div>
+                    <div style="margin-top: 10px;"><span class="pill pill-yellow">Action required</span></div>
+                  </div>
+                  <div style="padding: 12px; border: 1px solid #E5E7EB; border-radius: 12px; background: #FFFFFF;">
+                    <div class="list-title">Math remediation session invitation</div>
+                    <div class="list-sub">Confirm attendance for Saturday support class.</div>
+                    <div style="margin-top: 10px;"><span class="pill pill-blue">Respond soon</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="info-card">
+                <h3>Quick Actions</h3>
+                <div class="d-flex flex-wrap" style="gap: 10px;">
+                  <button class="btn btn-sm btn-pill" style="background: #FFFFFF; border: 1px solid #E5E7EB; color: #111827;">Open Messages</button>
+                  <button class="btn btn-sm btn-pill" style="background: #FFFFFF; border: 1px solid #E5E7EB; color: #111827;">Acknowledge Alerts</button>
+                  <button class="btn btn-sm btn-pill" style="background: #FFFFFF; border: 1px solid #E5E7EB; color: #111827;">Update Preferences</button>
+                  <button class="btn btn-sm btn-pill" style="background: #1E3A8A; border: none; color: #FFFFFF;">Confirm Intervention Plan</button>
                 </div>
               </div>
             </div>
           </div>
-
         </div>
       </div>
       
