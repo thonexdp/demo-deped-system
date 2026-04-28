@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DepEd - School Forms</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="plugins/material/css/materialdesignicons.min.css" rel="stylesheet" />
+  <link href="plugins/simplebar/simplebar.css" rel="stylesheet" />
+  <link href="plugins/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css" rel="stylesheet" />
+  <link href="css/style.css" rel="stylesheet" />
+  <link href="css/custom.css" rel="stylesheet" />
+  <style>
+    body { background-color: #FFFFFF; font-family: 'Inter', sans-serif; }
+    .sidebar-dark { background: linear-gradient(180deg, #1E3A8A 0%, #172a6b 100%) !important; display: flex; flex-direction: column; }
+    .sidebar .nav > li > a { padding: 12px 20px !important; margin: 4px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; }
+    .sidebar .nav > li.active > a { background-color: #2563EB !important; }
+    .sidebar-inner { flex-grow: 1; }
+
+    .main-header { box-shadow: none !important; border-bottom: 1px solid #E5E7EB; height: 72px; padding: 0; }
+    .content-wrapper { padding: 24px; background-color: #FFFFFF; }
+
+    .info-card { background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+    .info-card h3 { color: #111827; font-size: 16px; font-weight: 800; margin-bottom: 16px; }
+
+    .pill { display: inline-block; padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; border: 1px solid #E5E7EB; background: #F9FAFB; color: #4B5563; }
+    .pill-blue { background: #EFF6FF; color: #2563EB; border-color: #BFDBFE; }
+    .pill-green { background: #DCFCE7; color: #166534; border-color: #BBF7D0; }
+    .pill-yellow { background: #FEF3C7; color: #92400E; border-color: #FDE68A; }
+
+    .table-modern { width: 100%; border-collapse: separate; border-spacing: 0; }
+    .table-modern thead th { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: #6B7280; font-weight: 800; padding: 12px 12px; border-bottom: 1px solid #E5E7EB; }
+    .table-modern tbody td { font-size: 13px; color: #111827; padding: 12px 12px; border-bottom: 1px solid #F3F4F6; vertical-align: middle; }
+    .table-modern tbody tr:last-child td { border-bottom: none; }
+
+    .tabset { width: 100%; }
+    .tabset > input[type="radio"] { position: absolute; left: -9999px; }
+    .tabset .tab-labels { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .tabset label { cursor: pointer; user-select: none; display: inline-flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 12px; border: 1px solid #E5E7EB; background: #FFFFFF; color: #374151; font-weight: 800; font-size: 12px; }
+    .tabset label:hover { background: #F9FAFB; }
+
+    .tab-panel { display: none; }
+
+    #sf1:checked ~ .tab-labels label[for="sf1"],
+    #sf2:checked ~ .tab-labels label[for="sf2"],
+    #sf3:checked ~ .tab-labels label[for="sf3"],
+    #sf4:checked ~ .tab-labels label[for="sf4"],
+    #sf5:checked ~ .tab-labels label[for="sf5"],
+    #sf6:checked ~ .tab-labels label[for="sf6"],
+    #sf7:checked ~ .tab-labels label[for="sf7"],
+    #sf8:checked ~ .tab-labels label[for="sf8"],
+    #sf9:checked ~ .tab-labels label[for="sf9"],
+    #sf10:checked ~ .tab-labels label[for="sf10"] {
+      background: #EFF6FF;
+      border-color: #BFDBFE;
+      color: #1D4ED8;
+    }
+
+    #sf1:checked ~ .tab-panels #panel-sf1,
+    #sf2:checked ~ .tab-panels #panel-sf2,
+    #sf3:checked ~ .tab-panels #panel-sf3,
+    #sf4:checked ~ .tab-panels #panel-sf4,
+    #sf5:checked ~ .tab-panels #panel-sf5,
+    #sf6:checked ~ .tab-panels #panel-sf6,
+    #sf7:checked ~ .tab-panels #panel-sf7,
+    #sf8:checked ~ .tab-panels #panel-sf8,
+    #sf9:checked ~ .tab-panels #panel-sf9,
+    #sf10:checked ~ .tab-panels #panel-sf10 { display: block; }
+  </style>
+</head>
+<body class="navbar-fixed sidebar-fixed" id="body">
+  <div class="wrapper">
+    <aside class="left-sidebar sidebar-dark" id="left-sidebar">
+      <div id="sidebar" class="sidebar sidebar-with-footer">
+        <div style="padding: 24px 20px 10px;">
+          <div class="d-flex align-items-center mb-3">
+            <div style="background: rgba(255,255,255,0.2); border-radius: 8px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; margin-right: 12px;">T7</div>
+            <div style="line-height: 1.2;">
+              <div style="color: white; font-weight: 800; font-size: 14px;">Class Adviser</div>
+              <div style="color: rgba(255,255,255,0.7); font-size: 12px;">Assigned Sections</div>
+            </div>
+          </div>
+          <div style="background: rgba(255,255,255,0.2); color: white; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; border: 1px solid rgba(255,255,255,0.3); display: inline-block; width: 100%;">Teacher / Adviser</div>
+        </div>
+
+        <div class="sidebar-left" data-simplebar style="height: 100%;">
+          <ul class="nav sidebar-inner" id="sidebar-menu">
+            <li class="section-title">Dashboards</li>
+            <li><a class="sidenav-item-link" href="teacher-dashboard.html"><i class="mdi mdi-teach"></i><span class="nav-text">Teacher Dashboard</span></a></li>
+            <li><a class="sidenav-item-link" href="parent-dashboard.html"><i class="mdi mdi-account-group"></i><span class="nav-text">Parent Dashboard</span></a></li>
+            <li><a class="sidenav-item-link" href="early-warning.html"><i class="mdi mdi-alert-outline"></i><span class="nav-text">Early Warning Risk</span></a></li>
+
+            <li class="section-title">Class Management</li>
+            <li><a class="sidenav-item-link" href="attendance.html"><i class="mdi mdi-calendar-check"></i><span class="nav-text">Attendance</span></a></li>
+            <li><a class="sidenav-item-link" href="gradebook.html"><i class="mdi mdi-book-open-page-variant"></i><span class="nav-text">Gradebook</span></a></li>
+            <li class="active"><a class="sidenav-item-link" href="school-forms.html"><i class="mdi mdi-file-document-outline"></i><span class="nav-text">School Forms</span></a></li>
+            <li><a class="sidenav-item-link" href="lesson-plans.html"><i class="mdi mdi-notebook-edit-outline"></i><span class="nav-text">Lesson Plans</span></a></li>
+            <li><a class="sidenav-item-link" href="online-class.html"><i class="mdi mdi-video"></i><span class="nav-text">Online Class</span></a></li>
+
+            <li class="section-title">AI LMS</li>
+            <li><a class="sidenav-item-link" href="lms-catalog.html"><i class="mdi mdi-library"></i><span class="nav-text">Resource Library</span></a></li>
+            <li><a class="sidenav-item-link" href="content-factory.html"><i class="mdi mdi-creation"></i><span class="nav-text">AI Lesson Builder</span></a></li>
+            <li><a class="sidenav-item-link" href="course-player.html"><i class="mdi mdi-play-circle"></i><span class="nav-text">Interactive Lessons</span></a></li>
+            <li><a class="sidenav-item-link" href="learning-progress.html"><i class="mdi mdi-chart-line-variant"></i><span class="nav-text">Learning Progress</span></a></li>
+            <li><a class="sidenav-item-link" href="offline-packages.html"><i class="mdi mdi-download-box"></i><span class="nav-text">Offline Packages</span></a></li>
+
+            <li class="section-title">AI SUPPORT</li>
+            <li><a class="sidenav-item-link" href="ai-tutor.html"><i class="mdi mdi-robot"></i><span class="nav-text">AI Tutor</span></a></li>
+
+            <li class="section-title">Administration</li>
+            <li><a class="sidenav-item-link" href="structure-detection.html"><i class="mdi mdi-file-tree"></i><span class="nav-text">Structure Detection</span></a></li>
+            <li><a class="sidenav-item-link" href="human-review.html"><i class="mdi mdi-shield-check"></i><span class="nav-text">Human Review</span></a></li>
+          </ul>
+        </div>
+
+        <div style="padding: 20px;">
+          <div style="background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; margin-bottom: 12px;">
+            <div style="color: white; font-weight: 800; font-size: 13px; margin-bottom: 6px;">Security Context</div>
+            <div style="color: rgba(255,255,255,0.7); font-size: 11px; line-height: 1.5;">School forms are controlled and audit-ready (adviser and admin sign-offs).</div>
+          </div>
+          <div style="background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px;">
+            <div style="color: white; font-weight: 800; font-size: 13px; margin-bottom: 6px;">Operational Status</div>
+            <div style="color: rgba(255,255,255,0.7); font-size: 11px; line-height: 1.5;">Notifications, sync, and policy status remain visible in every workspace.</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="page-wrapper">
+      <header class="main-header" id="header" style="display: flex; align-items: center; justify-content: space-between; padding-right: 20px;">
+        <div class="d-flex align-items-center">
+          <div class="app-brand" style="background-color: white !important; border-right: 1px solid transparent; width: 260px; display: flex; align-items: center; padding: 0 20px; height: 72px;">
+            <div style="background: #1E3A8A; color: white; border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; margin-right: 10px;">D1</div>
+            <div style="line-height: 1.2;">
+              <div style="color: #111827; font-weight: 800; font-size: 15px;">DepEd ONE</div>
+              <div style="color: #6B7280; font-size: 11px;">Unified Learning Platform</div>
+            </div>
+          </div>
+
+          <button id="sidebar-toggler" class="sidebar-toggle" style="margin-right: 20px;">
+            <span class="sr-only">Toggle navigation</span>
+          </button>
+
+          <div style="line-height: 1.2; margin-right: 30px;">
+            <div style="font-weight: 800; color: #111827; font-size: 16px;">School Forms</div>
+            <div style="color: #6B7280; font-size: 12px;">School Operations • Screen 29 / 47</div>
+          </div>
+
+          <div class="d-flex flex-wrap" style="gap: 8px;">
+            <span class="pill pill-blue">SY 2025-2026 • Q3</span>
+            <span class="pill pill-green">Status: Draft</span>
+            <span class="pill pill-yellow">For Adviser Sign-off</span>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center" style="gap: 10px;">
+          <button class="btn btn-outline-secondary btn-pill" style="border-color:#E5E7EB; color:#111827;"><i class="mdi mdi-printer" style="margin-right:6px;"></i>Print</button>
+          <button class="btn btn-outline-secondary btn-pill" style="border-color:#E5E7EB; color:#111827;"><i class="mdi mdi-file-export" style="margin-right:6px;"></i>Export</button>
+          <button class="btn btn-primary btn-pill"><i class="mdi mdi-check-circle-outline" style="margin-right:6px;"></i>Submit</button>
+        </div>
+      </header>
+
+      <div class="content-wrapper">
+        <div class="content">
+
+          <div class="info-card" style="margin-bottom: 16px;">
+            <div class="d-flex justify-content-between align-items-center flex-wrap" style="gap: 12px;">
+              <div>
+                <h3 style="margin-bottom: 6px;">DepEd School Forms (SF1–SF10)</h3>
+                <div style="color:#6B7280; font-size: 13px; font-weight: 600;">Select a form tab to view and prepare the required school records. Tabs are CSS-only for fast offline-friendly navigation.</div>
+              </div>
+              <div class="d-flex" style="gap: 8px; flex-wrap: wrap; justify-content: flex-end;">
+                <span class="pill pill-gray">School ID: 123456</span>
+                <span class="pill pill-gray">Section: Grade 8 – Rizal</span>
+                <span class="pill pill-gray">Adviser: A. Dela Cruz</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="tabset">
+              <input type="radio" name="tabset" id="sf1" aria-controls="panel-sf1" checked>
+              <input type="radio" name="tabset" id="sf2" aria-controls="panel-sf2">
+              <input type="radio" name="tabset" id="sf3" aria-controls="panel-sf3">
+              <input type="radio" name="tabset" id="sf4" aria-controls="panel-sf4">
+              <input type="radio" name="tabset" id="sf5" aria-controls="panel-sf5">
+              <input type="radio" name="tabset" id="sf6" aria-controls="panel-sf6">
+              <input type="radio" name="tabset" id="sf7" aria-controls="panel-sf7">
+              <input type="radio" name="tabset" id="sf8" aria-controls="panel-sf8">
+              <input type="radio" name="tabset" id="sf9" aria-controls="panel-sf9">
+              <input type="radio" name="tabset" id="sf10" aria-controls="panel-sf10">
+
+              <div class="tab-labels">
+                <label for="sf1">SF1 – School Register</label>
+                <label for="sf2">SF2 – Daily Attendance</label>
+                <label for="sf3">SF3 – Books Issued</label>
+                <label for="sf4">SF4 – Learner Movement</label>
+                <label for="sf5">SF5 – Promotion &amp; Progress</label>
+                <label for="sf6">SF6 – Summary of Promotion</label>
+                <label for="sf7">SF7 – Personnel Assignment</label>
+                <label for="sf8">SF8 – Health &amp; Nutrition</label>
+                <label for="sf9">SF9 – Report Card</label>
+                <label for="sf10">SF10 – Permanent Record</label>
+              </div>
+
+              <div class="tab-panels">
+                <section id="panel-sf1" class="tab-panel">
+                  <h3 style="margin-bottom: 10px;">SF1 – School Register</h3>
+                  <div style="color:#6B7280; font-size: 13px; font-weight: 600; margin-bottom: 14px;">Master list of enrolled learners for the section, including basic profile fields and status.</div>
+                  <div style="overflow-x:auto;">
+                    <table class="table-modern">
+                      <thead>
+                        <tr>
+                          <th>LRN</th>
+                          <th>Learner Name</th>
+                          <th>Sex</th>
+                          <th>Birthdate</th>
+                          <th>Address / Barangay</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1234-5678-9012</td>
+                          <td>Reyes, Maria L.</td>
+                          <td>F</td>
+                          <td>2012-05-19</td>
+                          <td>Brgy. San Isidro</td>
+                          <td><span class="pill pill-green">Enrolled</span></td>
+                        </tr>
+                        <tr>
+                          <td>2234-5678-9012</td>
+                          <td>Santos, Joshua P.</td>
+                          <td>M</td>
+                          <td>2012-11-03</td>
+                          <td>Brgy. Maligaya</td>
+                          <td><span class="pill pill-yellow">For Validation</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </section>
+
+                <section id="panel-sf2" class="tab-panel">
+                  <h3 style="margin-bottom: 10px;">SF2 – Daily Attendance</h3>
+                  <div style="color:#6B7280; font-size: 13px; font-weight: 600; margin-bottom: 14px;">Daily attendance matrix and monthly summary. Use this to support early warning and parent follow-ups.</div>
+                  <div style="overflow-x:auto;">
+                    <table class="table-modern">
+                      <thead>
+                        <tr>
+                          <th>Learner</th>
+                          <th>Week 1</th>
+                          <th>Week 2</th>
+                          <th>Week 3</th>
+                          <th>Week 4</th>
+                          <th>Monthly Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Reyes, Maria L.</td>
+                          <td><span class="pill pill-green">5/5</span></td>
+                          <td><span class="pill pill-green">5/5</span></td>
+                          <td><span class="pill pill-yellow">4/5</span></td>
+                          <td><span class="pill pill-green">5/5</span></td>
+                          <td><span class="pill pill-blue">19/20</span></td>
+                        </tr>
+                        <tr>
+                          <td>Santos, Joshua P.</td>
+                          <td><span class="pill pill-yellow">4/5</span></td>
+                          <td><span class="pill pill-yellow">4/5</span></td>
+                          <td><span class="pill pill-yellow">4/5</span></td>
+                          <td><span class="pill pill-yellow">4/5</span></td>
+                          <td><span class="pill pill-yellow">16/20</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </section>
+
+                <section id="panel-sf3" class="tab-panel">
+                  <h3 style="margin-bottom: 10px;">SF3 – Books Issued</h3>
+                  <div style="color:#6B7280; font-size: 13px; font-weight: 600; margin-bottom: 14px;">Tracks textbooks and learning resource issuance per learner (ID/condition/return).</div>
+                  <div style="overflow-x:auto;">
+                    <table class="table-modern">
+                      <thead>
+                        <tr>
+                          <th>Learner</th>
+                          <th>Book / Material</th>
+                          <th>Property No.</th>
+                          <th>Date Issued</th>
+                          <th>Condition</th>
+                          <th>Return Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Reyes, Maria L.</td>
+                          <td>Math 8 Textbook</td>
+                          <td>TXB-8M-1044</td>
+                          <td>2026-01-08</td>
+                          <td><span class="pill pill-green">Good</span></td>
+                          <td><span class="pill pill-blue">Issued</span></td>
+                        </tr>
+                        <tr>
+                          <td>Santos, Joshua P.</td>
+                          <td>Math 8 Textbook</td>
+                          <td>TXB-8M-1051</td>
+                          <td>2026-01-08</td>
+                          <td><span class="pill pill-yellow">Worn</span></td>
+                          <td><span class="pill pill-blue">Issued</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </section>
+
+                <section id="panel-sf4" class="tab-panel">
+                  <h3 style="margin-bottom: 10px;">SF4 – Learner Movement</h3>
+                  <div style="color:#6B7280; font-size: 13px; font-weight: 600; margin-bottom: 14px;">Records transfers in/out, dropouts, and re-admissions for audit and reporting.</div>
+                  <div style="overflow-x:auto;">
+                    <table class="table-modern">
+                      <thead>
+                        <tr>
+                          <th>Learner</th>
+                          <th>Movement</th>
+                          <th>Date</th>
+                          <th>From / To</th>
+                          <th>Reason</th>
+                          <th>Validated</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>—</td>
+                          <td>—</td>
+                          <td>—</td>
+                          <td>—</td>
+                          <td>—</td>
+                          <td><span class="pill">None</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </section>
+
+                <section id="panel-sf5" class="tab-panel">
+                  <h3 style="margin-bottom: 10px;">SF5 – Promotion &amp; Progress</h3>
+                  <div style="color:#6B7280; font-size: 13px; font-weight: 600; margin-bottom: 14px;">Quarterly/annual progress tracker showing who is promoted, retained, or needs intervention.</div>
+                  <div style="overflow-x:auto;">
+                    <table class="table-modern">
+                      <thead>
+                        <tr>
+                          <th>Learner</th>
+                          <th>Gen. Average</th>
+                          <th>Remedial Needed</th>
+                          <th>Final Status</th>
+                          <th>Remarks</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Reyes, Maria L.</td>
+                          <td><span class="pill pill-green">89</span></td>
+                          <td><span class="pill">No</span></td>
+                          <td><span class="pill pill-green">Promoted</span></td>
+                          <td>Ready for next level</td>
+                        </tr>
+                        <tr>
+                          <td>Santos, Joshua P.</td>
+                          <td><span class="pill pill-yellow">75</span></td>
+                          <td><span class="pill pill-yellow">Yes</span></td>
+                          <td><span class="pill pill-yellow">Conditional</span></td>
+                          <td>Needs remediation plan</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </section>
+
+                <section id="panel-sf6" class="tab-panel">
+                  <h3 style="margin-bottom: 10px;">SF6 – Summary of Promotion</h3>
+                  <div style="color:#6B7280; font-size: 13px; font-weight: 600; margin-bottom: 14px;">Section-level summary counts of promoted/retained/conditional learners for reporting.</div>
+                  <div class="d-flex" style="gap: 10px; flex-wrap: wrap;">
+                    <span class="pill pill-green">Promoted: 38</span>
+                    <span class="pill pill-yellow">Conditional: 6</span>
+                    <span class="pill">Retained: 2</span>
+                    <span class="pill pill-blue">Total: 46</span>
+                  </div>
+                </section>
+
+                <section id="panel-sf7" class="tab-panel">
+                  <h3 style="margin-bottom: 10px;">SF7 – Personnel Assignment</h3>
+                  <div style="color:#6B7280; font-size: 13px; font-weight: 600; margin-bottom: 14px;">Lists teacher/personnel assignments (sections/subjects) and workload coverage.</div>
+                  <div style="overflow-x:auto;">
+                    <table class="table-modern">
+                      <thead>
+                        <tr>
+                          <th>Personnel</th>
+                          <th>Role</th>
+                          <th>Assigned Sections</th>
+                          <th>Subjects</th>
+                          <th>Schedule</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>A. Dela Cruz</td>
+                          <td>Adviser</td>
+                          <td>Grade 8 – Rizal</td>
+                          <td>Math 8</td>
+                          <td>MWF 8:00–9:00</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </section>
+
+                <section id="panel-sf8" class="tab-panel">
+                  <h3 style="margin-bottom: 10px;">SF8 – Health &amp; Nutrition</h3>
+                  <div style="color:#6B7280; font-size: 13px; font-weight: 600; margin-bottom: 14px;">Tracks height/weight/BMI screening and nutrition program participation for learners.</div>
+                  <div style="overflow-x:auto;">
+                    <table class="table-modern">
+                      <thead>
+                        <tr>
+                          <th>Learner</th>
+                          <th>Height (cm)</th>
+                          <th>Weight (kg)</th>
+                          <th>BMI</th>
+                          <th>Category</th>
+                          <th>Program</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Reyes, Maria L.</td>
+                          <td>152</td>
+                          <td>46</td>
+                          <td>19.9</td>
+                          <td><span class="pill pill-green">Normal</span></td>
+                          <td><span class="pill">—</span></td>
+                        </tr>
+                        <tr>
+                          <td>Santos, Joshua P.</td>
+                          <td>150</td>
+                          <td>40</td>
+                          <td>17.8</td>
+                          <td><span class="pill pill-yellow">At Risk</span></td>
+                          <td><span class="pill pill-blue">Feeding</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </section>
+
+                <section id="panel-sf9" class="tab-panel">
+                  <h3 style="margin-bottom: 10px;">SF9 – Report Card</h3>
+                  <div style="color:#6B7280; font-size: 13px; font-weight: 600; margin-bottom: 14px;">Printable quarterly report card view per learner (summary of subjects and remarks).</div>
+                  <div class="d-flex justify-content-between align-items-center flex-wrap" style="gap: 10px; margin-bottom: 12px;">
+                    <div class="d-flex" style="gap: 8px; flex-wrap: wrap;">
+                      <span class="pill pill-gray">Learner: Reyes, Maria L.</span>
+                      <span class="pill pill-gray">Quarter: Q3</span>
+                    </div>
+                    <span class="pill pill-blue">Ready to Print</span>
+                  </div>
+                  <div style="overflow-x:auto;">
+                    <table class="table-modern">
+                      <thead>
+                        <tr>
+                          <th>Subject</th>
+                          <th>Grade</th>
+                          <th>Remarks</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Mathematics</td>
+                          <td><span class="pill pill-green">90</span></td>
+                          <td>Outstanding</td>
+                        </tr>
+                        <tr>
+                          <td>English</td>
+                          <td><span class="pill pill-green">88</span></td>
+                          <td>Very Satisfactory</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </section>
+
+                <section id="panel-sf10" class="tab-panel">
+                  <h3 style="margin-bottom: 10px;">SF10 – Permanent Record</h3>
+                  <div style="color:#6B7280; font-size: 13px; font-weight: 600; margin-bottom: 14px;">Longitudinal learner record for transfers and permanent documentation across grade levels.</div>
+                  <div style="overflow-x:auto;">
+                    <table class="table-modern">
+                      <thead>
+                        <tr>
+                          <th>School Year</th>
+                          <th>Grade Level</th>
+                          <th>Gen. Average</th>
+                          <th>Status</th>
+                          <th>Notes</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>2024-2025</td>
+                          <td>Grade 7</td>
+                          <td><span class="pill pill-green">87</span></td>
+                          <td><span class="pill pill-green">Promoted</span></td>
+                          <td>Completed</td>
+                        </tr>
+                        <tr>
+                          <td>2025-2026</td>
+                          <td>Grade 8</td>
+                          <td><span class="pill pill-yellow">Ongoing</span></td>
+                          <td><span class="pill pill-blue">In Progress</span></td>
+                          <td>Q3 snapshot</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <footer class="footer mt-auto">
+        <div class="copyright bg-white">
+          <p>&copy; <span id="copy-year"></span> DepEd Integrated Proposal System Prototype</p>
+        </div>
+        <script>document.getElementById("copy-year").innerHTML = new Date().getFullYear();</script>
+      </footer>
+    </div>
+  </div>
+
+  <script src="plugins/jquery/jquery.min.js"></script>
+  <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="plugins/simplebar/simplebar.min.js"></script>
+  <script src="js/mono.js"></script>
+</body>
+</html>
