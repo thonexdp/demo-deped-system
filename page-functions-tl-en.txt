@@ -1,0 +1,48 @@
+USER ROLES OVERVIEW (Non-IT View)
+- Teacher / Class Adviser: Araw-araw na gumagamit para mag-manage ng klase (attendance, grades, progress) at mag-respond sa alerts. Sila ang primary owner ng learner performance monitoring.
+- Parent / Guardian: Viewer ng learner status (attendance, progress, notices) at receiver ng reminders/alerts. Goal ay transparency at mabilis na follow-up.
+- Learner / Student: Gumagamit ng learning content (interactive lessons, AI tutor) at nakikita ang sariling progress. Focus ay learning support at mastery.
+- Content Author (Curriculum Team): Nag-u-upload ng source materials at nagpe-prepare ng structured content bago mag-generate ng lessons. Sila ang “content pipeline” owner.
+- Reviewer / Approver (Policy & Quality): Nagva-validate ng AI outputs, nagche-check ng risk flags, at nagbibigay ng publish approval with rationale. Sila ang quality/safety gate.
+
+Teacher Dashboard
+ - Ito ang main workspace ng teacher para makita ang class health, alerts, at priority learners. Dito ka magche-check ng quick actions like attendance follow-ups, interventions, at lesson readiness. Parang “command center” siya para mabilis ang decision at daily teaching flow.
+
+Parent Dashboard
+- This page helps parents/guardians monitor learner progress, attendance, at important notices in one place. Makikita dito ang summary ng grades/behavior signals at kung may kailangan i-follow up sa adviser. Purpose nito ay transparency—para updated si parent kahit wala sa school.
+
+Early Warning Risk
+- Dito lumalabas ang at-risk learners based on rules like low attendance, falling grades, at behavior flags. You use it to prioritize interventions, schedule counseling, and track next-best actions. Goal nito ay ma-detect early ang problems bago lumala.
+
+Attendance
+- This page is for daily attendance logging per section, with quick summaries and trends. Makakatulong ito para makita agad ang habitual absences at gumawa ng follow-up. It supports reporting and audit-ready records for compliance.
+
+Gradebook
+- Dito mo ini-input at nire-review ang scores, weights, at quarterly computations ng learners. You can validate entries, check anomalies, and prepare grades for submission/approval. Purpose nito ay consistent grading with traceability (may audit trail feel).
+
+Online Class
+- This page simulates the live class session: video/presentation area, participants, and basic controls. Dito ka magha-handle ng meeting schedule, attendance capture, at quick checks/quizzes. It supports remote teaching workflow kapag online or blended.
+
+Resource Library
+- This is where you browse and manage learning resources like PDFs, videos, slides, and teacher guides. Makaka-filter ka by grade/subject, tags, at delivery mode (offline-ready, interactive, etc.). Purpose nito ay mabilis na retrieval ng approved materials.
+
+AI Lesson Builder
+- Dito ginagamit ang AI para mag-generate ng lesson plan, activities, at assessments based on curriculum standards. You review the draft, adjust objectives, and ensure alignment bago i-release. Goal nito ay faster content creation habang controlled pa rin ang quality.
+
+Interactive Lessons
+- This page hosts interactive modules like checkpoints, embedded questions, at guided practice. Dito makikita ng learner ang step-by-step content at auto-feedback style activities. Purpose nito ay engagement at mastery, hindi lang passive reading.
+
+Learning Progress
+- This view tracks completion, mastery signals, and learning analytics per learner/class. Makikita dito kung alin ang finished, stuck, or needs remediation. It helps teachers and admins decide kung anong support ang next.
+
+Offline Packages
+- This page manages downloadable learning packs for low-connectivity areas (modules + media bundles). Dito ka magse-select ng package version, device target, and sync status. Purpose nito ay continuity of learning kahit limited ang internet.
+
+AI Tutor
+- This is the learner support chat that answers questions with curriculum-grounded guidance. Pwede itong gamitin for practice explanations, step-by-step hints, at quick review before quizzes. Purpose nito ay on-demand tutoring pero may safety and policy filters.
+
+Structure Detection
+- Dito pinapakita ng AI kung paano niya na-detect ang chapters, sections, topics, at competency mapping mula sa uploaded source. You review hierarchy quality checks and fix mismatches bago mag-generate ng course outline. Goal nito ay correct structure para accurate ang lessons and assessments downstream.
+
+Human Review
+- This is the review queue where reviewers/approvers validate AI-generated drafts bago ma-publish. Makikita dito ang risk flags, SLA, status, at governance notes (audit requirement). Purpose nito ay quality + safety gate para compliant ang released content.
