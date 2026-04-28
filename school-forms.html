@@ -67,6 +67,165 @@
     #sf8:checked ~ .tab-panels #panel-sf8,
     #sf9:checked ~ .tab-panels #panel-sf9,
     #sf10:checked ~ .tab-panels #panel-sf10 { display: block; }
+
+    /* Floating Info Button Styles */
+    .floating-info-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: linear-gradient(135deg, #2563EB 0%, #1E3A8A 100%);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    .floating-info-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(37, 99, 235, 0.4);
+      background: linear-gradient(135deg, #1D4ED8 0%, #1E3A8A 100%);
+    }
+
+    .floating-info-btn i {
+      font-size: 18px;
+    }
+
+    /* Modal Styles */
+    .info-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 2000;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .info-modal.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      animation: slideUp 0.3s ease;
+    }
+
+    .modal-header {
+      padding: 24px 24px 16px;
+      border-bottom: 1px solid #E5E7EB;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      color: #111827;
+      font-size: 20px;
+      font-weight: 800;
+      margin: 0;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: #6B7280;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .modal-close:hover {
+      background: #F3F4F6;
+      color: #111827;
+    }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .page-section {
+      margin-bottom: 24px;
+    }
+
+    .page-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .page-section h4 {
+      color: #111827;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .page-section h4 i {
+      color: #2563EB;
+      font-size: 18px;
+    }
+
+    .page-item {
+      background: #F9FAFB;
+      border: 1px solid #E5E7EB;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 8px;
+    }
+
+    .page-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .page-name {
+      font-weight: 600;
+      color: #111827;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .page-description {
+      color: #6B7280;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
   </style>
 </head>
 <body class="navbar-fixed sidebar-fixed" id="body">
@@ -539,9 +698,73 @@
     </div>
   </div>
 
+  <!-- Floating Info Button -->
+  <button class="floating-info-btn" onclick="toggleInfoModal()">
+    <i class="mdi mdi-information-outline"></i>
+    <span>More Details</span>
+  </button>
+
+  <!-- Info Modal -->
+  <div id="infoModal" class="info-modal">
+    <div class="modal-content">
+      
+        <button class="modal-close" onclick="toggleInfoModal()">
+          <i class="mdi mdi-close"></i>
+        </button>
+      
+      <div class="modal-body">
+        <div class="page-section">
+          <h4><i class="mdi mdi-file-document-multiple"></i> School Forms</h4>
+          <div class="page-item">
+            <div class="page-description">
+              <p style="margin: 8px 0; color: #374151;">Comprehensive school forms management system para sa lahat ng DepEd documentation requirements:</p>
+              <ul style="margin: 12px 0; padding-left: 20px; color: #4B5563; line-height: 1.6;">
+                <li style="margin-bottom: 6px;"><strong>SF1 – Student Master List:</strong> Complete student information at demographic data</li>
+                <li style="margin-bottom: 6px;"><strong>SF2 – Daily Attendance:</strong> Daily attendance tracking para compliance reporting</li>
+                <li style="margin-bottom: 6px;"><strong>SF3 – Books Issued:</strong> Inventory ng learning materials at textbooks</li>
+                <li style="margin-bottom: 6px;"><strong>SF4 – Monthly Report:</strong> Monthly consolidated reports sa school operations</li>
+                <li style="margin-bottom: 6px;"><strong>SF5 – Promotion Report:</strong> Student promotion at retention records</li>
+                <li style="margin-bottom: 6px;"><strong>SF6 – School Summary:</strong> Overall school performance at statistics</li>
+                <li style="margin-bottom: 6px;"><strong>SF7 – Personnel Record:</strong> Faculty at staff records management</li>
+                <li style="margin-bottom: 6px;"><strong>SF8 – Health Report:</strong> Student health monitoring at nutrition data</li>
+                <li style="margin-bottom: 6px;"><strong>SF9 – Report Card:</strong> Academic performance at grade reporting</li>
+                <li style="margin-bottom: 6px;"><strong>SF10 – Permanent Record:</strong> Permanent student records (Form 137)</li>
+              </ul>
+              <p style="margin: 8px 0 0; color: #6B7280; font-style: italic;">Purpose nito ay standardized compliance at efficient school administration.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="plugins/jquery/jquery.min.js"></script>
   <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="plugins/simplebar/simplebar.min.js"></script>
   <script src="js/mono.js"></script>
+  
+  <script>
+    function toggleInfoModal() {
+      const modal = document.getElementById('infoModal');
+      modal.classList.toggle('show');
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('infoModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        toggleInfoModal();
+      }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const modal = document.getElementById('infoModal');
+        if (modal.classList.contains('show')) {
+          toggleInfoModal();
+        }
+      }
+    });
+  </script>
 </body>
 </html>
