@@ -75,6 +75,36 @@
       font-size: 13px; color: #1f2937; resize: vertical;
     }
     .action-row { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+
+    .ai-field-label { font-size: 12px; color: #6B7280; font-weight: 600; margin-bottom: 4px; display: block; }
+    .ai-input {
+      width: 100%; padding: 8px 12px; border: 1px solid #E5E7EB; border-radius: 8px;
+      font-size: 14px; background: #fff; color: #1f2937; outline: none;
+    }
+    .ai-input:focus { border-color: #BFDBFE; box-shadow: 0 0 0 3px rgba(37,99,235,0.12); }
+    .ai-textarea {
+      width: 100%; padding: 10px 12px; border: 1px solid #E5E7EB; border-radius: 10px;
+      font-size: 13px; color: #1f2937; resize: vertical; outline: none; min-height: 92px;
+    }
+    .ai-textarea:focus { border-color: #BFDBFE; box-shadow: 0 0 0 3px rgba(37,99,235,0.12); }
+    .pill-mini {
+      display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px;
+      font-size: 11px; font-weight: 700; border: 1px solid #E5E7EB; background: #F9FAFB; color: #4B5563;
+    }
+    .pill-mini.blue { background: #EFF6FF; color: #1D4ED8; border-color: #BFDBFE; }
+    .pill-mini.green { background: #DCFCE7; color: #166534; border-color: #BBF7D0; }
+    .pill-mini.yellow { background: #FEF3C7; color: #92400E; border-color: #FDE68A; }
+    .img-drop {
+      border: 1px dashed #CBD5E1; border-radius: 10px; padding: 12px;
+      background: #F8FAFC; color: #475569; font-size: 12px;
+    }
+    .img-thumbs { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .img-thumb {
+      width: 64px; height: 44px; border-radius: 8px; border: 1px solid #E5E7EB;
+      background: linear-gradient(135deg, #E2E8F0 0%, #F8FAFC 100%);
+      display: flex; align-items: center; justify-content: center; color: #64748B;
+      font-weight: 800; font-size: 11px;
+    }
   </style>
 </head>
 <body class="navbar-fixed sidebar-fixed" id="body">
@@ -98,10 +128,11 @@
             <li><a class="sidenav-item-link" href="gradebook.html"><i class="mdi mdi-book-open-page-variant"></i><span class="nav-text">Gradebook</span></a></li>
             <li><a class="sidenav-item-link" href="school-forms.html"><i class="mdi mdi-file-document-outline"></i><span class="nav-text">School Forms</span></a></li>
             <li><a class="sidenav-item-link" href="online-class.html"><i class="mdi mdi-video"></i><span class="nav-text">Online Class</span></a></li>
+            <li class="active"><a class="sidenav-item-link" href="content-factory.html"><i class="mdi mdi-creation"></i><span class="nav-text">AI Lesson Plan</span></a></li>
             
             <li class="section-title">AI LMS</li>
             <li><a class="sidenav-item-link" href="lms-catalog.html"><i class="mdi mdi-library"></i><span class="nav-text">Resource Library</span></a></li>
-            <li class="active"><a class="sidenav-item-link" href="content-factory.html"><i class="mdi mdi-creation"></i><span class="nav-text">AI Lesson Builder</span></a></li>
+            <!-- <li class="active"><a class="sidenav-item-link" href="content-factory.html"><i class="mdi mdi-creation"></i><span class="nav-text">AI Lesson Builder</span></a></li> -->
             <li><a class="sidenav-item-link" href="course-player.html"><i class="mdi mdi-play-circle"></i><span class="nav-text">Interactive Lessons</span></a></li>
             <li><a class="sidenav-item-link" href="learning-progress.html"><i class="mdi mdi-chart-line-variant"></i><span class="nav-text">Learning Progress</span></a></li>
             <li><a class="sidenav-item-link" href="offline-packages.html"><i class="mdi mdi-download-box"></i><span class="nav-text">Offline Packages</span></a></li>
@@ -227,6 +258,73 @@
               <div class="card card-default" style="border-radius:12px;">
                 <div class="card-body" style="padding:20px;">
                   <div class="step-header"><span class="step-badge">3</span>Generate Lesson Draft</div>
+
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+                    <div>
+                      <label class="ai-field-label">Lesson format</label>
+                      <select class="ai-input" aria-label="Lesson format">
+                        <option selected>Interactive Lesson (Scenes)</option>
+                        <option>DLL (Daily Lesson Log)</option>
+                        <option>DLP (Detailed Lesson Plan)</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="ai-field-label">Target language / translation</label>
+                      <select class="ai-input" aria-label="Target language">
+                        <option selected>English (No translation)</option>
+                        <option>Filipino</option>
+                        <option>Cebuano</option>
+                        <option>Ilocano</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="ai-field-label">Subject</label>
+                      <input class="ai-input" type="text" value="Mathematics" aria-label="Subject" />
+                    </div>
+                    <div>
+                      <label class="ai-field-label">Level</label>
+                      <select class="ai-input" aria-label="Level">
+                        <option>Grade 7</option>
+                        <option>Grade 8</option>
+                        <option>Grade 9</option>
+                        <option selected>Grade 10</option>
+                        <option>Grade 11</option>
+                        <option>Grade 12</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div style="margin-bottom:12px;">
+                    <label class="ai-field-label">Objectives (teacher-provided)</label>
+                    <textarea class="ai-textarea" aria-label="Objectives">At the end of the lesson, learners should be able to solve linear equations in one variable and explain each step using correct mathematical reasoning.</textarea>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+                      <span class="pill-mini blue"><i class="mdi mdi-shield-check" style="font-size:13px;"></i>Policy-aware</span>
+                      <span class="pill-mini green"><i class="mdi mdi-bookmark-outline" style="font-size:13px;"></i>Citation-ready</span>
+                      <span class="pill-mini yellow"><i class="mdi mdi-translate" style="font-size:13px;"></i>Optional translation</span>
+                    </div>
+                  </div>
+
+                  <div style="margin-bottom:12px;">
+                    <label class="ai-field-label">Reference image / picture (optional)</label>
+                    <div class="img-drop">
+                      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+                        <div style="display:flex;align-items:center;gap:8px;">
+                          <i class="mdi mdi-image-outline" style="font-size:18px;color:#1E3A8A;"></i>
+                          <div>
+                            <div style="font-weight:800;color:#0F172A;">Add a visual reference</div>
+                            <div style="font-size:11px;color:#64748B;">Charts, word problems, diagrams, or contextual photos for lesson localization.</div>
+                          </div>
+                        </div>
+                        <input class="ai-input" type="file" accept="image/*" aria-label="Upload image" style="max-width: 220px; padding: 6px 10px;" />
+                      </div>
+                      <div class="img-thumbs" aria-label="Image previews">
+                        <div class="img-thumb">IMG</div>
+                        <div class="img-thumb">REF</div>
+                        <div class="img-thumb">MAP</div>
+                      </div>
+                    </div>
+                  </div>
+
                   <div style="margin-bottom:12px;">
                     <label style="font-size:12px;color:#6B7280;font-weight:600;margin-bottom:4px;display:block;">Scene types to generate</label>
                     <div style="display:flex;flex-wrap:wrap;gap:8px;">
@@ -249,6 +347,41 @@
 
             <!-- RIGHT: Draft + Review -->
             <div class="col-lg-7">
+
+              <div style="background:#FFFFFF;border:1px solid #E5E7EB;border-radius:12px;padding:14px 16px;margin-bottom:14px;box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+                  <div>
+                    <div style="font-size:13px;font-weight:800;color:#111827;">Auto-Generated Package Preview</div>
+                    <div style="font-size:12px;color:#6B7280;">Lesson plan output + visuals, generated from approved sources and your objectives.</div>
+                  </div>
+                  <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
+                    <span class="pill-mini blue"><i class="mdi mdi-notebook-outline" style="font-size:13px;"></i>Format: Interactive</span>
+                    <span class="pill-mini"><i class="mdi mdi-translate" style="font-size:13px;"></i>Language: EN</span>
+                    <span class="pill-mini green"><i class="mdi mdi-check" style="font-size:13px;"></i>Draft v1</span>
+                  </div>
+                </div>
+                <div style="display:grid;grid-template-columns:1.2fr 0.8fr;gap:12px;margin-top:12px;">
+                  <div style="border:1px solid #E5E7EB;border-radius:10px;padding:12px;background:#F9FAFB;">
+                    <div style="font-size:11px;color:#6B7280;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Lesson plan snippet</div>
+                    <div style="font-size:13px;color:#111827;font-weight:800;margin-bottom:6px;">Topic: Solving Linear Equations</div>
+                    <div style="font-size:12px;color:#374151;line-height:1.6;">Objective: Solve linear equations in one variable and explain each step. Key idea: Maintain equality by performing the same operation on both sides. Include guided practice and quick checks aligned to the selected competency.</div>
+                    <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+                      <span class="pill-mini"><i class="mdi mdi-bookmark-outline" style="font-size:13px;"></i>Sources: 2</span>
+                      <span class="pill-mini"><i class="mdi mdi-file-document-outline" style="font-size:13px;"></i>DLL/DLP export ready</span>
+                      <span class="pill-mini"><i class="mdi mdi-image-outline" style="font-size:13px;"></i>Visuals: 3</span>
+                    </div>
+                  </div>
+                  <div style="border:1px solid #E5E7EB;border-radius:10px;padding:12px;">
+                    <div style="font-size:11px;color:#6B7280;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Visuals</div>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                      <div class="img-thumb" style="width:100%;height:96px;">DIAGRAM</div>
+                      <div class="img-thumb" style="flex:1;min-width:90px;">CHART</div>
+                      <div class="img-thumb" style="flex:1;min-width:90px;">PHOTO</div>
+                    </div>
+                    <div style="font-size:11px;color:#9CA3AF;margin-top:8px;">Images are attached for teacher review; student delivery uses approved assets only.</div>
+                  </div>
+                </div>
+              </div>
 
               <!-- Generation status -->
               <div class="gen-status-bar" id="genStatus" style="display:none;">
