@@ -105,6 +105,165 @@
       display: flex; align-items: center; justify-content: center; color: #64748B;
       font-weight: 800; font-size: 11px;
     }
+
+    /* Floating Info Button Styles */
+    .floating-info-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: linear-gradient(135deg, #2563EB 0%, #1E3A8A 100%);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    .floating-info-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(37, 99, 235, 0.4);
+      background: linear-gradient(135deg, #1D4ED8 0%, #1E3A8A 100%);
+    }
+
+    .floating-info-btn i {
+      font-size: 18px;
+    }
+
+    /* Modal Styles */
+    .info-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 2000;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .info-modal.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      animation: slideUp 0.3s ease;
+    }
+
+    .modal-header {
+      padding: 24px 24px 16px;
+      border-bottom: 1px solid #E5E7EB;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      color: #111827;
+      font-size: 20px;
+      font-weight: 800;
+      margin: 0;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: #6B7280;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .modal-close:hover {
+      background: #F3F4F6;
+      color: #111827;
+    }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .page-section {
+      margin-bottom: 24px;
+    }
+
+    .page-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .page-section h4 {
+      color: #111827;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .page-section h4 i {
+      color: #2563EB;
+      font-size: 18px;
+    }
+
+    .page-item {
+      background: #F9FAFB;
+      border: 1px solid #E5E7EB;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 8px;
+    }
+
+    .page-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .page-name {
+      font-weight: 600;
+      color: #111827;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .page-description {
+      color: #6B7280;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
   </style>
 </head>
 <body class="navbar-fixed sidebar-fixed" id="body">
@@ -559,6 +718,62 @@
         }
       }, 600);
     }
+
+    function toggleInfoModal() {
+      const modal = document.getElementById('infoModal');
+      modal.classList.toggle('show');
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('infoModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        toggleInfoModal();
+      }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const modal = document.getElementById('infoModal');
+        if (modal.classList.contains('show')) {
+          toggleInfoModal();
+        }
+      }
+    });
   </script>
+
+  <!-- Floating Info Button -->
+  <button class="floating-info-btn" onclick="toggleInfoModal()">
+    <i class="mdi mdi-information-outline"></i>
+    <span>More Details</span>
+  </button>
+
+  <!-- Info Modal -->
+  <div id="infoModal" class="info-modal">
+    <div class="modal-content">
+
+        <button class="modal-close" onclick="toggleInfoModal()">
+          <i class="mdi mdi-close"></i>
+        </button>
+      <div class="modal-body">
+        <div class="page-section">
+          <h4><i class="mdi mdi-creation"></i> AI Lesson Builder</h4>
+          <div class="page-item">
+            <div class="page-description">
+              <p style="margin: 8px 0; color: #374151;">Dito ginagamit ang AI para mag-generate ng lesson plan, activities, at assessments based on curriculum standards:</p>
+              <ul style="margin: 12px 0; padding-left: 20px; color: #4B5563; line-height: 1.6;">
+                <li style="margin-bottom: 6px;"><strong>AI-Powered Generation:</strong> Automatic creation ng lesson plans, activities, at assessments</li>
+                <li style="margin-bottom: 6px;"><strong>Curriculum-Based:</strong> Generated content based sa DepEd curriculum standards</li>
+                <li style="margin-bottom: 6px;"><strong>Draft Review:</strong> You review the draft at adjust objectives as needed</li>
+                <li style="margin-bottom: 6px;"><strong>Alignment Check:</strong> Ensure alignment bago i-release sa classroom</li>
+                <li style="margin-bottom: 6px;"><strong>Quality Control:</strong> Faster content creation habang controlled pa rin ang quality</li>
+              </ul>
+              <p style="margin: 8px 0 0; color: #6B7280; font-style: italic;">Goal nito ay faster content creation habang controlled pa rin ang quality.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
