@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DepEd - Teacher Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="plugins/material/css/materialdesignicons.min.css" rel="stylesheet" />
+  <link href="plugins/simplebar/simplebar.css" rel="stylesheet" />
+  <link href="plugins/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css" rel="stylesheet" />
+  <link href="css/style.css" rel="stylesheet" />
+  <link href="css/custom.css" rel="stylesheet" />
+  <style>
+    body { background-color: #FFFFFF; font-family: 'Inter', sans-serif; }
+    *, *::before, *::after { box-sizing: border-box; }
+    .sidebar-dark { background: linear-gradient(180deg, #1E3A8A 0%, #172a6b 100%) !important; display: flex; flex-direction: column; }
+    .sidebar .nav > li > a { padding: 12px 20px !important; margin: 4px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; }
+    .sidebar .nav > li.active > a { background-color: #2563EB !important; }
+    .sidebar-inner { flex-grow: 1; }
+
+    .main-header { box-shadow: none !important; border-bottom: 1px solid #E5E7EB; height: 72px; padding: 0; }
+    .content-wrapper { padding: 24px; background-color: #FFFFFF; }
+
+    .info-card { background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+    .info-card h3 { color: #111827; font-size: 16px; font-weight: 800; margin-bottom: 16px; }
+
+    .stat-card { background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 16px; padding: 18px 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+    .stat-kpi { font-size: 22px; font-weight: 800; color: #111827; margin-bottom: 4px; }
+    .stat-label { font-size: 12px; font-weight: 600; color: #6B7280; }
+
+    .pill { display: inline-block; padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; border: 1px solid #E5E7EB; background: #F9FAFB; color: #4B5563; }
+    .pill-blue { background: #EFF6FF; color: #2563EB; border-color: #BFDBFE; }
+    .pill-yellow { background: #FEF3C7; color: #92400E; border-color: #FDE68A; }
+    .pill-green { background: #DCFCE7; color: #166534; border-color: #BBF7D0; }
+    .pill-gray { background: #F9FAFB; color: #4B5563; border-color: #E5E7EB; }
+
+    .table-modern { width: 100%; border-collapse: separate; border-spacing: 0; }
+    .table-modern thead th { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: #6B7280; font-weight: 800; padding: 12px 12px; border-bottom: 1px solid #E5E7EB; }
+    .table-modern tbody td { font-size: 13px; color: #111827; padding: 14px 12px; border-bottom: 1px solid #F3F4F6; vertical-align: middle; }
+    .table-modern tbody tr:last-child td { border-bottom: none; }
+
+    .priority-item { background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 14px 14px; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
+    .priority-title { font-size: 13px; font-weight: 800; color: #111827; margin-bottom: 6px; }
+    .priority-desc { font-size: 12px; color: #6B7280; line-height: 1.45; }
+
+    @media (max-width: 991.98px) {
+      .content-wrapper { padding: 16px; }
+      .main-header { height: auto; min-height: 72px; padding: 10px 12px !important; }
+      #header { flex-wrap: wrap; align-items: flex-start !important; gap: 10px; padding-right: 0 !important; }
+      #header > .d-flex.align-items-center { flex-wrap: wrap; width: 100%; }
+      #header .app-brand { width: 100% !important; height: auto !important; padding: 10px 12px !important; margin-bottom: 6px; }
+      #header #sidebar-toggler { margin-right: 10px !important; }
+      #header > .navbar-right { width: 100%; justify-content: flex-start; flex-wrap: wrap; gap: 8px !important; }
+      #header > .navbar-right .btn { padding: 6px 12px !important; }
+      .table-modern { min-width: 640px; }
+    }
+
+    @media (max-width: 767.98px) {
+      .content-wrapper { padding: 12px; }
+      h1 { font-size: 28px !important; line-height: 1.2; }
+      .info-card { padding: 14px !important; border-radius: 12px; }
+      .stat-card { padding: 14px; }
+      .stat-kpi { font-size: 20px; }
+      .pill { font-size: 11px; padding: 5px 10px; }
+      .content > div[style*="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;"] { flex-direction: column; align-items: flex-start !important; gap: 8px; padding: 12px 14px !important; }
+    }
+
+    /* Floating Info Button Styles */
+    .floating-info-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: linear-gradient(135deg, #2563EB 0%, #1E3A8A 100%);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    .floating-info-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(37, 99, 235, 0.4);
+      background: linear-gradient(135deg, #1D4ED8 0%, #1E3A8A 100%);
+    }
+
+    .floating-info-btn i {
+      font-size: 18px;
+    }
+
+    /* Modal Styles */
+    .info-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 2000;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .info-modal.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      animation: slideUp 0.3s ease;
+    }
+
+    .modal-header {
+      padding: 24px 24px 16px;
+      border-bottom: 1px solid #E5E7EB;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      color: #111827;
+      font-size: 20px;
+      font-weight: 800;
+      margin: 0;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: #6B7280;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .modal-close:hover {
+      background: #F3F4F6;
+      color: #111827;
+    }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .page-section {
+      margin-bottom: 24px;
+    }
+
+    .page-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .page-section h4 {
+      color: #111827;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .page-section h4 i {
+      color: #2563EB;
+      font-size: 18px;
+    }
+
+    .page-item {
+      background: #F9FAFB;
+      border: 1px solid #E5E7EB;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 8px;
+    }
+
+    .page-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .page-name {
+      font-weight: 600;
+      color: #111827;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .page-description {
+      color: #6B7280;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body class="navbar-fixed sidebar-fixed" id="body">
+  <div class="wrapper">
+    <aside class="left-sidebar sidebar-dark" id="left-sidebar">
+      <div id="sidebar" class="sidebar sidebar-with-footer">
+        <div style="padding: 24px 20px 10px;">
+          <div class="d-flex align-items-center mb-3">
+            <div style="background: rgba(255,255,255,0.2); border-radius: 8px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; margin-right: 12px;">TV</div>
+            <div style="line-height: 1.2;">
+              <div style="color: white; font-weight: 800; font-size: 14px;">Class Adviser</div>
+              <div style="color: rgba(255,255,255,0.7); font-size: 12px;">Assigned Sections</div>
+            </div>
+          </div>
+          <div style="background: rgba(255,255,255,0.2); color: white; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; border: 1px solid rgba(255,255,255,0.3); display: inline-block; width: 100%;">Teacher / Adviser</div>
+        </div>
+
+        <div class="sidebar-left" data-simplebar style="height: 100%;">
+          <ul class="nav sidebar-inner" id="sidebar-menu">
+            <li class="section-title">Dashboards</li>
+            <li class="active"><a class="sidenav-item-link" href="teacher-dashboard.html"><i class="mdi mdi-teach"></i><span class="nav-text">Teacher Dashboard</span></a></li>
+            <li><a class="sidenav-item-link" href="parent-dashboard.html"><i class="mdi mdi-account-group"></i><span class="nav-text">Parent Dashboard</span></a></li>
+            <li><a class="sidenav-item-link" href="early-warning.html"><i class="mdi mdi-alert-outline"></i><span class="nav-text">Early Warning Risk</span></a></li>
+            
+            <li class="section-title">Class Management</li>
+            <li><a class="sidenav-item-link" href="smea-pir.html"><i class="mdi mdi-chart-box-outline"></i><span class="nav-text">SMEA/PIR</span></a></li>
+            <li><a class="sidenav-item-link" href="pmes-opcrf.html"><i class="mdi mdi-clipboard-text-outline"></i><span class="nav-text">PMES/OPCRF</span></a></li>
+            <li><a class="sidenav-item-link" href="attendance.html"><i class="mdi mdi-calendar-check"></i><span class="nav-text">Attendance</span></a></li>
+            <li><a class="sidenav-item-link" href="gradebook.html"><i class="mdi mdi-book-open-page-variant"></i><span class="nav-text">Gradebook</span></a></li>
+            <li><a class="sidenav-item-link" href="school-forms.html"><i class="mdi mdi-file-document-outline"></i><span class="nav-text">School Forms</span></a></li>
+            <!-- <li><a class="sidenav-item-link" href="lesson-plans.html"><i class="mdi mdi-notebook-edit-outline"></i><span class="nav-text">Lesson Plans</span></a></li> -->
+            <li><a class="sidenav-item-link" href="online-class.html"><i class="mdi mdi-video"></i><span class="nav-text">Online Class</span></a></li>
+            <li><a class="sidenav-item-link" href="content-factory.html"><i class="mdi mdi-creation"></i><span class="nav-text">AI Lesson Plan</span></a></li>
+            
+            <li class="section-title">AI LMS</li>
+            <li><a class="sidenav-item-link" href="lms-catalog.html"><i class="mdi mdi-library"></i><span class="nav-text">Resource Library</span></a></li>
+            <!-- <li><a class="sidenav-item-link" href="content-factory.html"><i class="mdi mdi-creation"></i><span class="nav-text">AI Lesson Builder</span></a></li> -->
+            <li><a class="sidenav-item-link" href="course-player.html"><i class="mdi mdi-play-circle"></i><span class="nav-text">Interactive Lessons</span></a></li>
+            <li><a class="sidenav-item-link" href="learning-progress.html"><i class="mdi mdi-chart-line-variant"></i><span class="nav-text">Learning Progress</span></a></li>
+            <li><a class="sidenav-item-link" href="offline-packages.html"><i class="mdi mdi-download-box"></i><span class="nav-text">Offline Packages</span></a></li>
+  
+            <li class="section-title">AI SUPPORT</li>
+            <li><a class="sidenav-item-link" href="ai-tutor.html"><i class="mdi mdi-robot"></i><span class="nav-text">AI Tutor</span></a></li>
+
+
+            <li class="section-title">Administration</li>
+            <li><a class="sidenav-item-link" href="structure-detection.html"><i class="mdi mdi-file-tree"></i><span class="nav-text">Structure Detection</span></a></li>
+            <li><a class="sidenav-item-link" href="human-review.html"><i class="mdi mdi-shield-check"></i><span class="nav-text">Human Review</span></a></li>
+          </ul>
+        </div>
+
+        <div style="padding: 20px;">
+          <div style="background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; margin-bottom: 12px;">
+            <div style="color: white; font-weight: 800; font-size: 13px; margin-bottom: 6px;">Security Context</div>
+            <div style="color: rgba(255,255,255,0.7); font-size: 11px; line-height: 1.5;">Teacher approvals are required for high-stakes grade actions.</div>
+          </div>
+          <div style="background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px;">
+            <div style="color: white; font-weight: 800; font-size: 13px; margin-bottom: 6px;">Operational Status</div>
+            <div style="color: rgba(255,255,255,0.7); font-size: 11px; line-height: 1.5;">Notifications, sync, and policy status remain visible in every workspace.</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="page-wrapper">
+      <header class="main-header" id="header" style="display: flex; align-items: center; justify-content: space-between; padding-right: 20px;">
+        <div class="d-flex align-items-center">
+          <div class="app-brand" style="background-color: white !important; border-right: 1px solid transparent; width: 260px; display: flex; align-items: center; padding: 0 20px; height: 72px;">
+            <div style="background: #1E3A8A; color: white; border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; margin-right: 10px;">D1</div>
+            <div style="line-height: 1.2;">
+              <div style="color: #111827; font-weight: 800; font-size: 15px;">DepEd ONE</div>
+              <div style="color: #6B7280; font-size: 11px;">Unified Learning Platform</div>
+            </div>
+          </div>
+
+          <button id="sidebar-toggler" class="sidebar-toggle" style="margin-right: 20px;">
+            <span class="sr-only">Toggle navigation</span>
+          </button>
+
+          <div style="line-height: 1.2; margin-right: 30px;">
+            <div style="font-weight: 800; color: #111827; font-size: 16px;">Teacher Dashboard</div>
+            <div style="color: #6B7280; font-size: 12px;">Classroom Operations • Screen 13 / 47</div>
+          </div>
+
+          <div class="d-none d-lg-flex align-items-center" style="gap: 12px;">
+            <span class="badge" style="background-color: #EFF6FF; color: #2563EB; border: 1px solid #BFDBFE; padding: 6px 12px; font-size: 12px;">Teacher / Adviser</span>
+            <span class="badge" style="background-color: #F9FAFB; color: #4B5563; border: 1px solid #E5E7EB; padding: 6px 12px; font-size: 12px;">Assigned Sections</span>
+            <span class="badge" style="background-color: #F9FAFB; color: #4B5563; border: 1px solid #E5E7EB; padding: 6px 12px; font-size: 12px;">SY 2025-2026 • Q3</span>
+            <span class="badge" style="background-color: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; padding: 6px 12px; font-size: 12px;">Sync: Pending</span>
+            <span class="badge" style="background-color: #F9FAFB; color: #4B5563; border: 1px solid #E5E7EB; padding: 6px 12px; font-size: 12px;">Alerts (9)</span>
+          </div>
+        </div>
+
+        <div class="navbar-right d-flex align-items-center" style="gap: 12px;">
+          <button class="btn btn-sm" style="background: white; border: 1px solid #E5E7EB; color: #4B5563; border-radius: 20px; font-weight: 700; padding: 6px 16px;">English <i class="mdi mdi-chevron-down"></i></button>
+          <button class="btn btn-sm" style="background: white; border: 1px solid #E5E7EB; color: #4B5563; border-radius: 20px; font-weight: 700; padding: 6px 16px;">Help</button>
+          <button class="btn btn-sm" style="background: white; border: 1px solid #E5E7EB; color: #4B5563; border-radius: 20px; font-weight: 700; padding: 6px 16px;">Profile</button>
+        </div>
+      </header>
+      
+      <div class="content-wrapper">
+        <div class="content p-0">
+          <div style="background-color: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 12px; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+            <div style="color: #4B5563; font-size: 14px; font-weight: 500;">
+              <strong style="color: #111827;">Context:</strong> Teacher / Adviser • Classroom Operations • Scope: Assigned Sections
+            </div>
+            <div style="color: #1E3A8A; font-size: 14px; font-weight: 800;">Teacher approvals are required for high-stakes grade actions.</div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-8">
+              <div class="d-flex align-items-start justify-content-between" style="gap: 16px;">
+                <div>
+                  <h1 style="color: #111827; font-size: 36px; font-weight: 800; margin-bottom: 8px;">Teacher Dashboard</h1>
+                  <p style="color: #4B5563; font-size: 15px; margin-bottom: 18px;">Daily classroom operations overview: attendance completeness, grade updates, progress concerns, and pending reports.</p>
+                </div>
+              </div>
+
+              <div class="d-flex flex-wrap" style="gap: 10px; margin-bottom: 18px;">
+                <span class="pill pill-green">Online</span>
+                <span class="pill pill-gray">Last refresh: 10:44 AM</span>
+                <span class="pill pill-gray">Active classes: 3</span>
+              </div>
+
+              <div class="row" style="margin-bottom: 20px;">
+                <div class="col-md-3 col-sm-6 mb-3">
+                  <div class="stat-card">
+                    <div class="stat-kpi">97%</div>
+                    <div class="stat-label">Attendance submitted</div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-3">
+                  <div class="stat-card">
+                    <div class="stat-kpi">14</div>
+                    <div class="stat-label">Ungraded activities</div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-3">
+                  <div class="stat-card">
+                    <div class="stat-kpi">5</div>
+                    <div class="stat-label">At-risk learners flagged</div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-3">
+                  <div class="stat-card">
+                    <div class="stat-kpi">3</div>
+                    <div class="stat-label">Pending parent responses</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="info-card">
+                <h3>Today's Class Operations</h3>
+                <div style="overflow-x: auto;">
+                  <table class="table-modern">
+                    <thead>
+                      <tr>
+                        <th>Class</th>
+                        <th>Attendance</th>
+                        <th>Grade Tasks</th>
+                        <th>Risk Signals</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Grade 8 - Mabini</td>
+                        <td>41 / 42 marked</td>
+                        <td>Quiz 3 pending scoring</td>
+                        <td>2 chronic absence alerts</td>
+                        <td><span class="pill pill-yellow">Needs follow-up</span></td>
+                      </tr>
+                      <tr>
+                        <td>Grade 9 - Luna</td>
+                        <td>39 / 39 marked</td>
+                        <td>No active tasks</td>
+                        <td>All posted</td>
+                        <td><span class="pill pill-green">On track</span></td>
+                      </tr>
+                      <tr>
+                        <td>Grade 8 - Bonifacio</td>
+                        <td>40 / 40 marked</td>
+                        <td>Performance task due</td>
+                        <td>1 behavior incident</td>
+                        <td><span class="pill pill-blue">Monitor</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4">
+              <div class="info-card">
+                <h3>Priority Queue</h3>
+                <div class="d-flex flex-column" style="gap: 12px;">
+                  <div class="priority-item">
+                    <div class="priority-title">Resolve attendance conflict (offline sync)</div>
+                    <div class="priority-desc">3 records for Grade 8-Mabini need final reconciliation before day-end lock.</div>
+                  </div>
+                  <div class="priority-item">
+                    <div class="priority-title">Grade edit awaiting step-up auth</div>
+                    <div class="priority-desc">Attempted change on Math Q3 requires MFA due to follow-up policy.</div>
+                  </div>
+                  <div class="priority-item">
+                    <div class="priority-title">Parent follow-up for intervention plan</div>
+                    <div class="priority-desc">Case “EWS-7782” requires guardian acknowledgement before support action.</div>
+                  </div>
+                  <div class="priority-item">
+                    <div class="priority-title">Generate weekly SF export packet</div>
+                    <div class="priority-desc">School form batch due by 4:00 PM for division reporting.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer class="footer mt-auto">
+        <div class="copyright bg-white">
+          <p>&copy; <span id="copy-year"></span> DepEd Integrated Proposal System Prototype</p>
+        </div>
+        <script>document.getElementById("copy-year").innerHTML = new Date().getFullYear();</script>
+      </footer>
+    </div>
+  </div>
+  
+  <!-- Floating Info Button -->
+  <button class="floating-info-btn" onclick="toggleInfoModal()">
+    <i class="mdi mdi-information-outline"></i>
+    <span>More Details</span>
+  </button>
+
+  <!-- Info Modal -->
+  <div id="infoModal" class="info-modal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="toggleInfoModal()">
+          <i class="mdi mdi-close"></i>
+        </button>
+      <div class="modal-body">
+        <div class="page-section">
+          <h4><i class="mdi mdi-view-dashboard"></i> Teacher Dashboard</h4>
+          <div class="page-item">
+            <div class="page-description">
+              <p style="margin: 8px 0; color: #374151;">Ito ang main workspace ng teacher para sa efficient na classroom management:</p>
+              <ul style="margin: 12px 0; padding-left: 20px; color: #4B5563; line-height: 1.6;">
+                <li style="margin-bottom: 6px;"><strong>Class Health Monitoring:</strong> Real-time visibility sa attendance, grades, at student engagement</li>
+                <li style="margin-bottom: 6px;"><strong>Priority Alerts:</strong> Automatic notifications para sa at-risk learners at urgent actions</li>
+                <li style="margin-bottom: 6px;"><strong>Quick Actions:</strong> One-click access sa attendance follow-ups at interventions</li>
+                <li style="margin-bottom: 6px;"><strong>Lesson Readiness:</strong> Track teaching progress at upcoming activities</li>
+                <li style="margin-bottom: 6px;"><strong>Daily Operations:</strong> Centralized hub para sa lahat ng teaching workflows</li>
+              </ul>
+              <p style="margin: 8px 0 0; color: #6B7280; font-style: italic;">Parang "command center" para mabilis ang decision-making at smooth daily teaching flow.</p>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="plugins/jquery/jquery.min.js"></script>
+  <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="plugins/simplebar/simplebar.min.js"></script>
+  <script src="js/mono.js"></script>
+  
+  <script>
+    function toggleInfoModal() {
+      const modal = document.getElementById('infoModal');
+      modal.classList.toggle('show');
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('infoModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        toggleInfoModal();
+      }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const modal = document.getElementById('infoModal');
+        if (modal.classList.contains('show')) {
+          toggleInfoModal();
+        }
+      }
+    });
+  </script>
+</body>
+</html>

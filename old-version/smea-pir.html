@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DepEd - SMEA/PIR</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="plugins/material/css/materialdesignicons.min.css" rel="stylesheet" />
+  <link href="plugins/simplebar/simplebar.css" rel="stylesheet" />
+  <link href="plugins/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css" rel="stylesheet" />
+  <link href="css/style.css" rel="stylesheet" />
+  <link href="css/custom.css" rel="stylesheet" />
+  <style>
+    body { background-color: #FFFFFF; font-family: 'Inter', sans-serif; }
+    *, *::before, *::after { box-sizing: border-box; }
+    .sidebar-dark { background: linear-gradient(180deg, #1E3A8A 0%, #172a6b 100%) !important; display: flex; flex-direction: column; }
+    .sidebar .nav > li > a { padding: 12px 20px !important; margin: 4px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; }
+    .sidebar .nav > li.active > a { background-color: #2563EB !important; }
+    .sidebar-inner { flex-grow: 1; }
+
+    .main-header { box-shadow: none !important; border-bottom: 1px solid #E5E7EB; height: 72px; padding: 0; }
+    .content-wrapper { padding: 24px; background-color: #FFFFFF; }
+
+    @media (max-width: 991.98px) {
+      .content-wrapper { padding: 16px; }
+      .main-header { height: auto; min-height: 72px; padding: 10px 12px !important; }
+      #header { flex-wrap: wrap; align-items: flex-start !important; gap: 10px; padding-right: 0 !important; }
+      #header > .d-flex.align-items-center { flex-wrap: wrap; width: 100%; }
+      #header .app-brand { width: 100% !important; height: auto !important; padding: 10px 12px !important; margin-bottom: 6px; }
+      #header #sidebar-toggler { margin-right: 10px !important; }
+      #header > .navbar-right { width: 100%; justify-content: flex-start; flex-wrap: wrap; gap: 8px !important; }
+      #header > .navbar-right .btn { padding: 6px 12px !important; }
+    }
+
+    @media (max-width: 767.98px) {
+      .content-wrapper { padding: 12px; }
+    }
+
+    /* SMEA/PIR Custom Styles */
+    .smea-nav {display:flex;align-items:center;gap:0;border-bottom:0.5px solid #E5E7EB;margin-bottom:0;background:#FFFFFF; border-radius: 12px 12px 0 0;}
+    .smea-nav-logo {padding:12px 16px;font-weight:500;font-size:13px;border-right:0.5px solid #E5E7EB;color:#185FA5}
+    .smea-nav-tabs {display:flex;flex:1;overflow-x:auto}
+    .smea-nav-tab {padding:12px 14px;font-size:12px;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;color:#6B7280;transition:all 0.15s}
+    .smea-nav-tab.active {border-bottom-color:#185FA5;color:#185FA5;font-weight:500}
+    .smea-nav-tab:hover:not(.active) {color:#111827;background:#F9FAFB}
+    .smea-badge {font-size:10px;padding:2px 6px;border-radius:10px;margin-left:4px;display:inline-block;}
+    .smea-badge-blue {background:#E6F1FB;color:#185FA5}
+    .smea-badge-amber {background:#FAEEDA;color:#854F0B}
+    .smea-badge-green {background:#EAF3DE;color:#3B6D11}
+    .smea-badge-red {background:#FCEBEB;color:#A32D2D}
+    .smea-content {padding:16px; border: 1px solid #E5E7EB; border-top: none; border-radius: 0 0 12px 12px; background: #FAFAFA;}
+    .smea-screen {display:none}
+    .smea-screen.active {display:block}
+    .smea-page-header {display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+    .smea-page-title {font-size:16px;font-weight:500;color:#111827}
+    .smea-page-sub {font-size:12px;color:#6B7280;margin-top:2px}
+    .smea-btn {padding:7px 14px;font-size:12px;border-radius:8px;border:0.5px solid #D1D5DB;background:#FFFFFF;cursor:pointer;color:#111827}
+    .smea-btn:hover {background:#F9FAFB}
+    .smea-btn-primary {background:#185FA5;color:#fff;border-color:#185FA5}
+    .smea-btn-primary:hover {background:#0C447C}
+    .smea-cards-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px}
+    .smea-metric-card {background:#FFFFFF;border: 1px solid #E5E7EB; border-radius:8px;padding:12px 14px}
+    .smea-metric-label {font-size:11px;color:#6B7280;margin-bottom:4px}
+    .smea-metric-value {font-size:22px;font-weight:500;color:#111827}
+    .smea-metric-trend {font-size:11px;margin-top:3px}
+    .smea-trend-up {color:#3B6D11}
+    .smea-trend-down {color:#A32D2D}
+    .smea-trend-flat {color:#6B7280}
+    .smea-section-card {background:#FFFFFF;border:0.5px solid #E5E7EB;border-radius:12px;padding:14px;margin-bottom:12px}
+    .smea-section-title {font-size:13px;font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:8px;color:#111827}
+    .smea-tag {font-size:10px;padding:2px 7px;border-radius:10px}
+    table.smea-data-table {width:100%;font-size:12px;border-collapse:collapse}
+    table.smea-data-table th {text-align:left;color:#6B7280;font-weight:400;padding:5px 8px;border-bottom:0.5px solid #E5E7EB;font-size:11px}
+    table.smea-data-table td {padding:6px 8px;border-bottom:0.5px solid #E5E7EB;color:#111827}
+    table.smea-data-table tr:last-child td {border-bottom:none}
+    .smea-proficiency-bar {height:8px;border-radius:4px;background:#F9FAFB;overflow:hidden;min-width:80px}
+    .smea-proficiency-fill {height:100%;border-radius:4px}
+    .smea-reading-profile {display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:6px}
+    .smea-profile-pill {text-align:center;border-radius:8px;padding:8px 4px;font-size:11px}
+    .smea-pp-ind {background:#E1F5EE;color:#085041}
+    .smea-pp-inst {background:#EAF3DE;color:#3B6D11}
+    .smea-pp-frus {background:#FAEEDA;color:#854F0B}
+    .smea-pp-hem {background:#FAEEDA;color:#854F0B;opacity:0.7}
+    .smea-pp-lem {background:#FCEBEB;color:#A32D2D}
+    .smea-pp-val {font-size:15px;font-weight:500;margin-top:2px}
+    .smea-form-row {display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+    .smea-form-group {display:flex;flex-direction:column;gap:4px}
+    .smea-form-label {font-size:11px;color:#6B7280}
+    .smea-form-input {padding:7px 10px;font-size:12px;border:0.5px solid #D1D5DB;border-radius:8px;background:#FFFFFF;color:#111827}
+    select.smea-form-input {cursor:pointer}
+    .smea-form-input:focus {outline:none;border-color:#185FA5}
+    .smea-progress-row {display:flex;align-items:center;gap:8px;margin-bottom:7px}
+    .smea-progress-label {font-size:12px;min-width:90px;color:#111827}
+    .smea-progress-bar-wrap {flex:1;height:10px;border-radius:5px;background:#F9FAFB;overflow:hidden}
+    .smea-progress-bar {height:100%;border-radius:5px}
+    .smea-progress-pct {font-size:11px;color:#6B7280;min-width:32px;text-align:right}
+    .smea-stepper {display:flex;align-items:center;gap:0;margin-bottom:16px}
+    .smea-step {display:flex;align-items:center;gap:6px;font-size:11px;color:#6B7280}
+    .smea-step-circle {width:20px;height:20px;border-radius:50%;border:0.5px solid #D1D5DB;display:flex;align-items:center;justify-content:center;font-size:10px}
+    .smea-step.done .smea-step-circle {background:#185FA5;border-color:#185FA5;color:#fff}
+    .smea-step.active .smea-step-circle {border-color:#185FA5;color:#185FA5;font-weight:500}
+    .smea-step.active {color:#111827;font-weight:500}
+    .smea-step-line {flex:1;height:0.5px;background:#E5E7EB;margin:0 4px}
+    .smea-alert-bar {padding:9px 12px;border-radius:8px;font-size:12px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+    .smea-alert-info {background:#E6F1FB;color:#185FA5;border:0.5px solid #B5D4F4}
+    .smea-alert-warn {background:#FAEEDA;color:#854F0B;border:0.5px solid #FAC775}
+    .smea-mini-dot {width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:4px}
+    .smea-two-col {display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media (max-width: 767.98px) {
+      .smea-two-col {grid-template-columns:1fr}
+      .smea-form-row {grid-template-columns:1fr}
+      .smea-nav-tabs {flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;}
+      .smea-nav-tabs::-webkit-scrollbar { display: none; }
+    }
+  </style>
+</head>
+<body class="navbar-fixed sidebar-fixed" id="body">
+  <div class="wrapper">
+    <aside class="left-sidebar sidebar-dark" id="left-sidebar">
+      <div id="sidebar" class="sidebar sidebar-with-footer">
+        <div style="padding: 24px 20px 10px;">
+          <div class="d-flex align-items-center mb-3">
+            <div style="background: rgba(255,255,255,0.2); border-radius: 8px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; margin-right: 12px;">TV</div>
+            <div style="line-height: 1.2;">
+              <div style="color: white; font-weight: 800; font-size: 14px;">Class Adviser</div>
+              <div style="color: rgba(255,255,255,0.7); font-size: 12px;">Assigned Sections</div>
+            </div>
+          </div>
+          <div style="background: rgba(255,255,255,0.2); color: white; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; border: 1px solid rgba(255,255,255,0.3); display: inline-block; width: 100%;">Teacher / Adviser</div>
+        </div>
+
+        <div class="sidebar-left" data-simplebar style="height: 100%;">
+          <ul class="nav sidebar-inner" id="sidebar-menu">
+            <li class="section-title">Dashboards</li>
+            <li><a class="sidenav-item-link" href="teacher-dashboard.html"><i class="mdi mdi-teach"></i><span class="nav-text">Teacher Dashboard</span></a></li>
+            <li><a class="sidenav-item-link" href="parent-dashboard.html"><i class="mdi mdi-account-group"></i><span class="nav-text">Parent Dashboard</span></a></li>
+            <li><a class="sidenav-item-link" href="early-warning.html"><i class="mdi mdi-alert-outline"></i><span class="nav-text">Early Warning Risk</span></a></li>
+            
+            <li class="section-title">Class Management</li>
+            <li class="active"><a class="sidenav-item-link" href="smea-pir.html"><i class="mdi mdi-chart-box-outline"></i><span class="nav-text">SMEA/PIR</span></a></li>
+            <li><a class="sidenav-item-link" href="pmes-opcrf.html"><i class="mdi mdi-clipboard-text-outline"></i><span class="nav-text">PMES/OPCRF</span></a></li>
+
+            <li><a class="sidenav-item-link" href="attendance.html"><i class="mdi mdi-calendar-check"></i><span class="nav-text">Attendance</span></a></li>
+            <li><a class="sidenav-item-link" href="gradebook.html"><i class="mdi mdi-book-open-page-variant"></i><span class="nav-text">Gradebook</span></a></li>
+            <li><a class="sidenav-item-link" href="school-forms.html"><i class="mdi mdi-file-document-outline"></i><span class="nav-text">School Forms</span></a></li>
+            <li><a class="sidenav-item-link" href="online-class.html"><i class="mdi mdi-video"></i><span class="nav-text">Online Class</span></a></li>
+            <li><a class="sidenav-item-link" href="content-factory.html"><i class="mdi mdi-creation"></i><span class="nav-text">AI Lesson Plan</span></a></li>
+            
+            <li class="section-title">AI LMS</li>
+            <li><a class="sidenav-item-link" href="lms-catalog.html"><i class="mdi mdi-library"></i><span class="nav-text">Resource Library</span></a></li>
+            <li><a class="sidenav-item-link" href="course-player.html"><i class="mdi mdi-play-circle"></i><span class="nav-text">Interactive Lessons</span></a></li>
+            <li><a class="sidenav-item-link" href="learning-progress.html"><i class="mdi mdi-chart-line-variant"></i><span class="nav-text">Learning Progress</span></a></li>
+            <li><a class="sidenav-item-link" href="offline-packages.html"><i class="mdi mdi-download-box"></i><span class="nav-text">Offline Packages</span></a></li>
+  
+            <li class="section-title">AI SUPPORT</li>
+            <li><a class="sidenav-item-link" href="ai-tutor.html"><i class="mdi mdi-robot"></i><span class="nav-text">AI Tutor</span></a></li>
+
+            <li class="section-title">Administration</li>
+            <li><a class="sidenav-item-link" href="structure-detection.html"><i class="mdi mdi-file-tree"></i><span class="nav-text">Structure Detection</span></a></li>
+            <li><a class="sidenav-item-link" href="human-review.html"><i class="mdi mdi-shield-check"></i><span class="nav-text">Human Review</span></a></li>
+          </ul>
+        </div>
+
+        <div style="padding: 20px;">
+          <div style="background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; margin-bottom: 12px;">
+            <div style="color: white; font-weight: 800; font-size: 13px; margin-bottom: 6px;">Security Context</div>
+            <div style="color: rgba(255,255,255,0.7); font-size: 11px; line-height: 1.5;">Teacher approvals are required for high-stakes grade actions.</div>
+          </div>
+          <div style="background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px;">
+            <div style="color: white; font-weight: 800; font-size: 13px; margin-bottom: 6px;">Operational Status</div>
+            <div style="color: rgba(255,255,255,0.7); font-size: 11px; line-height: 1.5;">Notifications, sync, and policy status remain visible in every workspace.</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="page-wrapper">
+      <header class="main-header" id="header" style="display: flex; align-items: center; justify-content: space-between; padding-right: 20px;">
+        <div class="d-flex align-items-center">
+          <div class="app-brand" style="background-color: white !important; border-right: 1px solid transparent; width: 260px; display: flex; align-items: center; padding: 0 20px; height: 72px;">
+            <div style="background: #1E3A8A; color: white; border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; margin-right: 10px;">D1</div>
+            <div style="line-height: 1.2;">
+              <div style="color: #111827; font-weight: 800; font-size: 15px;">DepEd ONE</div>
+              <div style="color: #6B7280; font-size: 11px;">Unified Learning Platform</div>
+            </div>
+          </div>
+
+          <button id="sidebar-toggler" class="sidebar-toggle" style="margin-right: 20px;">
+            <span class="sr-only">Toggle navigation</span>
+          </button>
+
+          <div style="line-height: 1.2; margin-right: 30px;">
+            <div style="font-weight: 800; color: #111827; font-size: 16px;">SMEA/PIR</div>
+            <div style="color: #6B7280; font-size: 12px;">Administration • School Dashboards</div>
+          </div>
+        </div>
+
+        <div class="navbar-right d-flex align-items-center" style="gap: 12px;">
+          <button class="btn btn-sm" style="background: white; border: 1px solid #E5E7EB; color: #4B5563; border-radius: 20px; font-weight: 700; padding: 6px 16px;">English <i class="mdi mdi-chevron-down"></i></button>
+          <button class="btn btn-sm" style="background: white; border: 1px solid #E5E7EB; color: #4B5563; border-radius: 20px; font-weight: 700; padding: 6px 16px;">Help</button>
+          <button class="btn btn-sm" style="background: white; border: 1px solid #E5E7EB; color: #4B5563; border-radius: 20px; font-weight: 700; padding: 6px 16px;">Profile</button>
+        </div>
+      </header>
+      
+      <div class="content-wrapper">
+        <div class="content p-0" style="margin: 0 auto; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); border-radius: 12px;">
+          
+          <h2 class="sr-only">SMEA/PIR Digital System — DepEd School Dashboard showing enrollment, MPS, CRLA, numeracy and literacy assessment modules</h2>
+
+          <div class="smea-nav">
+            <div class="smea-nav-logo">DepEd SMEA/PIR</div>
+            <div class="smea-nav-tabs">
+              <div class="smea-nav-tab active" onclick="showTab('dashboard',this)">Dashboard</div>
+              <div class="smea-nav-tab" onclick="showTab('mps',this)">MPS <span class="smea-badge smea-badge-blue">Quality</span></div>
+              <div class="smea-nav-tab" onclick="showTab('crla',this)">CRLA / Literacy <span class="smea-badge smea-badge-amber">Assessment</span></div>
+              <div class="smea-nav-tab" onclick="showTab('numeracy',this)">Numeracy <span class="smea-badge smea-badge-amber">Assessment</span></div>
+              <div class="smea-nav-tab" onclick="showTab('submission',this)">PIR Submission <span class="smea-badge smea-badge-green">Q3</span></div>
+            </div>
+          </div>
+
+          <div class="smea-content">
+
+            <!-- DASHBOARD -->
+            <div id="screen-dashboard" class="smea-screen active">
+              <div class="smea-page-header">
+                <div>
+                  <div class="smea-page-title">School Overview — Q3 SY 2024–2025</div>
+                  <div class="smea-page-sub">Leyte Division · Elementary Level</div>
+                </div>
+                <button class="smea-btn smea-btn-primary" onclick="showTab('submission',document.querySelectorAll('.smea-nav-tab')[4])">Submit PIR Report ↗</button>
+              </div>
+
+              <div class="smea-cards-grid">
+                <div class="smea-metric-card">
+                  <div class="smea-metric-label">Total Enrolment</div>
+                  <div class="smea-metric-value">131</div>
+                  <div class="smea-metric-trend smea-trend-flat">Elem: 131 · JHS: 0</div>
+                </div>
+                <div class="smea-metric-card">
+                  <div class="smea-metric-label">Avg MPS (School)</div>
+                  <div class="smea-metric-value">82.7%</div>
+                  <div class="smea-metric-trend smea-trend-up">▲ above target</div>
+                </div>
+                <div class="smea-metric-card">
+                  <div class="smea-metric-label">CRLA Assessed</div>
+                  <div class="smea-metric-value">54</div>
+                  <div class="smea-metric-trend smea-trend-flat">Gr 1–3 · MTB/Fil/Eng</div>
+                </div>
+                <div class="smea-metric-card">
+                  <div class="smea-metric-label">RMA Assessed</div>
+                  <div class="smea-metric-value">59</div>
+                  <div class="smea-metric-trend smea-trend-up">▲ 52.5% at grade level</div>
+                </div>
+              </div>
+
+              <div class="smea-two-col">
+                <div class="smea-section-card">
+                  <div class="smea-section-title">MPS by subject area <span class="smea-tag smea-badge-blue">Elementary</span></div>
+                  <div class="smea-progress-row"><div class="smea-progress-label">Mathematics</div><div class="smea-progress-bar-wrap"><div class="smea-progress-bar" style="width:82.8%;background:#378ADD"></div></div><div class="smea-progress-pct">82.8%</div></div>
+                  <div class="smea-progress-row"><div class="smea-progress-label">English</div><div class="smea-progress-bar-wrap"><div class="smea-progress-bar" style="width:82.1%;background:#378ADD"></div></div><div class="smea-progress-pct">82.1%</div></div>
+                  <div class="smea-progress-row"><div class="smea-progress-label">Science</div><div class="smea-progress-bar-wrap"><div class="smea-progress-bar" style="width:82.4%;background:#378ADD"></div></div><div class="smea-progress-pct">82.4%</div></div>
+                  <div class="smea-progress-row"><div class="smea-progress-label">GMRC/EsP</div><div class="smea-progress-bar-wrap"><div class="smea-progress-bar" style="width:83.6%;background:#378ADD"></div></div><div class="smea-progress-pct">83.6%</div></div>
+                  <div class="smea-progress-row"><div class="smea-progress-label">Makabansa</div><div class="smea-progress-bar-wrap"><div class="smea-progress-bar" style="width:82.5%;background:#378ADD"></div></div><div class="smea-progress-pct">82.5%</div></div>
+                </div>
+                <div class="smea-section-card">
+                  <div class="smea-section-title">PIR submission status <span class="smea-tag smea-badge-amber">Q3</span></div>
+                  <div class="smea-alert-bar smea-alert-info">ACCESS section — complete</div>
+                  <div class="smea-alert-bar smea-alert-info">EQUITY section — complete</div>
+                  <div class="smea-alert-bar smea-alert-warn">QUALITY section — 2 items pending</div>
+                  <button class="smea-btn" style="width:100%;margin-top:6px;font-size:12px" onclick="showTab('submission',document.querySelectorAll('.smea-nav-tab')[4])">Review & submit →</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- MPS -->
+            <div id="screen-mps" class="smea-screen">
+              <div class="smea-page-header">
+                <div>
+                  <div class="smea-page-title">Mean Percentage Score (MPS)</div>
+                  <div class="smea-page-sub">Per subject area · per grade level · Q3</div>
+                </div>
+                <div style="display:flex;gap:8px">
+                  <select class="smea-form-input" style="font-size:12px">
+                    <option>Elementary</option><option>JHS</option><option>SHS</option>
+                  </select>
+                  <select class="smea-form-input" style="font-size:12px">
+                    <option>Quarter 3</option><option>Quarter 1</option><option>Quarter 2</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="smea-section-card">
+                <div class="smea-section-title">Average MPS by subject per grade level</div>
+                <table class="smea-data-table">
+                  <thead><tr>
+                    <th>Subject</th><th>Gr 1</th><th>Gr 2</th><th>Gr 3</th><th>Gr 4</th><th>Gr 5</th><th>Gr 6</th><th>School Avg</th>
+                  </tr></thead>
+                  <tbody>
+                    <tr><td>Language</td><td>82.7</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td><b>82.7</b></td></tr>
+                    <tr><td>Reading &amp; Literacy</td><td>84.7</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td><b>84.7</b></td></tr>
+                    <tr><td>Mathematics</td><td>83.6</td><td>82.3</td><td>82.3</td><td>85.1</td><td>81.2</td><td>82.3</td><td><b>82.8</b></td></tr>
+                    <tr><td>English</td><td>—</td><td>82.5</td><td>80.3</td><td>84.6</td><td>80.8</td><td>82.4</td><td><b>82.1</b></td></tr>
+                    <tr><td>Science</td><td>—</td><td>—</td><td>80.3</td><td>83.6</td><td>83.6</td><td>82.2</td><td><b>82.4</b></td></tr>
+                    <tr><td>GMRC/EsP</td><td>83.9</td><td>83.4</td><td>82.8</td><td>83.2</td><td>84.8</td><td>—</td><td><b>83.6</b></td></tr>
+                    <tr><td>Makabansa</td><td>82.5</td><td>82.3</td><td>80.5</td><td>—</td><td>—</td><td>—</td><td><b>82.5</b></td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="smea-section-card">
+                <div class="smea-section-title">Learners at least Nearly Proficient to Highly Proficient</div>
+                <table class="smea-data-table">
+                  <thead><tr><th>Grade</th><th>Subject</th><th>Male</th><th>Female</th><th>Total</th><th>Proficiency rate</th></tr></thead>
+                  <tbody>
+                    <tr><td>Grade 1</td><td>Language / Reading / Math</td><td>7</td><td>8</td><td>15</td><td><div class="smea-proficiency-bar"><div class="smea-proficiency-fill" style="width:100%;background:#1D9E75"></div></div></td></tr>
+                    <tr><td>Grade 2</td><td>English / Math / Fil</td><td>9</td><td>9</td><td>18</td><td><div class="smea-proficiency-bar"><div class="smea-proficiency-fill" style="width:94%;background:#1D9E75"></div></div></td></tr>
+                    <tr><td>Grade 3–6</td><td>All core subjects</td><td>—</td><td>—</td><td>—</td><td style="color:#6B7280;font-size:11px">Encode data below</td></tr>
+                  </tbody>
+                </table>
+                <button class="smea-btn smea-btn-primary" style="margin-top:10px;font-size:12px" onclick="sendPrompt('How do I encode MPS data per grade level for the SMEA PIR system?')">Encode MPS data ↗</button>
+              </div>
+            </div>
+
+            <!-- CRLA / LITERACY -->
+            <div id="screen-crla" class="smea-screen">
+              <div class="smea-page-header">
+                <div>
+                  <div class="smea-page-title">CRLA — Literacy Assessment</div>
+                  <div class="smea-page-sub">Comprehensive Rapid Literacy Assessment · Phil-IRI · BOSY Pre-test</div>
+                </div>
+                <select class="smea-form-input" style="font-size:12px">
+                  <option>CRLA (MTB-MLE / Filipino / English)</option>
+                  <option>Phil-IRI English</option>
+                  <option>Phil-IRI Filipino</option>
+                </select>
+              </div>
+
+              <div class="smea-alert-bar smea-alert-info">Pre-test window: Q3 · Post-test window: Q2 · Data from SDO central dashboard tool</div>
+
+              <div class="smea-section-card">
+                <div class="smea-section-title">Learners assessed per grade &amp; language</div>
+                <table class="smea-data-table">
+                  <thead><tr><th>Grade</th><th>MTB-MLE</th><th>Filipino</th><th>English</th><th>Total assessed</th></tr></thead>
+                  <tbody>
+                    <tr><td>Grade 1</td><td>15</td><td>—</td><td>—</td><td>15</td></tr>
+                    <tr><td>Grade 2</td><td>17</td><td>17</td><td>—</td><td>34</td></tr>
+                    <tr><td>Grade 3</td><td>22</td><td>22</td><td>22</td><td>66</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="smea-section-card">
+                <div class="smea-section-title">Reading profile distribution <span class="smea-tag smea-badge-blue">CRLA results</span></div>
+                <div style="font-size:11px;color:#6B7280;margin-bottom:8px">Number of learners per reading category</div>
+                <div class="smea-reading-profile">
+                  <div class="smea-profile-pill smea-pp-ind"><div>Independent</div><div class="smea-pp-val">8</div></div>
+                  <div class="smea-profile-pill smea-pp-inst"><div>Instructional</div><div class="smea-pp-val">9</div></div>
+                  <div class="smea-profile-pill smea-pp-frus"><div>Frustration</div><div class="smea-pp-val">6</div></div>
+                  <div class="smea-profile-pill smea-pp-hem"><div>High Emerging</div><div class="smea-pp-val">10</div></div>
+                  <div class="smea-profile-pill smea-pp-lem"><div>Low Emerging</div><div class="smea-pp-val">10</div></div>
+                </div>
+                <button class="smea-btn" style="margin-top:12px;font-size:12px;width:100%" onclick="sendPrompt('What interventions should I recommend for Low Emerging Readers in the CRLA results for DepEd?')">Suggest ARAL interventions ↗</button>
+              </div>
+            </div>
+
+            <!-- NUMERACY -->
+            <div id="screen-numeracy" class="smea-screen">
+              <div class="smea-page-header">
+                <div>
+                  <div class="smea-page-title">Numeracy Assessment</div>
+                  <div class="smea-page-sub">RMA (Gr 1–3) · ERUNT (Gr 4–12) · Pre-test Q3 / Post-test Q2</div>
+                </div>
+                <select class="smea-form-input" style="font-size:12px">
+                  <option>RMA — Grades 1–3</option>
+                  <option>ERUNT — Grades 4–12</option>
+                </select>
+              </div>
+
+              <div class="smea-alert-bar smea-alert-warn">RMA/CRLA/Phil-IRI/ERUNT: For one-time school reporting, data is generated by the SDO via the central office dashboard tool.</div>
+
+              <div class="smea-cards-grid">
+                <div class="smea-metric-card"><div class="smea-metric-label">Assessed (RMA)</div><div class="smea-metric-value">59</div><div class="smea-metric-trend smea-trend-flat">Gr1: 15 · Gr2: 17 · Gr3: 27</div></div>
+                <div class="smea-metric-card"><div class="smea-metric-label">At grade level</div><div class="smea-metric-value">31</div><div class="smea-metric-trend smea-trend-up">▲ 52.5% of assessed</div></div>
+                <div class="smea-metric-card"><div class="smea-metric-label">Transitioning</div><div class="smea-metric-value">18</div><div class="smea-metric-trend smea-trend-flat">30.5%</div></div>
+                <div class="smea-metric-card"><div class="smea-metric-label">Developing</div><div class="smea-metric-value">10</div><div class="smea-metric-trend smea-trend-down">17% — needs ARAL</div></div>
+              </div>
+
+              <div class="smea-section-card">
+                <div class="smea-section-title">RMA proficiency by grade level</div>
+                <table class="smea-data-table">
+                  <thead><tr>
+                    <th>Grade</th>
+                    <th>At grade level <span style="color:#3B6D11">(HP)</span></th>
+                    <th>Transitioning <span style="color:#639922">(P)</span></th>
+                    <th>Developing <span style="color:#854F0B">(NP)</span></th>
+                    <th>Emerging <span style="color:#A32D2D">(LP/Not P)</span></th>
+                  </tr></thead>
+                  <tbody>
+                    <tr><td>Grade 1</td><td>11</td><td>3</td><td>1</td><td>0</td></tr>
+                    <tr><td>Grade 2</td><td>10</td><td>5</td><td>2</td><td>0</td></tr>
+                    <tr><td>Grade 3</td><td>10</td><td>10</td><td>7</td><td>0</td></tr>
+                    <tr><td><b>Total</b></td><td><b>31</b></td><td><b>18</b></td><td><b>10</b></td><td><b>0</b></td></tr>
+                  </tbody>
+                </table>
+                <button class="smea-btn" style="margin-top:10px;font-size:12px" onclick="sendPrompt('What ARAL numeracy interventions are recommended in DepEd for Developing and Emerging learners?')">View ARAL recommendations ↗</button>
+              </div>
+            </div>
+
+            <!-- PIR SUBMISSION -->
+            <div id="screen-submission" class="smea-screen">
+              <div class="smea-page-header">
+                <div>
+                  <div class="smea-page-title">PIR Submission — Quarter 3</div>
+                  <div class="smea-page-sub">Leyte Division · SY 2024–2025 · Deadline: end of Q3</div>
+                </div>
+              </div>
+
+              <div class="smea-stepper">
+                <div class="smea-step done"><div class="smea-step-circle">✓</div> School info</div>
+                <div class="smea-step-line"></div>
+                <div class="smea-step done"><div class="smea-step-circle">✓</div> ACCESS</div>
+                <div class="smea-step-line"></div>
+                <div class="smea-step done"><div class="smea-step-circle">✓</div> EQUITY</div>
+                <div class="smea-step-line"></div>
+                <div class="smea-step active"><div class="smea-step-circle">4</div> QUALITY</div>
+                <div class="smea-step-line"></div>
+                <div class="smea-step"><div class="smea-step-circle">5</div> Review &amp; submit</div>
+              </div>
+
+              <div class="smea-section-card">
+                <div class="smea-section-title">QUALITY — assessment data entry</div>
+                <div class="smea-alert-bar smea-alert-warn">2 sections still require data. Complete before submitting.</div>
+
+                <div style="margin-bottom:12px">
+                  <div style="font-size:12px;font-weight:500;margin-bottom:8px;display:flex;align-items:center;gap:6px">
+                    <span class="smea-mini-dot" style="background:#3B6D11"></span> MPS per subject area
+                    <span class="smea-tag smea-badge-green">complete</span>
+                  </div>
+                  <div style="font-size:12px;font-weight:500;margin-bottom:8px;display:flex;align-items:center;gap:6px">
+                    <span class="smea-mini-dot" style="background:#3B6D11"></span> Kindergarten performance categories
+                    <span class="smea-tag smea-badge-green">complete</span>
+                  </div>
+                  <div style="font-size:12px;font-weight:500;margin-bottom:8px;display:flex;align-items:center;gap:6px">
+                    <span class="smea-mini-dot" style="background:#854F0B"></span> Phil-IRI results (English &amp; Filipino)
+                    <span class="smea-tag smea-badge-amber">pending</span>
+                  </div>
+                  <div style="font-size:12px;font-weight:500;margin-bottom:8px;display:flex;align-items:center;gap:6px">
+                    <span class="smea-mini-dot" style="background:#854F0B"></span> ERUNT numeracy (Gr 4–12)
+                    <span class="smea-tag smea-badge-amber">pending</span>
+                  </div>
+                  <div style="font-size:12px;font-weight:500;margin-bottom:8px;display:flex;align-items:center;gap:6px">
+                    <span class="smea-mini-dot" style="background:#3B6D11"></span> CRLA reading profiles
+                    <span class="smea-tag smea-badge-green">complete</span>
+                  </div>
+                  <div style="font-size:12px;font-weight:500;display:flex;align-items:center;gap:6px">
+                    <span class="smea-mini-dot" style="background:#3B6D11"></span> RMA numeracy (Gr 1–3)
+                    <span class="smea-tag smea-badge-green">complete</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="smea-section-card">
+                <div class="smea-section-title">Phil-IRI data entry <span class="smea-tag smea-badge-amber">pending</span></div>
+                <div class="smea-form-row">
+                  <div class="smea-form-group"><label class="smea-form-label">Grade level</label><select class="smea-form-input"><option>Grade 3</option><option>Grade 4</option><option>Grade 5</option><option>Grade 6</option></select></div>
+                  <div class="smea-form-group"><label class="smea-form-label">Language</label><select class="smea-form-input"><option>Filipino</option><option>English</option></select></div>
+                </div>
+                <div class="smea-form-row">
+                  <div class="smea-form-group"><label class="smea-form-label">Independent readers</label><input class="smea-form-input" type="number" placeholder="0"></div>
+                  <div class="smea-form-group"><label class="smea-form-label">Instructional readers</label><input class="smea-form-input" type="number" placeholder="0"></div>
+                </div>
+                <div class="smea-form-row">
+                  <div class="smea-form-group"><label class="smea-form-label">Frustration readers</label><input class="smea-form-input" type="number" placeholder="0"></div>
+                  <div class="smea-form-group"><label class="smea-form-label">Non-readers</label><input class="smea-form-input" type="number" placeholder="0"></div>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:4px">
+                  <button class="smea-btn" style="flex:1;font-size:12px">Save draft</button>
+                  <button class="smea-btn smea-btn-primary" style="flex:1;font-size:12px">Save &amp; next →</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <script>
+          function showTab(id, el) {
+            document.querySelectorAll('.smea-screen').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.smea-nav-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('screen-' + id).classList.add('active');
+            el.classList.add('active');
+          }
+          </script>
+        </div>
+      </div>
+      
+      <footer class="footer mt-auto">
+        <div class="copyright bg-white">
+          <p>&copy; <span id="copy-year"></span> DepEd Integrated Proposal System Prototype</p>
+        </div>
+        <script>document.getElementById("copy-year").innerHTML = new Date().getFullYear();</script>
+      </footer>
+    </div>
+  </div>
+  
+  <script src="plugins/jquery/jquery.min.js"></script>
+  <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="plugins/simplebar/simplebar.min.js"></script>
+  <script src="js/mono.js"></script>
+</body>
+</html>
