@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DepEd ONE - Course Player</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="plugins/material/css/materialdesignicons.min.css" rel="stylesheet" />
+  <link href="plugins/simplebar/simplebar.css" rel="stylesheet" />
+  <link href="css/style.css" rel="stylesheet" />
+  <link href="css/custom.css" rel="stylesheet" />
+  <style>
+    body { background-color: #FFFFFF; font-family: 'Inter', sans-serif; overflow: hidden; }
+    .sidebar-dark { background: linear-gradient(180deg, #1E3A8A 0%, #172a6b 100%) !important; display: flex; flex-direction: column; }
+    .sidebar .nav > li > a { padding: 12px 20px !important; margin: 4px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; }
+    .sidebar .nav > li.active > a { background-color: #2563EB !important; }
+    .main-header { box-shadow: none !important; border-bottom: 1px solid #E5E7EB; height: 64px; padding: 0; }
+    .content-wrapper { padding: 0 !important; background: #FFFFFF; display: flex; flex-direction: column; height: calc(100vh - 64px); }
+
+    /* Instructor Panel */
+    .instructor-panel { width: 272px; min-width: 272px; background: linear-gradient(180deg, #1E3A8A 0%, #172a6b 100%); display: flex; flex-direction: column; overflow-y: auto; padding: 24px 20px; flex-shrink: 0; }
+    .instructor-avatar { width: 64px; height: 64px; border-radius: 16px; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800; color: white; margin-bottom: 12px; border: 2px solid rgba(255,255,255,0.3); }
+    .narration-box { background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 14px 16px; margin-top: 16px; }
+    .audio-bar { background: rgba(255,255,255,0.1); border-radius: 8px; height: 4px; margin: 10px 0 6px; overflow: hidden; }
+    .audio-bar-fill { background: #60A5FA; height: 100%; width: 42%; border-radius: 8px; }
+
+    /* Teaching Board */
+    .teaching-board { flex: 1; overflow-y: auto; background: #FFFFFF; padding: 28px 32px; }
+    .scene-label { display: inline-flex; align-items: center; gap: 6px; background: #EFF6FF; color: #2563EB; border: 1px solid #BFDBFE; border-radius: 20px; padding: 4px 14px; font-size: 12px; font-weight: 700; margin-bottom: 14px; }
+    .concept-box { background: #FFF7ED; border-left: 4px solid #F59E0B; border-radius: 0 12px 12px 0; padding: 14px 18px; margin-bottom: 24px; }
+    .step-block { border: 1px solid #E5E7EB; border-radius: 12px; padding: 16px 20px; margin-bottom: 16px; position: relative; }
+    .step-number { position: absolute; top: -12px; left: 16px; background: #1E3A8A; color: white; font-size: 11px; font-weight: 700; padding: 2px 10px; border-radius: 10px; }
+    .formula-box { background: #F1F5F9; border: 1px solid #CBD5E1; border-radius: 8px; padding: 12px 16px; font-family: 'Courier New', monospace; font-size: 15px; font-weight: 600; color: #0F172A; margin: 10px 0; line-height: 1.8; }
+    .formula-box .highlight { background: #DBEAFE; color: #1D4ED8; padding: 1px 4px; border-radius: 4px; }
+    .formula-box .result { background: #DCFCE7; color: #166534; padding: 1px 4px; border-radius: 4px; }
+    .rule-note { font-size: 12px; color: #6B7280; font-style: italic; margin-top: 6px; }
+    .verify-box { background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 12px; padding: 14px 18px; margin-bottom: 20px; }
+    .checkpoint-block { background: #FAFAFA; border: 2px solid #E5E7EB; border-radius: 16px; padding: 20px 24px; margin-top: 8px; }
+    .checkpoint-block h4 { color: #111827; font-size: 15px; font-weight: 700; margin-bottom: 16px; }
+    .choice-btn { display: block; width: 100%; text-align: left; background: white; border: 1.5px solid #E5E7EB; border-radius: 10px; padding: 11px 16px; margin-bottom: 8px; font-size: 14px; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 500; color: #374151; transition: all 0.15s; }
+    .choice-btn:hover { border-color: #93C5FD; background: #EFF6FF; color: #1E3A8A; }
+    .choice-btn.correct { border-color: #22C55E; background: #DCFCE7; color: #166534; font-weight: 700; }
+    .choice-btn.wrong { border-color: #EF4444; background: #FEF2F2; color: #991B1B; }
+    .keyword-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; padding-top: 16px; border-top: 1px dashed #E5E7EB; }
+    .keyword-pill { background: #F3F4F6; color: #374151; border-radius: 8px; padding: 4px 12px; font-size: 12px; font-weight: 600; }
+
+    /* Right panel */
+    .right-panel { width: 288px; min-width: 288px; border-left: 1px solid #E5E7EB; background: #F9FAFB; display: flex; flex-direction: column; overflow: hidden; flex-shrink: 0; }
+    .right-panel-tab { display: flex; border-bottom: 1px solid #E5E7EB; }
+    .right-tab { flex: 1; padding: 12px; font-size: 12px; font-weight: 700; text-align: center; cursor: pointer; color: #6B7280; border-bottom: 2px solid transparent; background: transparent; border-left: none; border-right: none; border-top: none; font-family: 'Inter', sans-serif; }
+    .right-tab.active { color: #1E3A8A; border-bottom-color: #1E3A8A; background: white; }
+    .scene-item { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-bottom: 1px solid #E5E7EB; font-size: 13px; cursor: pointer; background: white; }
+    .scene-item:hover { background: #EFF6FF; }
+    .scene-item.current { background: #EFF6FF; border-left: 3px solid #2563EB; font-weight: 700; color: #1E3A8A; }
+    .scene-item.done { color: #6B7280; }
+    .scene-dot { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex-shrink: 0; }
+    .scene-dot.done { background: #DCFCE7; color: #166534; }
+    .scene-dot.current { background: #2563EB; color: white; }
+    .scene-dot.locked { background: #F3F4F6; color: #9CA3AF; }
+
+    /* Bottom timeline */
+    .bottom-timeline { height: 72px; border-top: 2px solid #E5E7EB; background: white; padding: 0 28px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-shrink: 0; }
+    .scene-dots-track { display: flex; gap: 6px; align-items: center; flex-wrap: nowrap; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; cursor: pointer; transition: transform 0.15s; }
+    .dot:hover { transform: scale(1.3); }
+    .dot.done { background: #22C55E; }
+    .dot.current { background: #2563EB; width: 24px; border-radius: 6px; }
+    .dot.upcoming { background: #D1D5DB; }
+    .progress-bar-track { flex: 1; background: #F3F4F6; border-radius: 8px; height: 6px; overflow: hidden; }
+    .progress-bar-fill { background: linear-gradient(90deg, #2563EB, #3B82F6); height: 100%; width: 38%; border-radius: 8px; }
+    .ctrl-btn { display: flex; align-items: center; gap: 6px; padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; border: 1.5px solid #E5E7EB; background: white; color: #374151; font-family: 'Inter', sans-serif; }
+    .ctrl-btn.primary { background: #1E3A8A; color: white; border-color: #1E3A8A; }
+    .ctrl-btn:hover { background: #F3F4F6; }
+    .ctrl-btn.primary:hover { background: #1D4ED8; }
+
+    /* Mini tutor panel */
+    .tutor-mini { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+    .tutor-chat-area { flex: 1; overflow-y: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; background: #F3F4F6; }
+    .tutor-msg { font-size: 13px; padding: 10px 14px; border-radius: 12px; max-width: 90%; }
+    .tutor-msg.student { background: #EFF6FF; color: #1E3A8A; border: 1px solid #BFDBFE; align-self: flex-end; border-radius: 12px 12px 0 12px; }
+    .tutor-msg.tutor { background: white; color: #111827; border: 1px solid #E5E7EB; align-self: flex-start; border-radius: 12px 12px 12px 0; }
+
+    /* Floating Info Button Styles */
+    .floating-info-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: linear-gradient(135deg, #2563EB 0%, #1E3A8A 100%);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    .floating-info-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(37, 99, 235, 0.4);
+      background: linear-gradient(135deg, #1D4ED8 0%, #1E3A8A 100%);
+    }
+
+    .floating-info-btn i {
+      font-size: 18px;
+    }
+
+    /* Modal Styles */
+    .info-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 2000;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .info-modal.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      animation: slideUp 0.3s ease;
+    }
+
+    .modal-header {
+      padding: 24px 24px 16px;
+      border-bottom: 1px solid #E5E7EB;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      color: #111827;
+      font-size: 20px;
+      font-weight: 800;
+      margin: 0;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: #6B7280;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .modal-close:hover {
+      background: #F3F4F6;
+      color: #111827;
+    }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .page-section {
+      margin-bottom: 24px;
+    }
+
+    .page-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .page-section h4 {
+      color: #111827;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .page-section h4 i {
+      color: #2563EB;
+      font-size: 18px;
+    }
+
+    .page-item {
+      background: #F9FAFB;
+      border: 1px solid #E5E7EB;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 8px;
+    }
+
+    .page-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .page-name {
+      font-weight: 600;
+      color: #111827;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .page-description {
+      color: #6B7280;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body class="navbar-fixed sidebar-fixed" id="body">
+<div class="wrapper">
+
+  <!-- Sidebar -->
+  <aside class="left-sidebar sidebar-dark" id="left-sidebar">
+    <div id="sidebar" class="sidebar sidebar-with-footer" style="display: flex; flex-direction: column; height: 100%;">
+      <div style="padding: 20px 20px 8px;">
+        <div class="d-flex align-items-center mb-3">
+          <div style="background: rgba(255,255,255,0.2); border-radius: 8px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 10px; font-size: 13px;">ST</div>
+          <div style="line-height: 1.2;">
+            <div style="color: white; font-weight: bold; font-size: 13px;">Learner Session</div>
+            <div style="color: rgba(255,255,255,0.7); font-size: 11px;">Mathematics 10</div>
+          </div>
+        </div>
+        <div style="background: rgba(255,255,255,0.15); color: white; padding: 5px 14px; border-radius: 16px; font-size: 11px; font-weight: 600; border: 1px solid rgba(255,255,255,0.25); display: inline-block; width: 100%; text-align: center;">
+          Student
+        </div>
+      </div>
+      <div class="sidebar-left" data-simplebar style="height: 100%;">
+        <ul class="nav sidebar-inner" id="sidebar-menu">
+          <li class="section-title">Dashboards</li>
+          <li><a class="sidenav-item-link" href="teacher-dashboard.html"><i class="mdi mdi-teach"></i><span class="nav-text">Teacher Dashboard</span></a></li>
+          <li><a class="sidenav-item-link" href="parent-dashboard.html"><i class="mdi mdi-account-group"></i><span class="nav-text">Parent Dashboard</span></a></li>
+          <li><a class="sidenav-item-link" href="early-warning.html"><i class="mdi mdi-alert-outline"></i><span class="nav-text">Early Warning Risk</span></a></li>
+          
+          <li class="section-title">Class Management</li>
+            <li><a class="sidenav-item-link" href="smea-pir.html"><i class="mdi mdi-chart-box-outline"></i><span class="nav-text">SMEA/PIR</span></a></li>
+            <li><a class="sidenav-item-link" href="pmes-opcrf.html"><i class="mdi mdi-clipboard-text-outline"></i><span class="nav-text">PMES/OPCRF</span></a></li>
+
+          <li><a class="sidenav-item-link" href="attendance.html"><i class="mdi mdi-calendar-check"></i><span class="nav-text">Attendance</span></a></li>
+          <li><a class="sidenav-item-link" href="gradebook.html"><i class="mdi mdi-book-open-page-variant"></i><span class="nav-text">Gradebook</span></a></li>
+          <li><a class="sidenav-item-link" href="school-forms.html"><i class="mdi mdi-file-document-outline"></i><span class="nav-text">School Forms</span></a></li>
+          <li><a class="sidenav-item-link" href="online-class.html"><i class="mdi mdi-video"></i><span class="nav-text">Online Class</span></a></li>
+          <li><a class="sidenav-item-link" href="content-factory.html"><i class="mdi mdi-creation"></i><span class="nav-text">AI Lesson Plan</span></a></li>
+          
+          <li class="section-title">AI LMS</li>
+          <li><a class="sidenav-item-link" href="lms-catalog.html"><i class="mdi mdi-library"></i><span class="nav-text">Resource Library</span></a></li>
+          <!-- <li><a class="sidenav-item-link" href="content-factory.html"><i class="mdi mdi-creation"></i><span class="nav-text">AI Lesson Builder</span></a></li> -->
+          <li class="active" ><a class="sidenav-item-link" href="course-player.html"><i class="mdi mdi-play-circle"></i><span class="nav-text">Interactive Lessons</span></a></li>
+          <li><a class="sidenav-item-link" href="learning-progress.html"><i class="mdi mdi-chart-line-variant"></i><span class="nav-text">Learning Progress</span></a></li>
+          <li><a class="sidenav-item-link" href="offline-packages.html"><i class="mdi mdi-download-box"></i><span class="nav-text">Offline Packages</span></a></li>
+
+          <li class="section-title">AI SUPPORT</li>
+          <li><a class="sidenav-item-link" href="ai-tutor.html"><i class="mdi mdi-robot"></i><span class="nav-text">AI Tutor</span></a></li>
+
+
+          <li class="section-title">Administration</li>
+          <li><a class="sidenav-item-link" href="structure-detection.html"><i class="mdi mdi-file-tree"></i><span class="nav-text">Structure Detection</span></a></li>
+          <li><a class="sidenav-item-link" href="human-review.html"><i class="mdi mdi-shield-check"></i><span class="nav-text">Human Review</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Page wrapper -->
+  <div class="page-wrapper">
+
+    <!-- Header -->
+    <header class="main-header" id="header" style="display: flex; align-items: center; justify-content: space-between; padding-right: 20px; height: 64px;">
+      <div class="d-flex align-items-center">
+        <div style="background-color: white; width: 240px; display: flex; align-items: center; padding: 0 16px; height: 64px;">
+          <div style="background: #1E3A8A; color: white; border-radius: 8px; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 13px; margin-right: 10px;">D1</div>
+          <div style="line-height: 1.2;">
+            <div style="color: #111827; font-weight: 800; font-size: 14px;">DepEd ONE</div>
+            <div style="color: #6B7280; font-size: 10px;">Unified Learning Platform</div>
+          </div>
+        </div>
+        <button id="sidebar-toggler" class="sidebar-toggle" style="margin-right: 16px;">
+          <span class="sr-only">Toggle navigation</span>
+        </button>
+        <div style="line-height: 1.2; margin-right: 24px;">
+          <div style="font-weight: 700; color: #111827; font-size: 15px;">Mathematics 10 — Lesson 3: Linear Equations</div>
+          <div style="color: #6B7280; font-size: 11px;">Scene 5 of 12 &nbsp;•&nbsp; Practice Mode &nbsp;•&nbsp; SY 2025-2026 Q3</div>
+        </div>
+        <div class="d-none d-lg-flex align-items-center" style="gap: 8px;">
+          <span style="background: #EFF6FF; color: #2563EB; border: 1px solid #BFDBFE; padding: 4px 10px; border-radius: 10px; font-size: 11px; font-weight: 700;">Student</span>
+          <span style="background: #DCFCE7; color: #166534; border: 1px solid #BBF7D0; padding: 4px 10px; border-radius: 10px; font-size: 11px; font-weight: 700;"><i class="mdi mdi-wifi-off" style="font-size:12px;"></i> Offline-Ready</span>
+          <span style="background: #F3F4F6; color: #374151; border: 1px solid #E5E7EB; padding: 4px 10px; border-radius: 10px; font-size: 11px; font-weight: 700;">38% complete</span>
+        </div>
+      </div>
+      <div class="d-flex align-items-center" style="gap: 10px;">
+        <a href="lms-catalog.html" style="background: white; border: 1.5px solid #E5E7EB; color: #374151; border-radius: 20px; font-size: 12px; font-weight: 700; padding: 6px 14px; text-decoration: none; display: flex; align-items: center; gap: 4px;"><i class="mdi mdi-arrow-left" style="font-size:14px;"></i> Back to Catalog</a>
+        <button style="background: white; border: 1.5px solid #E5E7EB; color: #374151; border-radius: 20px; font-size: 12px; font-weight: 700; padding: 6px 14px; cursor:pointer;">Help</button>
+      </div>
+    </header>
+
+    <!-- Content wrapper: player + timeline -->
+    <div class="content-wrapper">
+
+      <!-- ══════ PLAYER ROW ══════ -->
+      <div style="display: flex; flex: 1; overflow: hidden;">
+
+        <!-- ── INSTRUCTOR PANEL ── -->
+        <div class="instructor-panel">
+          <div style="font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); letter-spacing: 0.08em; margin-bottom: 14px;">INSTRUCTOR</div>
+          <div class="instructor-avatar">AR</div>
+          <div style="color: white; font-weight: 700; font-size: 15px; margin-bottom: 2px;">Ms. Ana Reyes</div>
+          <div style="color: rgba(255,255,255,0.65); font-size: 12px; margin-bottom: 4px;">Mathematics Teacher</div>
+          <div style="display: flex; gap: 6px; margin-bottom: 20px;">
+            <span style="background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); padding: 3px 10px; border-radius: 8px; font-size: 10px; font-weight: 700;">Math 10</span>
+            <span style="background: rgba(37,99,235,0.4); color: #93C5FD; padding: 3px 10px; border-radius: 8px; font-size: 10px; font-weight: 700;">Q3</span>
+          </div>
+
+          <!-- Narration box -->
+          <div style="font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); letter-spacing: 0.08em; margin-bottom: 8px;">NOW NARRATING</div>
+          <div class="narration-box">
+            <p style="color: rgba(255,255,255,0.9); font-size: 13px; line-height: 1.65; margin: 0;" id="narration-text">
+              "We will now solve a one-variable linear equation step by step. Each step must <strong style="color:#93C5FD;">preserve equality</strong> — whatever we do to one side, we must do to the other side."
+            </p>
+          </div>
+
+          <!-- Audio controls -->
+          <div style="margin-top: 16px;">
+            <div style="display: flex; justify-content: space-between; font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 4px;">
+              <span>0:24</span><span>3:47</span>
+            </div>
+            <div class="audio-bar"><div class="audio-bar-fill" id="audio-fill"></div></div>
+            <div class="d-flex justify-content-center" style="gap: 12px; margin-top: 10px;">
+              <button onclick="rewind()" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 50%; width: 34px; height: 34px; cursor: pointer; font-size: 16px; display:flex; align-items:center; justify-content:center;">
+                <i class="mdi mdi-rewind-10"></i>
+              </button>
+              <button onclick="toggleAudio()" id="play-btn" style="background: white; border: none; color: #1E3A8A; border-radius: 50%; width: 44px; height: 44px; cursor: pointer; font-size: 20px; font-weight: 700; display:flex; align-items:center; justify-content:center;">
+                <i class="mdi mdi-play" id="play-icon"></i>
+              </button>
+              <button onclick="changeSpeed()" id="speed-btn" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 20px; padding: 0 10px; height: 34px; cursor: pointer; font-size: 12px; font-weight: 700;">1×</button>
+            </div>
+          </div>
+
+          <!-- Progress info -->
+          <div style="margin-top: 24px; background: rgba(0,0,0,0.2); border-radius: 10px; padding: 14px; border: 1px solid rgba(255,255,255,0.08);">
+            <div style="font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); letter-spacing: 0.08em; margin-bottom: 10px;">SESSION PROGRESS</div>
+            <div style="display: flex; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.8); margin-bottom: 6px;">
+              <span>Scenes done</span><span style="font-weight:700; color:white;">4 / 12</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.8); margin-bottom: 6px;">
+              <span>Est. remaining</span><span style="font-weight:700; color:white;">~18 min</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.8);">
+              <span>Checkpoints</span><span style="font-weight:700; color:#86EFAC;">3 / 4 passed</span>
+            </div>
+          </div>
+
+          <!-- AI Tutor shortcut (bottom of panel) -->
+          <a href="ai-tutor.html" style="display: block; margin-top: auto; padding-top: 24px; text-decoration: none;">
+            <div style="background: rgba(37,99,235,0.4); border: 1px solid rgba(96,165,250,0.4); border-radius: 12px; padding: 14px 16px; cursor: pointer; text-align: center;">
+              <i class="mdi mdi-robot" style="color: #93C5FD; font-size: 22px;"></i>
+              <div style="color: white; font-weight: 700; font-size: 13px; margin-top: 6px;">Ask AI Tutor</div>
+              <div style="color: rgba(255,255,255,0.6); font-size: 11px; margin-top: 2px;">Get a hint for this scene</div>
+            </div>
+          </a>
+        </div>
+
+        <!-- ── TEACHING BOARD ── -->
+        <div class="teaching-board">
+
+          <!-- Scene header -->
+          <div class="scene-label">
+            <i class="mdi mdi-layers-outline" style="font-size:14px;"></i>
+            Scene 5 of 12
+          </div>
+          <h1 style="color: #111827; font-size: 26px; font-weight: 800; margin-bottom: 6px;">Solving One-Variable Linear Equations</h1>
+          <div style="display: flex; gap: 8px; margin-bottom: 24px;">
+            <span style="background:#F3F4F6; color:#374151; padding:3px 10px; border-radius:8px; font-size:12px; font-weight:600;">Mathematics 10</span>
+            <span style="background:#F3F4F6; color:#374151; padding:3px 10px; border-radius:8px; font-size:12px; font-weight:600;">Algebra</span>
+            <span style="background:#EFF6FF; color:#2563EB; padding:3px 10px; border-radius:8px; font-size:12px; font-weight:600;">Q3 — Week 5</span>
+          </div>
+
+          <!-- Concept frame -->
+          <div class="concept-box">
+            <div style="font-size: 11px; font-weight: 700; color: #92400E; letter-spacing: 0.05em; margin-bottom: 6px;">KEY CONCEPT</div>
+            <p style="color: #374151; font-size: 14px; line-height: 1.7; margin: 0;">
+              A <strong style="color:#1E3A8A;">linear equation</strong> is an equation where the variable has an exponent of 1.
+              Our goal is to <strong style="color:#1E3A8A;">isolate</strong> the variable on one side using <strong style="color:#1E3A8A;">inverse operations</strong>.
+              The <strong style="color:#1E3A8A;">equality property</strong> requires that every operation be applied to <em>both</em> sides.
+            </p>
+          </div>
+
+          <!-- Problem statement -->
+          <div style="font-size: 11px; font-weight: 700; color: #9CA3AF; letter-spacing: 0.05em; margin-bottom: 10px;">WORKED EXAMPLE — SOLVE FOR x</div>
+          <div style="background: #1E3A8A; color: white; border-radius: 12px; padding: 16px 24px; margin-bottom: 20px; font-size: 22px; font-weight: 800; text-align: center; letter-spacing: 0.02em;">
+            3x + 5 = 20
+          </div>
+
+          <!-- Step 1 -->
+          <div class="step-block">
+            <div class="step-number">STEP 1 — Write the equation</div>
+            <p style="color:#4B5563; font-size:13px; margin-bottom:8px; padding-top:8px;">Identify the variable, its coefficient, and the constant term.</p>
+            <div class="formula-box">
+              <span class="highlight">3</span>x + <span class="highlight">5</span> = <span class="highlight">20</span>
+              <br>
+              <span style="font-size:11px; color:#64748B; font-family:'Inter',sans-serif; font-weight:500;">
+                coefficient = 3 &nbsp;|&nbsp; variable = x &nbsp;|&nbsp; constant = 5
+              </span>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="step-block">
+            <div class="step-number">STEP 2 — Subtract 5 from both sides (inverse operation)</div>
+            <p style="color:#4B5563; font-size:13px; margin-bottom:8px; padding-top:8px;">Apply the <em>Subtraction Property of Equality</em> to remove the constant from the left side.</p>
+            <div class="formula-box">
+              3x + 5 <span class="highlight">− 5</span> = 20 <span class="highlight">− 5</span>
+              <br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="result">3x = 15</span>
+            </div>
+            <p class="rule-note">Rule: Whatever you subtract from one side, you must subtract from the other.</p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="step-block">
+            <div class="step-number">STEP 3 — Divide both sides by the coefficient (3)</div>
+            <p style="color:#4B5563; font-size:13px; margin-bottom:8px; padding-top:8px;">Apply the <em>Division Property of Equality</em> to isolate x.</p>
+            <div class="formula-box">
+              3x ÷ <span class="highlight">3</span> = 15 ÷ <span class="highlight">3</span>
+              <br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="result">x = 5</span>
+            </div>
+            <p class="rule-note">Dividing both sides by 3 leaves x alone on the left side.</p>
+          </div>
+
+          <!-- Step 4 — Verify -->
+          <div class="verify-box">
+            <div style="font-size: 11px; font-weight: 700; color: #166534; letter-spacing: 0.05em; margin-bottom: 8px;">STEP 4 — VERIFY YOUR ANSWER</div>
+            <p style="color:#374151; font-size:13px; margin-bottom:8px;">Substitute <strong>x = 5</strong> back into the original equation to check.</p>
+            <div style="background: white; border: 1px solid #BBF7D0; border-radius: 8px; padding: 10px 16px; font-family: 'Courier New', monospace; font-size: 14px; color: #14532D; font-weight: 600;">
+              3(<span style="color:#166534; font-weight:800;">5</span>) + 5 = 20<br>
+              &nbsp;&nbsp;15 + 5 = 20<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="background: #DCFCE7; padding: 1px 8px; border-radius: 4px;">20 = 20 ✓</span>
+            </div>
+          </div>
+
+          <!-- Interactive Checkpoint -->
+          <div class="checkpoint-block">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+              <div style="background: #F59E0B; color: white; border-radius: 8px; padding: 4px 10px; font-size: 11px; font-weight: 700;">CHECKPOINT</div>
+              <span style="font-size: 11px; color: #6B7280; font-weight: 600;">Select the correct answer to continue</span>
+            </div>
+            <h4>What is the correct first step to solve the equation &nbsp;<code style="background:#F3F4F6; padding:2px 8px; border-radius:6px; font-size:14px;">3x + 5 = 20</code>?</h4>
+            <button class="choice-btn" onclick="checkAnswer(this, false)">A &nbsp; Divide both sides by 3 first</button>
+            <button class="choice-btn" onclick="checkAnswer(this, true)">B &nbsp; Subtract 5 from both sides</button>
+            <button class="choice-btn" onclick="checkAnswer(this, false)">C &nbsp; Add 5 to both sides</button>
+            <button class="choice-btn" onclick="checkAnswer(this, false)">D &nbsp; Multiply both sides by 3</button>
+            <div id="checkpoint-feedback" style="display:none; margin-top:12px; padding: 12px 16px; border-radius: 10px; font-size: 13px; font-weight: 600;"></div>
+          </div>
+
+          <!-- Key Terms -->
+          <div class="keyword-pills">
+            <span style="font-size: 11px; font-weight: 700; color: #9CA3AF; align-self: center;">KEY TERMS:</span>
+            <span class="keyword-pill">linear equation</span>
+            <span class="keyword-pill">variable</span>
+            <span class="keyword-pill">coefficient</span>
+            <span class="keyword-pill">inverse operation</span>
+            <span class="keyword-pill">isolate</span>
+            <span class="keyword-pill">equality property</span>
+          </div>
+
+        </div><!-- /teaching-board -->
+
+        <!-- ── RIGHT PANEL ── -->
+        <div class="right-panel">
+          <div class="right-panel-tab">
+            <button class="right-tab active" onclick="switchTab(this,'scenes')">Scenes</button>
+            <button class="right-tab" onclick="switchTab(this,'tutor')">AI Tutor</button>
+          </div>
+
+          <!-- Scenes tab -->
+          <div id="tab-scenes" style="display:flex; flex-direction:column; flex:1; overflow:hidden;">
+            <div style="padding: 12px 16px; border-bottom: 1px solid #E5E7EB; background: white;">
+              <div style="font-size: 12px; font-weight: 700; color: #111827; margin-bottom: 4px;">Lesson 3: Linear Equations</div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div style="flex:1; background: #F3F4F6; border-radius: 6px; height: 5px; overflow:hidden;">
+                  <div style="background: #2563EB; width: 38%; height: 100%; border-radius: 6px;"></div>
+                </div>
+                <span style="font-size: 11px; font-weight: 700; color: #2563EB;">38%</span>
+              </div>
+            </div>
+            <div style="flex:1; overflow-y:auto;">
+              <div class="scene-item done"><div class="scene-dot done"><i class="mdi mdi-check" style="font-size:11px;"></i></div><span>What is Algebra?</span></div>
+              <div class="scene-item done"><div class="scene-dot done"><i class="mdi mdi-check" style="font-size:11px;"></i></div><span>Variables &amp; Expressions</span></div>
+              <div class="scene-item done"><div class="scene-dot done"><i class="mdi mdi-check" style="font-size:11px;"></i></div><span>Equations vs. Expressions</span></div>
+              <div class="scene-item done"><div class="scene-dot done"><i class="mdi mdi-check" style="font-size:11px;"></i></div><span>Properties of Equality</span></div>
+              <div class="scene-item current"><div class="scene-dot current">5</div><span>Solving One-Variable Eq.</span></div>
+              <div class="scene-item"><div class="scene-dot locked">6</div><span style="color:#9CA3AF;">Negative Numbers</span></div>
+              <div class="scene-item"><div class="scene-dot locked">7</div><span style="color:#9CA3AF;">Two-Step Equations</span></div>
+              <div class="scene-item"><div class="scene-dot locked">8</div><span style="color:#9CA3AF;">Word Problems: Setup</span></div>
+              <div class="scene-item"><div class="scene-dot locked">9</div><span style="color:#9CA3AF;">Word Problems: Solving</span></div>
+              <div class="scene-item"><div class="scene-dot locked">10</div><span style="color:#9CA3AF;">Practice Problems</span></div>
+              <div class="scene-item"><div class="scene-dot locked">11</div><span style="color:#9CA3AF;">Review &amp; Summary</span></div>
+              <div class="scene-item" style="border-bottom:none;"><div class="scene-dot locked" style="background:#FEF3C7; color:#92400E;">Q</div><span style="color:#9CA3AF;">Quiz — Lesson 3</span></div>
+            </div>
+          </div>
+
+          <!-- AI Tutor tab -->
+          <div id="tab-tutor" class="tutor-mini" style="display:none;">
+            <div style="padding: 10px 14px; border-bottom: 1px solid #E5E7EB; background: white;">
+              <div style="font-size: 11px; font-weight: 700; color: #9CA3AF; letter-spacing: 0.05em;">CONTEXT</div>
+              <div style="font-size: 12px; color: #374151; font-weight: 600; margin-top: 2px;">Scene 5 — Solving One-Variable Eq.</div>
+              <div style="font-size: 11px; color: #6B7280; margin-top: 1px;">Source: Math 10 SLMs (approved)</div>
+            </div>
+            <div class="tutor-chat-area">
+              <div class="tutor-msg tutor">Ask me anything about this scene. I will give you a hint — not the final answer.</div>
+              <div class="tutor-msg student">Why do we subtract 5 first instead of dividing?</div>
+              <div class="tutor-msg tutor">Great question! We follow the <strong>order of operations in reverse</strong>. The +5 is added last, so we remove it first using its inverse (subtract 5). This isolates the term with x before we divide.</div>
+            </div>
+            <div style="padding: 10px 12px; border-top: 1px solid #E5E7EB; background: white;">
+              <div style="display: flex; gap: 6px;">
+                <input type="text" placeholder="Ask a question..." style="flex:1; border: 1px solid #E5E7EB; border-radius: 8px; padding: 7px 10px; font-size: 12px; outline: none; font-family:'Inter',sans-serif; color:#111827;">
+                <button style="background: #1E3A8A; color: white; border: none; border-radius: 8px; padding: 7px 14px; font-size: 12px; font-weight: 700; cursor: pointer;">Send</button>
+              </div>
+              <div style="text-align:center; margin-top:8px;">
+                <a href="ai-tutor.html" style="font-size: 11px; color: #2563EB; font-weight: 600; text-decoration: none;">Open Full AI Tutor →</a>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /right-panel -->
+      </div><!-- /player row -->
+
+      <!-- ══════ BOTTOM TIMELINE ══════ -->
+      <div class="bottom-timeline">
+
+        <!-- Left: scene dots -->
+        <div style="display:flex; flex-direction:column; gap:4px;">
+          <div class="scene-dots-track">
+            <div class="dot done" title="Scene 1"></div>
+            <div class="dot done" title="Scene 2"></div>
+            <div class="dot done" title="Scene 3"></div>
+            <div class="dot done" title="Scene 4"></div>
+            <div class="dot current" title="Scene 5 (current)"></div>
+            <div class="dot upcoming" title="Scene 6"></div>
+            <div class="dot upcoming" title="Scene 7"></div>
+            <div class="dot upcoming" title="Scene 8"></div>
+            <div class="dot upcoming" title="Scene 9"></div>
+            <div class="dot upcoming" title="Scene 10"></div>
+            <div class="dot upcoming" title="Scene 11"></div>
+            <div class="dot upcoming" title="Quiz"></div>
+          </div>
+          <div style="font-size: 10px; color: #9CA3AF; font-weight: 600;">4 of 12 scenes completed</div>
+        </div>
+
+        <!-- Center: progress bar -->
+        <div style="flex:1; max-width: 320px;">
+          <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:600; color:#6B7280; margin-bottom:4px;">
+            <span>Lesson Progress</span><span>38%</span>
+          </div>
+          <div class="progress-bar-track"><div class="progress-bar-fill"></div></div>
+          <div style="display:flex; justify-content:space-between; font-size:10px; color:#9CA3AF; margin-top:3px;">
+            <span>0:24</span><span>~18 min left</span>
+          </div>
+        </div>
+
+        <!-- Right: controls -->
+        <div style="display:flex; gap:10px; align-items:center;">
+          <button class="ctrl-btn" onclick="alert('Previous scene')"><i class="mdi mdi-chevron-left"></i> Prev</button>
+          <button class="ctrl-btn" onclick="replayScene()"><i class="mdi mdi-replay"></i> Replay</button>
+          <button class="ctrl-btn primary" id="next-btn" onclick="nextScene()">Next <i class="mdi mdi-chevron-right"></i></button>
+        </div>
+
+      </div><!-- /bottom-timeline -->
+
+    </div><!-- /content-wrapper -->
+  </div><!-- /page-wrapper -->
+</div><!-- /wrapper -->
+
+<script src="plugins/jquery/jquery.min.js"></script>
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="plugins/simplebar/simplebar.min.js"></script>
+<script src="js/mono.js"></script>
+<script>
+  // ── Audio toggle ──
+  let isPlaying = false;
+  const speeds = ['1×','1.5×','2×','0.75×'];
+  let speedIdx = 0;
+
+  function toggleAudio() {
+    isPlaying = !isPlaying;
+    const icon = document.getElementById('play-icon');
+    icon.className = isPlaying ? 'mdi mdi-pause' : 'mdi mdi-play';
+  }
+
+  function rewind() {
+    const fill = document.getElementById('audio-fill');
+    const w = Math.max(0, parseFloat(fill.style.width || '42') - 5);
+    fill.style.width = w + '%';
+  }
+
+  function changeSpeed() {
+    speedIdx = (speedIdx + 1) % speeds.length;
+    document.getElementById('speed-btn').textContent = speeds[speedIdx];
+  }
+
+  // ── Interactive checkpoint ──
+  let answered = false;
+
+  function checkAnswer(btn, isCorrect) {
+    if (answered) return;
+    answered = true;
+
+    // Style all buttons
+    document.querySelectorAll('.choice-btn').forEach(b => {
+      b.style.opacity = '0.5';
+      b.style.cursor = 'default';
+    });
+
+    const feedback = document.getElementById('checkpoint-feedback');
+    feedback.style.display = 'block';
+
+    if (isCorrect) {
+      btn.classList.add('correct');
+      btn.style.opacity = '1';
+      feedback.style.background = '#DCFCE7';
+      feedback.style.color = '#166534';
+      feedback.style.border = '1px solid #BBF7D0';
+      feedback.innerHTML = '<i class="mdi mdi-check-circle" style="font-size:16px;"></i> &nbsp;Correct! Subtracting 5 from both sides removes the constant and leaves <code style="background:#BBF7D0;padding:1px 6px;border-radius:4px;">3x = 15</code>. Now you can divide by 3 to find x = 5.';
+      // Unlock next button
+      document.getElementById('next-btn').style.background = '#16A34A';
+      document.getElementById('next-btn').style.borderColor = '#16A34A';
+    } else {
+      btn.classList.add('wrong');
+      btn.style.opacity = '1';
+      feedback.style.background = '#FEF2F2';
+      feedback.style.color = '#991B1B';
+      feedback.style.border = '1px solid #FECACA';
+      feedback.innerHTML = '<i class="mdi mdi-close-circle" style="font-size:16px;"></i> &nbsp;Not quite. Think about which operation undoes the +5. We need to remove it from the left side first — try the other options.';
+      answered = false; // allow retry
+      setTimeout(() => {
+        btn.classList.remove('wrong');
+        btn.style.opacity = '1';
+        btn.style.cursor = 'pointer';
+        document.querySelectorAll('.choice-btn').forEach(b => {
+          b.style.opacity = '1';
+          b.style.cursor = 'pointer';
+        });
+        answered = false;
+      }, 2200);
+    }
+  }
+
+  // ── Scene navigation ──
+  function nextScene() {
+    if (!answered) {
+      const fb = document.getElementById('checkpoint-feedback');
+      fb.style.display = 'block';
+      fb.style.background = '#FFF7ED';
+      fb.style.color = '#92400E';
+      fb.style.border = '1px solid #FDE68A';
+      fb.innerHTML = '<i class="mdi mdi-alert-outline" style="font-size:16px;"></i> &nbsp;Please complete the checkpoint before moving to the next scene.';
+      return;
+    }
+    window.location.href = 'ai-tutor.html';
+  }
+
+  function replayScene() {
+    answered = false;
+    document.querySelectorAll('.choice-btn').forEach(b => {
+      b.classList.remove('correct','wrong');
+      b.style.opacity = '1';
+      b.style.cursor = 'pointer';
+    });
+    document.getElementById('checkpoint-feedback').style.display = 'none';
+    document.getElementById('next-btn').style.background = '';
+    document.getElementById('next-btn').style.borderColor = '';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const fill = document.getElementById('audio-fill');
+    fill.style.width = '0%';
+    isPlaying = false;
+    document.getElementById('play-icon').className = 'mdi mdi-play';
+  }
+
+  // ── Tab switch ──
+  function switchTab(btn, tab) {
+    document.querySelectorAll('.right-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-scenes').style.display = tab === 'scenes' ? 'flex' : 'none';
+    document.getElementById('tab-tutor').style.display = tab === 'tutor' ? 'flex' : 'none';
+  }
+
+  function toggleInfoModal() {
+    const modal = document.getElementById('infoModal');
+    modal.classList.toggle('show');
+  }
+
+  // Close modal when clicking outside
+  document.getElementById('infoModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+      toggleInfoModal();
+    }
+  });
+
+  // Close modal with Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      const modal = document.getElementById('infoModal');
+      if (modal.classList.contains('show')) {
+        toggleInfoModal();
+      }
+    }
+  });
+</script>
+
+<!-- Floating Info Button -->
+<button class="floating-info-btn" onclick="toggleInfoModal()">
+  <i class="mdi mdi-information-outline"></i>
+  <span>More Details</span>
+</button>
+
+<!-- Info Modal -->
+<div id="infoModal" class="info-modal">
+  <div class="modal-content">
+    
+      <button class="modal-close" onclick="toggleInfoModal()">
+        <i class="mdi mdi-close"></i>
+      </button>
+
+    <div class="modal-body">
+      <div class="page-section">
+        <h4><i class="mdi mdi-play-circle"></i> Interactive Lessons</h4>
+        <div class="page-item">
+          <div class="page-description">
+            <p style="margin: 8px 0; color: #374151;">This page hosts interactive modules like checkpoints, embedded questions, at guided practice:</p>
+            <ul style="margin: 12px 0; padding-left: 20px; color: #4B5563; line-height: 1.6;">
+              <li style="margin-bottom: 6px;"><strong>Interactive Modules:</strong> Checkpoints, embedded questions, at guided practice activities</li>
+              <li style="margin-bottom: 6px;"><strong>Step-by-Step Content:</strong> Dito makikita ng learner ang structured learning path</li>
+              <li style="margin-bottom: 6px;"><strong>Auto-Feedback System:</strong> Instant feedback sa mga activities at assessments</li>
+              <li style="margin-bottom: 6px;"><strong>Engagement Focus:</strong> Interactive elements para maintain learner interest</li>
+              <li style="margin-bottom: 6px;"><strong>Mastery Approach:</strong> Designed para deep learning, hindi lang passive reading</li>
+            </ul>
+            <p style="margin: 8px 0 0; color: #6B7280; font-style: italic;">Purpose nito ay engagement at mastery para effective learning experience.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

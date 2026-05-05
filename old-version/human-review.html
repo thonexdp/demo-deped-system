@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DepEd - Human Review & Escalation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="plugins/material/css/materialdesignicons.min.css" rel="stylesheet" />
+  <link href="plugins/simplebar/simplebar.css" rel="stylesheet" />
+  <link href="plugins/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css" rel="stylesheet" />
+  <link href="css/style.css" rel="stylesheet" />
+  <link href="css/custom.css" rel="stylesheet" />
+  <style>
+    body { background-color: #FFFFFF; font-family: 'Inter', sans-serif; }
+    *, *::before, *::after { box-sizing: border-box; }
+    .sidebar-dark { background: linear-gradient(180deg, #1E3A8A 0%, #172a6b 100%) !important; display: flex; flex-direction: column; }
+    .sidebar-with-footer { display: flex; flex-direction: column; }
+    .app-brand { padding: 18px 16px; }
+    .app-brand a { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .brand-mark { width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,0.14); display: inline-flex; align-items: center; justify-content: center; }
+    .brand-mark i { color: #FFFFFF; font-size: 18px; }
+    .brand-stack { display: flex; flex-direction: column; line-height: 1.05; }
+    .brand-name { font-weight: 800; color: #FFFFFF; font-size: 14px; letter-spacing: 0.2px; }
+    .brand-sub { color: rgba(255,255,255,0.75); font-size: 12px; font-weight: 600; }
+
+    .sidebar-context { margin: 0 16px 14px; padding: 14px; border-radius: 14px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); }
+    .sidebar-context .role { color: rgba(255,255,255,0.85); font-size: 12px; font-weight: 700; letter-spacing: 0.2px; }
+    .sidebar-context .team { color: #FFFFFF; font-size: 13px; font-weight: 800; margin-top: 2px; }
+    .sidebar-context .chip { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; padding: 6px 10px; border-radius: 999px; font-size: 12px; font-weight: 800; background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.9); }
+    .sidebar-mini-card { margin: 0 16px 12px; padding: 12px; border-radius: 14px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.10); }
+    .sidebar-mini-title { color: rgba(255,255,255,0.85); font-weight: 900; font-size: 12px; }
+    .sidebar-mini-desc { margin-top: 6px; color: rgba(255,255,255,0.75); font-size: 12px; line-height: 1.35; }
+
+    .sidebar .nav > li > a { padding: 12px 20px !important; margin: 4px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; }
+    .sidebar-dark .sidebar .nav > li > a { color: rgba(255,255,255,0.85) !important; }
+    .sidebar .nav > li > a:hover { background-color: rgba(255,255,255,0.12) !important; }
+    .sidebar .nav > li.active > a { background-color: #2563EB !important; }
+
+    .main-header { box-shadow: none !important; border-bottom: 1px solid #E5E7EB; height: 72px; padding: 0; background: #FFFFFF; }
+    .navbar { height: 72px; }
+    .nav-header { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 0 18px; }
+    .page-title { font-size: 14px; font-weight: 900; color: #111827; letter-spacing: 0.2px; }
+    .header-badges { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .badge-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; font-size: 12px; font-weight: 900; border: 1px solid #E5E7EB; color: #111827; background: #FFFFFF; }
+    .badge-pill.blue { background: #EFF6FF; border-color: #DBEAFE; color: #1D4ED8; }
+    .badge-pill.green { background: #ECFDF5; border-color: #D1FAE5; color: #047857; }
+    .badge-pill.gray { background: #F3F4F6; border-color: #E5E7EB; color: #374151; }
+
+    .header-actions { display: flex; align-items: center; gap: 10px; }
+    .header-btn { height: 38px; padding: 0 12px; border-radius: 10px; border: 1px solid #E5E7EB; background: #FFFFFF; color: #111827; font-weight: 900; font-size: 12px; display: inline-flex; align-items: center; gap: 8px; }
+    .header-btn.primary { background: #2563EB; border-color: #2563EB; color: #FFFFFF; }
+    .header-select { height: 38px; border-radius: 10px; border: 1px solid #E5E7EB; background: #FFFFFF; padding: 0 10px; font-weight: 900; font-size: 12px; color: #111827; }
+
+    .content-wrapper { padding: 24px; background-color: #FFFFFF; }
+    .context-bar { display: flex; justify-content: space-between; align-items: center; gap: 14px; background: #EFF6FF; border: 1px solid #DBEAFE; padding: 10px 14px; border-radius: 14px; margin-bottom: 18px; }
+    .context-left { color: #1D4ED8; font-weight: 900; font-size: 12px; }
+    .context-right { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .context-pill { display: inline-flex; align-items: center; padding: 5px 10px; border-radius: 999px; font-size: 12px; font-weight: 900; background: #FFFFFF; border: 1px solid #DBEAFE; color: #1D4ED8; }
+
+    .screen-title { font-size: 28px; font-weight: 900; color: #111827; margin: 6px 0 8px; letter-spacing: -0.3px; }
+    .screen-subtitle { color: #4B5563; font-size: 13px; font-weight: 600; margin-bottom: 16px; }
+
+    .info-card { background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 16px; padding: 18px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+    .info-card h3 { color: #111827; font-size: 14px; font-weight: 900; margin-bottom: 12px; }
+
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .kpi { border: 1px solid #E5E7EB; border-radius: 16px; padding: 14px; background: #FFFFFF; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+    .kpi .num { font-weight: 900; font-size: 22px; color: #111827; line-height: 1.1; }
+    .kpi .lbl { margin-top: 4px; color: #6B7280; font-weight: 800; font-size: 12px; }
+    @media (max-width: 992px) { .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 560px) { .kpi-grid { grid-template-columns: 1fr; } }
+
+    .toolbar { display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+    .searchbox { flex: 1; min-width: 240px; display: flex; align-items: center; gap: 10px; border: 1px solid #E5E7EB; border-radius: 14px; padding: 10px 12px; background: #FFFFFF; }
+    .searchbox i { color: #6B7280; }
+    .searchbox input { border: none; outline: none; width: 100%; font-weight: 800; font-size: 12px; color: #111827; }
+    .chip-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip { display: inline-flex; align-items: center; padding: 6px 10px; border-radius: 999px; border: 1px solid #E5E7EB; background: #FFFFFF; font-size: 12px; font-weight: 900; color: #374151; }
+    .chip.active { border-color: #DBEAFE; background: #EFF6FF; color: #1D4ED8; }
+
+    .pill { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 900; border: 1px solid transparent; white-space: nowrap; }
+    .pill.green { background: #DCFCE7; color: #166534; }
+    .pill.yellow { background: #FEF3C7; color: #92400E; }
+    .pill.red { background: #FEE2E2; color: #991B1B; }
+    .pill.blue { background: #DBEAFE; color: #1D4ED8; }
+    .pill.gray { background: #F3F4F6; color: #374151; border-color: #E5E7EB; }
+
+    .queue-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+    .queue-table th { text-transform: uppercase; font-size: 11px; font-weight: 900; letter-spacing: 0.06em; color: #6B7280; padding: 10px 12px; border-bottom: 1px solid #E5E7EB; }
+    .queue-table td { padding: 12px; border-bottom: 1px solid #F3F4F6; vertical-align: middle; font-weight: 700; font-size: 12px; color: #111827; }
+    .queue-table tr:last-child td { border-bottom: none; }
+    .item-title { font-weight: 900; font-size: 12px; color: #111827; }
+    .item-sub { margin-top: 3px; font-weight: 700; font-size: 12px; color: #6B7280; }
+
+    .list-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px dashed #E5E7EB; }
+    .list-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .list-label { font-weight: 900; color: #111827; font-size: 12px; }
+    .list-sub { font-weight: 700; color: #6B7280; font-size: 12px; margin-top: 2px; }
+    .list-left { display: flex; flex-direction: column; }
+
+    @media (max-width: 991.98px) {
+      .content-wrapper { padding: 16px; }
+      .main-header, .navbar { height: auto; min-height: 72px; }
+      .nav-header { flex-wrap: wrap; align-items: flex-start; gap: 10px; padding: 10px 12px; }
+      .header-actions { width: 100%; flex-wrap: wrap; justify-content: flex-start; }
+      .header-actions .header-btn, .header-actions .header-select { height: 36px; }
+      .context-bar { flex-wrap: wrap; align-items: flex-start; }
+      .queue-table { min-width: 900px; }
+    }
+
+    @media (max-width: 767.98px) {
+      .content-wrapper { padding: 12px; }
+      .screen-title { font-size: 24px; }
+      .info-card { padding: 14px !important; border-radius: 12px; }
+      .searchbox { min-width: 100%; }
+    }
+
+    /* Floating Info Button Styles */
+    .floating-info-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: linear-gradient(135deg, #2563EB 0%, #1E3A8A 100%);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    .floating-info-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(37, 99, 235, 0.4);
+      background: linear-gradient(135deg, #1D4ED8 0%, #1E3A8A 100%);
+    }
+
+    .floating-info-btn i {
+      font-size: 18px;
+    }
+
+    /* Modal Styles */
+    .info-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 2000;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .info-modal.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      animation: slideUp 0.3s ease;
+    }
+
+    .modal-header {
+      padding: 24px 24px 16px;
+      border-bottom: 1px solid #E5E7EB;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      color: #111827;
+      font-size: 20px;
+      font-weight: 800;
+      margin: 0;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: #6B7280;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .modal-close:hover {
+      background: #F3F4F6;
+      color: #111827;
+    }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .page-section {
+      margin-bottom: 24px;
+    }
+
+    .page-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .page-section h4 {
+      color: #111827;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .page-section h4 i {
+      color: #2563EB;
+      font-size: 18px;
+    }
+
+    .page-item {
+      background: #F9FAFB;
+      border: 1px solid #E5E7EB;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 8px;
+    }
+
+    .page-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .page-name {
+      font-weight: 600;
+      color: #111827;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .page-description {
+      color: #6B7280;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body class="navbar-fixed sidebar-fixed" id="body">
+  <div class="wrapper">
+    <aside class="left-sidebar sidebar-dark" id="left-sidebar">
+      <div id="sidebar" class="sidebar sidebar-with-footer">
+        <div style="padding: 24px 20px 10px;">
+          <div class="d-flex align-items-center mb-3">
+            <div style="background: rgba(255,255,255,0.2); border-radius: 8px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; margin-right: 12px;">T7</div>
+            <div style="line-height: 1.2;">
+              <div style="color: white; font-weight: 800; font-size: 14px;">Class Adviser</div>
+              <div style="color: rgba(255,255,255,0.7); font-size: 12px;">Assigned Sections</div>
+            </div>
+          </div>
+          <div style="background: rgba(255,255,255,0.2); color: white; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; border: 1px solid rgba(255,255,255,0.3); display: inline-block; width: 100%;">Teacher / Adviser</div>
+        </div>
+
+        <div class="sidebar-left" data-simplebar style="height: 100%;">
+          <ul class="nav sidebar-inner" id="sidebar-menu">
+            <li class="section-title">Dashboards</li>
+            <li><a class="sidenav-item-link" href="teacher-dashboard.html"><i class="mdi mdi-teach"></i><span class="nav-text">Teacher Dashboard</span></a></li>
+            <li><a class="sidenav-item-link" href="parent-dashboard.html"><i class="mdi mdi-account-group"></i><span class="nav-text">Parent Dashboard</span></a></li>
+            <li><a class="sidenav-item-link" href="early-warning.html"><i class="mdi mdi-alert-outline"></i><span class="nav-text">Early Warning Risk</span></a></li>
+            
+            <li class="section-title">Class Management</li>
+            <li><a class="sidenav-item-link" href="smea-pir.html"><i class="mdi mdi-chart-box-outline"></i><span class="nav-text">SMEA/PIR</span></a></li>
+            <li><a class="sidenav-item-link" href="pmes-opcrf.html"><i class="mdi mdi-clipboard-text-outline"></i><span class="nav-text">PMES/OPCRF</span></a></li>
+
+            <li><a class="sidenav-item-link" href="attendance.html"><i class="mdi mdi-calendar-check"></i><span class="nav-text">Attendance</span></a></li>
+            <li><a class="sidenav-item-link" href="gradebook.html"><i class="mdi mdi-book-open-page-variant"></i><span class="nav-text">Gradebook</span></a></li>
+            <li><a class="sidenav-item-link" href="school-forms.html"><i class="mdi mdi-file-document-outline"></i><span class="nav-text">School Forms</span></a></li>
+
+            <li><a class="sidenav-item-link" href="online-class.html"><i class="mdi mdi-video"></i><span class="nav-text">Online Class</span></a></li>
+            <li><a class="sidenav-item-link" href="content-factory.html"><i class="mdi mdi-creation"></i><span class="nav-text">AI Lesson Plan</span></a></li>
+            
+            <li class="section-title">AI LMS</li>
+            <li><a class="sidenav-item-link" href="lms-catalog.html"><i class="mdi mdi-library"></i><span class="nav-text">Resource Library</span></a></li>
+            <!-- <li><a class="sidenav-item-link" href="content-factory.html"><i class="mdi mdi-creation"></i><span class="nav-text">AI Lesson Builder</span></a></li> -->
+            <li><a class="sidenav-item-link" href="course-player.html"><i class="mdi mdi-play-circle"></i><span class="nav-text">Interactive Lessons</span></a></li>
+            <li><a class="sidenav-item-link" href="learning-progress.html"><i class="mdi mdi-chart-line-variant"></i><span class="nav-text">Learning Progress</span></a></li>
+            <li><a class="sidenav-item-link" href="offline-packages.html"><i class="mdi mdi-download-box"></i><span class="nav-text">Offline Packages</span></a></li>
+  
+            <li class="section-title">AI SUPPORT</li>
+            <li><a class="sidenav-item-link" href="ai-tutor.html"><i class="mdi mdi-robot"></i><span class="nav-text">AI Tutor</span></a></li>
+
+
+            <li class="section-title">Administration</li>
+            <li><a class="sidenav-item-link" href="structure-detection.html"><i class="mdi mdi-file-tree"></i><span class="nav-text">Structure Detection</span></a></li>
+            <li class="active"><a class="sidenav-item-link" href="human-review.html"><i class="mdi mdi-shield-check"></i><span class="nav-text">Human Review</span></a></li>
+          </ul>
+        </div>
+
+        <div style="padding: 20px;">
+          <div style="background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; margin-bottom: 12px;">
+            <div style="color: white; font-weight: 800; font-size: 13px; margin-bottom: 6px;">Security Context</div>
+            <div style="color: rgba(255,255,255,0.7); font-size: 11px; line-height: 1.5;">Teacher approvals are required for high-stakes grade actions.</div>
+          </div>
+          <div style="background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px;">
+            <div style="color: white; font-weight: 800; font-size: 13px; margin-bottom: 6px;">Operational Status</div>
+            <div style="color: rgba(255,255,255,0.7); font-size: 11px; line-height: 1.5;">Notifications, sync, and policy status remain visible in every workspace.</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="page-wrapper">
+      <header class="main-header" id="header">
+        <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
+          <button id="sidebar-toggler" class="sidebar-toggle">
+            <span class="sr-only">Toggle navigation</span>
+          </button>
+          <div class="nav-header">
+            <div>
+              <div class="page-title">Human Review Queue</div>
+              <div class="header-badges">
+                <span class="badge-pill blue"><i class="mdi mdi-account-check"></i> Reviewer / Approver</span>
+                <span class="badge-pill gray">Policy and Quality Review</span>
+                <span class="badge-pill gray">SY 2025-2026 • Q3</span>
+                <span class="badge-pill green"><i class="mdi mdi-sync"></i> Sync: Synced</span>
+              </div>
+            </div>
+            <div class="header-actions">
+              <button class="header-btn"><i class="mdi mdi-bell-outline"></i> Alerts (11)</button>
+              <select class="header-select" aria-label="Language">
+                <option selected>English</option>
+                <option>Filipino</option>
+              </select>
+              <button class="header-btn"><i class="mdi mdi-help-circle-outline"></i> Help</button>
+              <button class="header-btn primary"><i class="mdi mdi-account-circle"></i> Profile</button>
+            </div>
+          </div>
+        </nav>
+      </header>
+      
+      <div class="content-wrapper">
+        <div class="content">
+
+          <div class="context-bar">
+            <div class="context-left">Context: Reviewer / Approver • Human Review Gate • Scope: Policy and Quality Review</div>
+            <div class="context-right">
+              <span class="context-pill">Decision rationale and audit evidence are mandatory.</span>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="screen-title">Human Review Queue</div>
+              <div class="screen-subtitle">Role-assigned queue for AI-generated drafts. No item can be published without explicit reviewer approval and rationale.</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="kpi-grid">
+                <div class="kpi">
+                  <div class="num">54</div>
+                  <div class="lbl">Items in queue</div>
+                </div>
+                <div class="kpi">
+                  <div class="num">11</div>
+                  <div class="lbl">Near SLA breach</div>
+                </div>
+                <div class="kpi">
+                  <div class="num">8</div>
+                  <div class="lbl">Policy-sensitive flags</div>
+                </div>
+                <div class="kpi">
+                  <div class="num">96%</div>
+                  <div class="lbl">Audit completeness</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: 14px;">
+            <div class="col-12">
+              <div class="info-card">
+                <div class="toolbar">
+                  <div class="searchbox" role="search">
+                    <i class="mdi mdi-magnify"></i>
+                    <input value="" placeholder="Search by item ID, lesson title, subject, or reviewer..." />
+                  </div>
+                  <div class="chip-row" aria-label="Filters">
+                    <span class="chip active">All</span>
+                    <span class="chip">In Review</span>
+                    <span class="chip">Needs Changes</span>
+                    <span class="chip">Sensitive</span>
+                  </div>
+                </div>
+
+                <div style="margin-top: 14px; overflow-x: auto;">
+                  <table class="queue-table" aria-label="Human Review Queue">
+                    <thead>
+                      <tr>
+                        <th style="min-width: 260px;">Item</th>
+                        <th style="min-width: 150px;">Type</th>
+                        <th style="min-width: 210px;">Risk flags</th>
+                        <th style="min-width: 170px;">Assigned reviewer</th>
+                        <th style="min-width: 120px;">SLA</th>
+                        <th style="min-width: 140px;">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="item-title">REV-3021 • Lesson 3: Word Problems</div>
+                          <div class="item-sub">Queue scope: Grade 8 Math</div>
+                        </td>
+                        <td>Lesson Draft + Quiz</td>
+                        <td><span class="pill yellow">Citation gap</span></td>
+                        <td>A. Fernandez</td>
+                        <td>3h 11m</td>
+                        <td><span class="pill yellow">In Review</span></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="item-title">REV-3012 • Algebra Summative Set</div>
+                          <div class="item-sub">Assessment pack for Sections 8-Rizal / 8-Bonifacio</div>
+                        </td>
+                        <td>Assessment Pack</td>
+                        <td><span class="pill red">Safety-sensitive wording</span></td>
+                        <td>M. Cruz</td>
+                        <td>0h 46m</td>
+                        <td><span class="pill red">Escalation Required</span></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="item-title">REV-2998 • Linear Equation Slides</div>
+                          <div class="item-sub">Slides + teacher notes</div>
+                        </td>
+                        <td>Lesson Slides</td>
+                        <td><span class="pill green">No critical flags</span></td>
+                        <td>A. Fernandez</td>
+                        <td>10h 09m</td>
+                        <td><span class="pill blue">Queued</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="info-card" style="margin-bottom: 0;">
+                <h3>Queue Governance Notes</h3>
+                <div class="list-row">
+                  <div class="list-left">
+                    <div class="list-label">Author/Approver separation</div>
+                  </div>
+                  <span class="pill green">Enforced</span>
+                </div>
+                <div class="list-row">
+                  <div class="list-left">
+                    <div class="list-label">Tamper-evident logging</div>
+                  </div>
+                  <span class="pill green">Enabled</span>
+                </div>
+                <div class="list-row">
+                  <div class="list-left">
+                    <div class="list-label">Policy outage fallback</div>
+                    <div class="list-sub">Block publish and preserve queue state</div>
+                  </div>
+                  <span class="pill gray">Active</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      
+      <footer class="footer mt-auto">
+        <div class="copyright bg-white">
+          <p>&copy; <span id="copy-year"></span> DepEd Integrated Proposal System Prototype</p>
+        </div>
+        <script>document.getElementById("copy-year").innerHTML = new Date().getFullYear();</script>
+      </footer>
+    </div>
+  </div>
+  
+  <!-- Floating Info Button -->
+  <button class="floating-info-btn" onclick="toggleInfoModal()">
+    <i class="mdi mdi-information-outline"></i>
+    <span>More Details</span>
+  </button>
+
+  <!-- Info Modal -->
+  <div id="infoModal" class="info-modal">
+    <div class="modal-content">
+     
+        <button class="modal-close" onclick="toggleInfoModal()">
+          <i class="mdi mdi-close"></i>
+        </button>
+
+      <div class="modal-body">
+        <div class="page-section">
+          <h4><i class="mdi mdi-shield-check"></i> Human Review</h4>
+          <div class="page-item">
+            <div class="page-description">
+              <p style="margin: 8px 0; color: #374151;">This is the review queue where reviewers/approvers validate AI-generated drafts bago ma-publish:</p>
+              <ul style="margin: 12px 0; padding-left: 20px; color: #4B5563; line-height: 1.6;">
+                <li style="margin-bottom: 6px;"><strong>Draft Validation:</strong> Reviewers/approvers validate AI-generated content</li>
+                <li style="margin-bottom: 6px;"><strong>Risk Assessment:</strong> Makikita dito ang risk flags at potential issues</li>
+                <li style="margin-bottom: 6px;"><strong>SLA Monitoring:</strong> Track status at service level agreements</li>
+                <li style="margin-bottom: 6px;"><strong>Governance Notes:</strong> Audit requirements at compliance documentation</li>
+                <li style="margin-bottom: 6px;"><strong>Quality Gate:</strong> Final approval bago ma-publish sa learning platform</li>
+              </ul>
+              <p style="margin: 8px 0 0; color: #6B7280; font-style: italic;">Purpose nito ay quality + safety gate para compliant ang released content.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="plugins/jquery/jquery.min.js"></script>
+  <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="plugins/simplebar/simplebar.min.js"></script>
+  <script src="js/mono.js"></script>
+  
+  <script>
+    function toggleInfoModal() {
+      const modal = document.getElementById('infoModal');
+      modal.classList.toggle('show');
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('infoModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        toggleInfoModal();
+      }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const modal = document.getElementById('infoModal');
+        if (modal.classList.contains('show')) {
+          toggleInfoModal();
+        }
+      }
+    });
+  </script>
+</body>
+</html>
