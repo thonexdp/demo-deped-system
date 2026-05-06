@@ -1,0 +1,507 @@
+/* Enhanced Head Teachers Page Styles */
+
+/* School Metric Cards */
+.school-metric-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid #E5E7EB !important;
+}
+
+.school-metric-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(124, 58, 237, 0.15) !important;
+  border-color: #7C3AED !important;
+}
+
+/* School Action Buttons */
+.school-action-btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid #E5E7EB !important;
+}
+
+.school-action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.15) !important;
+}
+
+.school-action-btn:active {
+  transform: translateY(0);
+}
+
+/* IPCRF Queue */
+.ipcrf-queue {
+  max-height: 500px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.ipcrf-queue::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ipcrf-queue::-webkit-scrollbar-track {
+  background: #F9FAFB;
+  border-radius: 3px;
+}
+
+.ipcrf-queue::-webkit-scrollbar-thumb {
+  background: #D1D5DB;
+  border-radius: 3px;
+}
+
+.ipcrf-queue::-webkit-scrollbar-thumb:hover {
+  background: #9CA3AF;
+}
+
+.ipcrf-item {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.ipcrf-item:hover {
+  background: #F5F3FF !important;
+  border-color: #DDD6FE !important;
+}
+
+/* Activities Feed */
+.activities-feed {
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.activities-feed::-webkit-scrollbar {
+  width: 4px;
+}
+
+.activities-feed::-webkit-scrollbar-track {
+  background: #F9FAFB;
+  border-radius: 2px;
+}
+
+.activities-feed::-webkit-scrollbar-thumb {
+  background: #D1D5DB;
+  border-radius: 2px;
+}
+
+.activities-feed::-webkit-scrollbar-thumb:hover {
+  background: #9CA3AF;
+}
+
+.activity-item {
+  transition: all 0.2s ease;
+}
+
+.activity-item:hover {
+  background: #F9FAFB;
+  border-radius: 8px;
+  padding: 8px !important;
+}
+
+/* PIR Status List */
+.pir-status-list {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.pir-status-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.pir-status-list::-webkit-scrollbar-track {
+  background: #F9FAFB;
+  border-radius: 2px;
+}
+
+.pir-status-list::-webkit-scrollbar-thumb {
+  background: #D1D5DB;
+  border-radius: 2px;
+}
+
+.pir-status-list::-webkit-scrollbar-thumb:hover {
+  background: #9CA3AF;
+}
+
+.pir-status-item {
+  transition: all 0.2s ease;
+  border-radius: 6px;
+  padding: 8px !important;
+}
+
+.pir-status-item:hover {
+  background: #F9FAFB;
+}
+
+/* Progress Bars */
+.progress-bar {
+  background: #F3F4F6;
+  border-radius: 4px;
+  height: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  background: #F59E0B;
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+/* Chart Placeholders */
+.school-chart-placeholder {
+  background: linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%);
+  border: 2px dashed #DDD6FE;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  transition: all 0.3s ease;
+}
+
+.school-chart-placeholder:hover {
+  border-color: #7C3AED;
+  background: linear-gradient(135deg, #F5F3FF 0%, #DDD6FE 100%);
+  transform: translateY(-2px);
+}
+
+/* Table Enhancements */
+.table-responsive {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table thead th {
+  background: #F9FAFB;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #F9FAFB;
+  transform: scale(1.01);
+}
+
+/* Performance Badges */
+.performance-badge {
+  font-weight: 600;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  display: inline-block;
+}
+
+.performance-badge.excellent {
+  background: #D1FAE5;
+  color: #10B981;
+}
+
+.performance-badge.good {
+  background: #FEF3C7;
+  color: #F59E0B;
+}
+
+.performance-badge.average {
+  background: #FEE2E2;
+  color: #EF4444;
+}
+
+/* Status Badges */
+.status-badge {
+  font-weight: 600;
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-badge.completed {
+  background: #D1FAE5;
+  color: #10B981;
+}
+
+.status-badge.in-progress {
+  background: #FEF3C7;
+  color: #F59E0B;
+}
+
+.status-badge.pending {
+  background: #FEE2E2;
+  color: #EF4444;
+}
+
+/* IPCRF Action Buttons */
+.ipcrf-action-btn {
+  transition: all 0.2s ease;
+  border: none !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  padding: 4px 8px !important;
+  border-radius: 6px !important;
+}
+
+.ipcrf-action-btn.approve {
+  background: #10B981 !important;
+  color: white !important;
+}
+
+.ipcrf-action-btn.approve:hover {
+  background: #059669 !important;
+  transform: translateY(-1px);
+}
+
+.ipcrf-action-btn.review {
+  background: #6B7280 !important;
+  color: white !important;
+}
+
+.ipcrf-action-btn.review:hover {
+  background: #4B5563 !important;
+  transform: translateY(-1px);
+}
+
+/* Rating Badge */
+.rating-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 12px;
+  min-width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  color: white;
+  background: #F59E0B;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .school-metric-card {
+    margin-bottom: 1rem;
+  }
+  
+  .school-action-btn {
+    margin-bottom: 0.75rem;
+  }
+  
+  .table-responsive {
+    font-size: 12px;
+  }
+  
+  .table thead th,
+  .table tbody td {
+    padding: 8px 6px !important;
+  }
+  
+  .ipcrf-queue {
+    max-height: 400px;
+  }
+  
+  .activities-feed {
+    max-height: 240px;
+  }
+}
+
+@media (max-width: 576px) {
+  .d-flex.justify-content-between.align-items-start {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .d-flex.gap-2 {
+    width: 100%;
+    flex-direction: column;
+  }
+  
+  .school-metric-card {
+    padding: 16px !important;
+  }
+  
+  .school-action-btn {
+    padding: 12px !important;
+  }
+  
+  h1 {
+    font-size: 28px !important;
+  }
+  
+  .table-responsive {
+    font-size: 11px;
+  }
+  
+  .ipcrf-item {
+    padding: 12px !important;
+  }
+  
+  .ipcrf-item .d-flex {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .ipcrf-item .text-end {
+    text-align: left !important;
+  }
+}
+
+/* Loading States */
+.loading-skeleton {
+  background: linear-gradient(90deg, #F3F4F6 25%, #E5E7EB 50%, #F3F4F6 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Focus States */
+.school-action-btn:focus,
+.school-metric-card:focus,
+.ipcrf-item:focus,
+.activity-item:focus {
+  outline: 2px solid #7C3AED;
+  outline-offset: 2px;
+}
+
+/* Pending Animation */
+@keyframes pending-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(245, 158, 11, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+  }
+}
+
+.ipcrf-item .badge[style*="PENDING"] {
+  animation: pending-pulse 2s infinite;
+}
+
+/* Print Styles */
+@media print {
+  .school-action-btn,
+  .d-flex.gap-2 {
+    display: none !important;
+  }
+  
+  .school-metric-card {
+    break-inside: avoid;
+    box-shadow: none !important;
+    border: 1px solid #000 !important;
+  }
+  
+  .ipcrf-item {
+    break-inside: avoid;
+  }
+}
+
+/* Dark Mode Support (Future Enhancement) */
+@media (prefers-color-scheme: dark) {
+  .school-chart-placeholder {
+    background: linear-gradient(135deg, #1F2937 0%, #374151 100%);
+    border-color: #4B5563;
+    color: #F9FAFB;
+  }
+  
+  .school-chart-placeholder:hover {
+    border-color: #7C3AED;
+    background: linear-gradient(135deg, #1F2937 0%, #4B5563 100%);
+  }
+}
+
+/* Accessibility Improvements */
+.school-metric-card:focus-visible,
+.school-action-btn:focus-visible,
+.ipcrf-item:focus-visible,
+.activity-item:focus-visible {
+  outline: 3px solid #7C3AED;
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .school-metric-card {
+    border: 2px solid #000 !important;
+  }
+  
+  .status-badge {
+    border: 1px solid #000;
+  }
+  
+  .performance-badge {
+    border: 1px solid #000;
+  }
+}
+
+/* Smooth Transitions */
+* {
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Hover Effects for Interactive Elements */
+.ipcrf-item:hover .rating-badge {
+  transform: scale(1.1);
+}
+
+.ipcrf-item:hover .ipcrf-action-btn {
+  transform: translateY(-2px);
+}
+
+/* Star Rating */
+.star-rating {
+  color: #F59E0B;
+  font-size: 10px;
+  margin-right: 4px;
+}
+
+/* Quick Stats */
+.quick-stat {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: #F9FAFB;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  transition: all 0.2s ease;
+}
+
+.quick-stat:hover {
+  background: #F3F4F6;
+  transform: translateX(4px);
+}
+
+/* Section Headers */
+.section-header {
+  display: flex;
+  justify-content: between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.section-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+}
