@@ -1,0 +1,589 @@
+/* Enhanced Head Teacher Early Warning Page Styles */
+
+/* School Risk Metric Cards */
+.school-risk-metric-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent !important;
+}
+
+.school-risk-metric-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(220, 38, 38, 0.15) !important;
+}
+
+.school-risk-metric-card.critical {
+  border-left: 4px solid #DC2626 !important;
+}
+
+.school-risk-metric-card.high {
+  border-left: 4px solid #EF4444 !important;
+}
+
+.school-risk-metric-card.medium {
+  border-left: 4px solid #F59E0B !important;
+}
+
+.school-risk-metric-card.low {
+  border-left: 4px solid #10B981 !important;
+}
+
+/* School Risk Action Buttons */
+.school-risk-action-btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid #E5E7EB !important;
+}
+
+.school-risk-action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(220, 38, 38, 0.15) !important;
+}
+
+.school-risk-action-btn:active {
+  transform: translateY(0);
+}
+
+/* At-Risk Students Feed */
+.at-risk-students-feed {
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.at-risk-students-feed::-webkit-scrollbar {
+  width: 6px;
+}
+
+.at-risk-students-feed::-webkit-scrollbar-track {
+  background: #F9FAFB;
+  border-radius: 3px;
+}
+
+.at-risk-students-feed::-webkit-scrollbar-thumb {
+  background: #D1D5DB;
+  border-radius: 3px;
+}
+
+.at-risk-students-feed::-webkit-scrollbar-thumb:hover {
+  background: #9CA3AF;
+}
+
+.at-risk-student-item {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.at-risk-student-item:hover {
+  transform: translateX(4px);
+}
+
+/* Risk Indicators */
+.risk-indicators {
+  margin-top: 8px;
+}
+
+.risk-indicators > div {
+  transition: all 0.2s ease;
+}
+
+.risk-indicators > div:hover {
+  color: #111827;
+  transform: translateX(2px);
+}
+
+/* School Risk Alerts Feed */
+.school-risk-alerts-feed {
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.school-risk-alerts-feed::-webkit-scrollbar {
+  width: 4px;
+}
+
+.school-risk-alerts-feed::-webkit-scrollbar-track {
+  background: #F9FAFB;
+  border-radius: 2px;
+}
+
+.school-risk-alerts-feed::-webkit-scrollbar-thumb {
+  background: #D1D5DB;
+  border-radius: 2px;
+}
+
+.school-risk-alerts-feed::-webkit-scrollbar-thumb:hover {
+  background: #9CA3AF;
+}
+
+.school-risk-alert-item {
+  transition: all 0.2s ease;
+}
+
+.school-risk-alert-item:hover {
+  background: #F9FAFB;
+  border-radius: 8px;
+  padding: 8px !important;
+}
+
+/* System Health */
+.system-health-item {
+  font-size: 13px;
+}
+
+.system-health-item .d-flex {
+  transition: all 0.2s ease;
+}
+
+.system-health-item .d-flex:hover {
+  background: #F9FAFB;
+  border-radius: 6px;
+  padding: 4px 8px;
+  margin: 0 -8px;
+}
+
+/* School Risk Chart Placeholders */
+.school-risk-chart-placeholder {
+  background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%);
+  border: 2px dashed #FCA5A5;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  transition: all 0.3s ease;
+}
+
+.school-risk-chart-placeholder:hover {
+  border-color: #DC2626;
+  background: linear-gradient(135deg, #FEF2F2 0%, #FECACA 100%);
+  transform: translateY(-2px);
+}
+
+/* Table Enhancements */
+.table-responsive {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table thead th {
+  background: #F9FAFB;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #F9FAFB;
+  transform: scale(1.01);
+}
+
+/* Intervention Status Badges */
+.intervention-status-badge {
+  font-weight: 600;
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.intervention-status-badge.overdue {
+  background: #DC2626;
+  color: white;
+}
+
+.intervention-status-badge.in-progress {
+  background: #F59E0B;
+  color: white;
+}
+
+.intervention-status-badge.scheduled {
+  background: #7C3AED;
+  color: white;
+}
+
+.intervention-status-badge.pending {
+  background: #6B7280;
+  color: white;
+}
+
+/* Risk Level Badges */
+.risk-level-badge {
+  font-weight: 600;
+  font-size: 10px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.risk-level-badge.critical {
+  background: #DC2626;
+  color: white;
+}
+
+.risk-level-badge.high {
+  background: #EF4444;
+  color: white;
+}
+
+.risk-level-badge.medium {
+  background: #F59E0B;
+  color: white;
+}
+
+.risk-level-badge.low {
+  background: #10B981;
+  color: white;
+}
+
+/* Trend Indicators */
+.trend-indicator {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 12px;
+}
+
+.trend-indicator.up {
+  color: #DC2626;
+  background: #FEE2E2;
+}
+
+.trend-indicator.down {
+  color: #10B981;
+  background: #D1FAE5;
+}
+
+.trend-indicator.stable {
+  color: #6B7280;
+  background: #F3F4F6;
+}
+
+/* Severity Filter */
+.form-select-sm {
+  transition: all 0.2s ease;
+}
+
+.form-select-sm:focus {
+  border-color: #DC2626;
+  box-shadow: 0 0 0 0.2rem rgba(220, 38, 38, 0.25);
+}
+
+/* View Toggle Buttons */
+.view-toggle-btn {
+  transition: all 0.2s ease;
+  border: 1px solid #E5E7EB !important;
+}
+
+.view-toggle-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Risk Score Display */
+.risk-score-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 12px;
+  min-width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Teacher Assignment */
+.teacher-assignment {
+  font-size: 12px;
+  color: #6B7280;
+  margin-bottom: 8px;
+}
+
+.teacher-assignment strong {
+  color: #374151;
+  font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .school-risk-metric-card {
+    margin-bottom: 1rem;
+  }
+  
+  .school-risk-action-btn {
+    margin-bottom: 0.75rem;
+  }
+  
+  .table-responsive {
+    font-size: 12px;
+  }
+  
+  .table thead th,
+  .table tbody td {
+    padding: 8px 6px !important;
+  }
+  
+  .at-risk-students-feed {
+    max-height: 400px;
+  }
+  
+  .school-risk-alerts-feed {
+    max-height: 280px;
+  }
+}
+
+@media (max-width: 576px) {
+  .d-flex.justify-content-between.align-items-start {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .d-flex.gap-2 {
+    width: 100%;
+    flex-direction: column;
+  }
+  
+  .view-toggle-btn {
+    flex: 1;
+  }
+  
+  .school-risk-metric-card {
+    padding: 16px !important;
+  }
+  
+  .school-risk-action-btn {
+    padding: 12px !important;
+  }
+  
+  h1 {
+    font-size: 28px !important;
+  }
+  
+  .table-responsive {
+    font-size: 11px;
+  }
+  
+  .at-risk-student-item {
+    padding: 12px !important;
+  }
+  
+  .at-risk-student-item .d-flex {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .at-risk-student-item .text-end {
+    text-align: left !important;
+  }
+}
+
+/* Loading States */
+.loading-skeleton {
+  background: linear-gradient(90deg, #F3F4F6 25%, #E5E7EB 50%, #F3F4F6 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Focus States */
+.school-risk-action-btn:focus,
+.view-toggle-btn:focus,
+.school-risk-metric-card:focus,
+.at-risk-student-item:focus {
+  outline: 2px solid #DC2626;
+  outline-offset: 2px;
+}
+
+/* Alert Animations */
+@keyframes alert-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+  }
+}
+
+.school-risk-alert-item.critical {
+  animation: alert-pulse 2s infinite;
+}
+
+/* Print Styles */
+@media print {
+  .school-risk-action-btn,
+  .view-toggle-btn,
+  .form-select {
+    display: none !important;
+  }
+  
+  .school-risk-metric-card {
+    break-inside: avoid;
+    box-shadow: none !important;
+    border: 1px solid #000 !important;
+  }
+  
+  .at-risk-student-item {
+    break-inside: avoid;
+  }
+}
+
+/* Dark Mode Support (Future Enhancement) */
+@media (prefers-color-scheme: dark) {
+  .school-risk-chart-placeholder {
+    background: linear-gradient(135deg, #1F2937 0%, #374151 100%);
+    border-color: #4B5563;
+    color: #F9FAFB;
+  }
+  
+  .school-risk-chart-placeholder:hover {
+    border-color: #DC2626;
+    background: linear-gradient(135deg, #1F2937 0%, #4B5563 100%);
+  }
+}
+
+/* Accessibility Improvements */
+.school-risk-metric-card:focus-visible,
+.school-risk-action-btn:focus-visible,
+.at-risk-student-item:focus-visible {
+  outline: 3px solid #DC2626;
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .school-risk-metric-card {
+    border: 2px solid #000 !important;
+  }
+  
+  .risk-level-badge {
+    border: 1px solid #000;
+  }
+  
+  .intervention-status-badge {
+    border: 1px solid #000;
+  }
+}
+
+/* Critical Case Highlighting */
+.critical-case-highlight {
+  border-left: 4px solid #DC2626 !important;
+  background: linear-gradient(90deg, #FEE2E2 0%, #FFFFFF 100%);
+}
+
+.critical-case-highlight:hover {
+  background: linear-gradient(90deg, #FECACA 0%, #FFFFFF 100%);
+}
+
+/* Student Risk Progress */
+.risk-progress-bar {
+  height: 4px;
+  background: #F3F4F6;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.risk-progress-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.risk-progress-fill.critical {
+  background: #DC2626;
+}
+
+.risk-progress-fill.high {
+  background: #EF4444;
+}
+
+.risk-progress-fill.medium {
+  background: #F59E0B;
+}
+
+.risk-progress-fill.low {
+  background: #10B981;
+}
+
+/* Quick Stats */
+.quick-risk-stat {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: #F9FAFB;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  transition: all 0.2s ease;
+}
+
+.quick-risk-stat:hover {
+  background: #F3F4F6;
+  transform: translateX(4px);
+}
+
+/* Section Headers */
+.section-header {
+  display: flex;
+  justify-content: between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.section-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Grade Level Risk Indicators */
+.grade-risk-indicator {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.grade-risk-indicator.high {
+  background: #FEE2E2;
+  color: #DC2626;
+}
+
+.grade-risk-indicator.medium {
+  background: #FEF3C7;
+  color: #F59E0B;
+}
+
+.grade-risk-indicator.low {
+  background: #D1FAE5;
+  color: #10B981;
+}
